@@ -1,6 +1,6 @@
 <template>
   <b-container>
-    <b-card :title="type">
+    <b-card bg-variant="dark" text-variant="white" :title="type">
       <food-row v-for="food in foods" :key="food.id"  :id="food.id" :name="food.name">
     </b-card>
     <br/>
@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import FoodRow from "~/components/ShoppingList/FoodRow.vue";
+import FoodRow from "~/components/ShoppingList/RecommendRow.vue";
 
 export default {
   props: {
@@ -16,7 +16,7 @@ export default {
     foods: Array
   },
   components: {
-    FoodRow
+    RecommendRow
   }
 };
 </script>
