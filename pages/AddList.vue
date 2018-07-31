@@ -1,7 +1,7 @@
 <template>
   <b-container>
     <br/>
-    <b-button v-b-modal="'add'">新增</b-button>
+    <b-button v-b-modal="'add'" @click="beforeAddItem">新增</b-button>
     <b-modal id="add" title="新增品項" @ok="addItem">
       名稱：<br/>
       <b-form-input v-model="newItem.name" type="text"></b-form-input><br/>
@@ -101,13 +101,15 @@ export default {
     };
   },
   methods: {
-    addItem() {
-      this.newItem.id++;
-      this.data.push(this.newItem);
+    beforeAddItem() {
       this.newItem.type = null;
       this.newItem.buyTime = null;
       this.newItem.period = null;
       this.newItem.name = null;
+    },
+    addItem() {
+      this.newItem.id++;
+      this.data.push(this.newItem);
     }
   },
   components: {
