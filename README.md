@@ -1,31 +1,18 @@
-# Echo Bot
+# refrigerator-management-bot
 
-An example LINE bot just to echo messages
+> Nuxt.js project
 
-## How to use
+## Build Setup
 
-### Install deps
+``` bash
+# install dependencies
+$ npm install # Or yarn install
 
-``` shell
-$ npm install
+# serve with hot reload at localhost:3000
+$ npm run dev
+
+# build for production and launch server
+$ npm start
 ```
 
-### Configuration
-
-``` shell
-$ export CHANNEL_SECRET=YOUR_CHANNEL_SECRET
-$ export CHANNEL_ACCESS_TOKEN=YOUR_CHANNEL_ACCESS_TOKEN
-$ export PORT=1234
-```
-
-### Run
-
-``` shell
-$ node .
-```
-
-## Webhook URL
-
-```
-https://your.base.url/callback
-```
+For detailed explanation on how things work, checkout the [Nuxt.js docs](https://github.com/nuxt/nuxt.js).
