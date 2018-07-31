@@ -20,12 +20,15 @@ module.exports = {
   /*
   ** Add axios globally
   */
+  modules: [
+    'bootstrap-vue/nuxt'
+  ],
   build: {
     vendor: ['axios'],
     /*
     ** Run ESLINT on save
     */
-    extend (config, ctx) {
+    extend(config, ctx) {
       if (ctx.isDev && ctx.isClient) {
         config.module.rules.push({
           enforce: 'pre',
