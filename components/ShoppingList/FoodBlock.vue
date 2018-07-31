@@ -1,6 +1,6 @@
 <template>
   <b-container>
-    <b-card title="type">
+    <b-card :title="type">
       <food-row v-for="food in foods" :key="food.id"  :id="food.id" :name="food.name">
     </b-card>
   </b-container>

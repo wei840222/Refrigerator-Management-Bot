@@ -1,6 +1,6 @@
 <template>
   <b-container>
-    <b-form-checkbox id="id" v-model="status" value="true" unchecked-value="false">
+    <b-form-checkbox :id="id" v-model="status" value="true" unchecked-value="false">
       {{ name }}
     </b-form-checkbox>
   </b-container>
