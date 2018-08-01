@@ -20,10 +20,8 @@
   "dependencies": {
     "@line/bot-sdk": "^5.0.0",
     "axios": "^0.16.2",
-    "cross-env": "^5.0.1",
     "express": "^4.15.3",
-    "nuxt": "latest",
-    "source-map-support": "^0.4.15"
+    "nuxt": "latest"
   },
   "devDependencies": {
     "babel-eslint": "^7.2.3",
