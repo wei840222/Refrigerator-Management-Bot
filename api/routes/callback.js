@@ -13,7 +13,7 @@ const client = new line.Client(config)
 
 // register a webhook handler with middleware
 // about the middleware, please refer to doc
-router.post('/lineBot', line.middleware(config), (req, res) => {
+router.post('/callback', line.middleware(config), (req, res) => {
   Promise
     .all(req.body.events.map(handleEvent))
     .then((result) => res.json(result))
