@@ -20,6 +20,11 @@
 
 <script>
 export default {
+  head() {
+    return {
+      title: "設定"
+    };
+  },
   data () {
     return {
       AddListNotify: '開啟',
