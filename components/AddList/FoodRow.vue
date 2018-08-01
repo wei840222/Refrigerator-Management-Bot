@@ -1,5 +1,5 @@
 <template>
-  <b-container>
+  <div>
     <b-card>
       <b-row>
           <b-col cols="2"><b-badge variant="dark">{{ type }}</b-badge></b-col>
@@ -19,7 +19,7 @@
       <b-form-input v-model="period" type="date"></b-form-input>
     </b-modal>
     <br/>
-  </b-container>
+  </div>
 </template>
 
 <script>

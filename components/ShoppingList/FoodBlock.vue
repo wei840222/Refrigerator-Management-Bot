@@ -1,10 +1,10 @@
 <template>
-  <b-container>
+  <div>
     <b-card :title="type">
       <food-row v-for="food in foods" :key="food.id"  :id="food.id" :name="food.name"/>
     </b-card>
     <br/>
-  </b-container>
+  </div>
 </template>
 
 <script>
