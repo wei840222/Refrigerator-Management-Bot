@@ -1,18 +1,7 @@
 # refrigerator-management-bot
 
-> Nuxt.js project
-
-## Build Setup
-
-``` bash
-# install dependencies
-$ npm install # Or yarn install
-
-# serve with hot reload at localhost:3000
-$ npm run dev
-
-# build for production and launch server
-$ npm start
-```
-
-For detailed explanation on how things work, checkout the [Nuxt.js docs](https://github.com/nuxt/nuxt.js).
+> ENV
+BASE_URL
+CHANNEL_ACCESS_TOKEN
+CHANNEL_SECRET
+NPM_CONFIG_PRODUCTION=false
