@@ -1,8 +1,6 @@
 <template>
-  <b-container>
-    <br/>
+  <b-container fluid>
     <title-bar/>
-    <br/>
     <food-block v-for="foodData in data" :key="foodData.type" :type="foodData.type" :foods="foodData.foodArray"/>
     <recommend-block type="建議購買" :foods="recommend"/>
   </b-container>
