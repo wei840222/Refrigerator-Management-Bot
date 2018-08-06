@@ -68,6 +68,73 @@ function handleText(message, replyToken, source) {
             ]
           }
         })
+      return;
+    case '過期提醒':
+      client.replyMessage(
+        replyToken,
+        {
+          type: "template",
+          altText: "過期提醒",
+          template: {
+            type: "carousel",
+            columns: [
+              {
+                thumbnailImageUrl: process.env.BASE_URL + "vegetables.png",
+                title: "高麗菜快過期囉！",
+                text: "2018-8-31",
+                actions: [
+                  {
+                    type: "postback",
+                    label: "已吃完",
+                    data: "a"
+                  },
+                  {
+                    type: "postback",
+                    label: "我知道了",
+                    data: "b"
+                  }
+                ]
+              },
+              {
+                thumbnailImageUrl: process.env.BASE_URL + "vegetables.png",
+                title: "花椰菜快過期囉！",
+                text: "2018-8-31",
+                actions: [
+                  {
+                    type: "postback",
+                    label: "已吃完",
+                    data: "a"
+                  },
+                  {
+                    type: "postback",
+                    label: "我知道了",
+                    data: "b"
+                  }
+                ]
+              },
+              {
+                thumbnailImageUrl: process.env.BASE_URL + "vegetables.png",
+                title: "空心菜快過期囉！",
+                text: "2018-8-31",
+                actions: [
+                  {
+                    type: "postback",
+                    label: "已吃完",
+                    data: "a"
+                  },
+                  {
+                    type: "postback",
+                    label: "我知道了",
+                    data: "b"
+                  }
+                ]
+              }
+            ],
+            imageAspectRatio: "rectangle",
+            imageSize: "cover"
+          }
+        })
+      return;
     default:
       console.log(`Message from ${replyToken}: ${message.text}`);
   }
