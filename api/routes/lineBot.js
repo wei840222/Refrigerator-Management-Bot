@@ -2,14 +2,11 @@ const { Router } = require('express')
 const router = Router()
 const line = require('@line/bot-sdk')
 
-// create LINE SDK config from env variables
-const config = {
+// create LINE SDK client
+const client = new line.Client({
   channelAccessToken: process.env.CHANNEL_ACCESS_TOKEN,
   channelSecret: process.env.CHANNEL_SECRET
-}
-
-// create LINE SDK client
-const client = new line.Client(config)
+})
 
 // register a webhook handler with middleware
 // about the middleware, please refer to doc
@@ -23,18 +20,54 @@ router.post('/lineBot', line.middleware(config), (req, res) => {
     })
 })
 
-// event handler
+// simple reply function
+const replyText = (token, texts) => {
+  texts = Array.isArray(texts) ? texts : [texts];
+  return client.replyMessage(
+    token,
+    texts.map((text) => ({ type: 'text', text }))
+  );
+};
+
+// callback function to handle a single event
 function handleEvent(event) {
-  if (event.type !== 'message' || event.message.type !== 'text') {
-    // ignore non-text-message event
-    return Promise.resolve(null)
+  switch (event.type) {
+    case 'message':
+      const message = event.message;
+      switch (message.type) {
+        case 'text':
+          return handleText(message, event.replyToken, event.source);
+        default:
+          throw new Error(`Unknown message: ${JSON.stringify(message)}`);
+      }
+
+    default:
+      throw new Error(`Unknown event: ${JSON.stringify(event)}`);
   }
+}
 
-  // create a echoing text message
-  const echo = { type: 'text', text: event.message.text }
-
-  // use reply API
-  return client.replyMessage(event.replyToken, echo)
+function handleText(message, replyToken, source) {
+  switch (message.text) {
+    case '新增清單':
+      client.replyMessage(
+        replyToken,
+        {
+          type: 'template',
+          altText: '新增清單',
+          template: {
+            type: 'buttons',
+            text: '選擇何種新增方式呢？',
+            actions: [
+              { label: '發票', type: 'postback', data: '1' },
+              { label: '載具', type: 'postback', data: '2' },
+              { label: '拍照', type: 'postback', data: '3' },
+              { label: '手動', type: 'uri', uri: 'line://app/1597618539-an7pVDxb' }
+            ]
+          }
+        })
+    default:
+      console.log(`Message from ${replyToken}: ${message.text}`);
+  }
 }
 
 module.exports = router
