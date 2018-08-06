@@ -2,11 +2,14 @@ const { Router } = require('express')
 const router = Router()
 const line = require('@line/bot-sdk')
 
-// create LINE SDK client
-const client = new line.Client({
+// create LINE SDK config from env variables
+const config = {
   channelAccessToken: process.env.CHANNEL_ACCESS_TOKEN,
   channelSecret: process.env.CHANNEL_SECRET
-})
+}
+
+// create LINE SDK client
+const client = new line.Client(config)
 
 // register a webhook handler with middleware
 // about the middleware, please refer to doc
