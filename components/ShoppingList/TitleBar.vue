@@ -13,13 +13,13 @@
   width: 40px;
   height: 20px;
   margin-top: 10px;
-  color:#cbcdd4;
+  color: #aaaaaa
 }
 .sort-option {
   margin-top: 11px;
   height: 20px;
   width: 40px;
-  border: #cbcdd4;
+  border: #b7b7b8;
   border-style: solid;
   border-width: 1px;
   border-radius: 10px;
@@ -28,6 +28,6 @@
 }
 .option-text {
   font-size: 12px;
-  color:#cbcdd4;
+  color:#cecfcf;
 }
 </style>
