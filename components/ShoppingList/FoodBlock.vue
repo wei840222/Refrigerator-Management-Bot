@@ -14,7 +14,7 @@
         {{ food.name }}
       </b-form-checkbox>
       <div v-if="edit" class="edit">
-        <b-form-input v-model="addFoodName" type="text" :placeholder="editText" class="edit-input" @focus.native="editText = ''" @blur.native="addFood"/>
+        <b-form-input v-model="addFoodName" type="text" :placeholder="editText" class="edit-input" @focus.native="editText = ''" @blur.native="addFood" @change="addFood(); editText = '';"/>
       </div>
     </b-collapse>
   </div>
