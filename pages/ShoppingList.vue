@@ -7,7 +7,7 @@
         <div class="option-text">品項</div>
       </div>
     </div>
-    <food-block class="food-block" v-for="foodData in data" :key="foodData.type" :edit="edit" :foodData="foodData"/>
+    <food-block class="food-block" v-for="foodData in data" :key="foodData.type" :edit="edit" :foodData="foodData" @addFood="addFood"/>
     <recommend-block class="recommend-block" :recommend="recommend"/>
   </div>
 </template>
@@ -25,6 +25,7 @@ export default {
   data() {
     return {
       edit: false,
+      addFoodId: 13,
       data: [
         {
           type: "菜",
@@ -64,6 +65,17 @@ export default {
         element.foodArray.forEach(food => {
           food.select = true;
         });
+      });
+    },
+    addFood(e) {
+      this.data.forEach(element => {
+        if (element.type === e.type) {
+          element.foodArray.push({
+            id: this.addFoodId++,
+            name: e.addFoodName,
+            select: false
+          });
+        }
       });
     }
   },

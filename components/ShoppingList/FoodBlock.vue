@@ -13,7 +13,10 @@
         :style="{ 'text-decoration':food.select ? 'line-through black' : '' }">
         {{ food.name }}
       </b-form-checkbox>
-      <div v-if="edit" class="edit">編輯</div>
+      <div v-if="edit" class="edit">
+        <b-form-input v-if="editing" v-model="addFoodName" type="text" class="edit-input" @blur.native="addFood"/>
+        <div v-else @click="editing = true">編輯</div>
+      </div>
     </b-collapse>
   </div>
 </template>
@@ -23,6 +26,12 @@ export default {
   props: {
     foodData: Object,
     edit: Boolean
+  },
+  data() {
+    return {
+      editing: false,
+      addFoodName: ""
+    };
   },
   computed: {
     titleBackground() {
@@ -38,6 +47,16 @@ export default {
         default:
           return "#ffffff";
       }
+    }
+  },
+  methods: {
+    addFood() {
+      this.$emit("addFood", {
+        type: this.foodData.type,
+        addFoodName: this.addFoodName
+      });
+      this.editing = false;
+      this.addFoodName = "";
     }
   }
 };
