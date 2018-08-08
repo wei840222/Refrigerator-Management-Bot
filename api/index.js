@@ -4,10 +4,10 @@ const express = require('express')
 const app = express()
 
 // Require API routes
-const lineBot = require('./routes/lineBot')
+// const lineBot = require('./routes/lineBot')
 
 // Import API Routes
-app.use(lineBot)
+// app.use(lineBot)
 
 // Export the server middleware
 module.exports = {

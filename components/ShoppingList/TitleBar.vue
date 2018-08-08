@@ -1,5 +1,5 @@
 <template>
-  <div class="title-bar">
+  <div>
     <div class="title-item">全選</div>
     <div class="title-item">編輯</div>
     <div class="sort-option">
@@ -9,17 +9,6 @@
 </template>
 
 <style>
-.title-bar {
-  padding-left: 40px;
-  padding-right: 20px;
-  display: flex;
-  position: fixed;
-  height: 40px;
-  width: 100%;
-  z-index: 1;
-  background-color: #ffffff;
-  box-shadow:0px 1px 2px rgba(20%,20%,40%,0.5);
-}
 .title-item {
   width: 40px;
   height: 20px;
