@@ -3,11 +3,16 @@
     <div class="title-bar">
       <div class="title-item" @click="selectAll">全選</div>
       <div class="title-item" @click="edit = !edit">編輯</div>
-      <div class="sort-option">
-        <div class="option-text">品項</div>
+      <div class="sort-option" @click="groupByType = !groupByType">
+        <div class="option-text">{{ groupByType ? '品項' : '全部'}}</div>
       </div>
     </div>
-    <food-block class="food-block" v-for="foodData in data" :key="foodData.type" :edit="edit" :foodData="foodData" @addFood="addFood"/>
+    <div v-if="groupByType">
+      <food-block class="food-block" v-for="foodData in data" :key="foodData.type" :edit="edit" :foodData="foodData" @addFood="addFood"/>
+    </div>
+    <div v-else>
+      <food-block class="food-block" :edit="edit" :foodData="allFoods" @addFood="addFood"/>
+    </div>
     <recommend-block class="recommend-block" :recommend="recommend"/>
   </div>
 </template>
@@ -25,6 +30,7 @@ export default {
   data() {
     return {
       edit: false,
+      groupByType: true,
       addFoodId: 13,
       data: [
         {
@@ -58,6 +64,19 @@ export default {
         { id: "12", name: "奶油餅", select: false }
       ]
     };
+  },
+  computed: {
+    allFoods() {
+      let allFoods = {};
+      allFoods.type = "全部";
+      allFoods.foodArray = [];
+      this.data.forEach(element => {
+        element.foodArray.forEach(element => {
+          allFoods.foodArray.push(element);
+        });
+      });
+      return allFoods;
+    }
   },
   methods: {
     selectAll() {

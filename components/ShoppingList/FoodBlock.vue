@@ -45,7 +45,7 @@ export default {
         case "魚":
           return "#69b2c3";
         default:
-          return "#ffffff";
+          return "#000000";
       }
     }
   },
