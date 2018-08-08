@@ -1,36 +1,31 @@
 <template>
   <div>
-    <div class="title" v-b-toggle.recommend>
-      <div class="title-text">建議清單</div>
+    <div class="title-recommend" v-b-toggle.recommend>
+      <div class="title-text-recommend">建議清單</div>
     </div>
     <b-collapse visible id="recommend">
-      <div class="food" v-for="food in foodData" :key="food.id">{{ food.name }}</div>
+      <div class="recommend" v-for="rmd in recommend" :key="rmd.id">{{ rmd.name }}</div>
     </b-collapse>
   </div>
 </template>
 
 <style>
-.title {
+.title-recommend {
   height: 30px;
   width: 100%;
-  color: #949394;
-  background-color: #e3e2e2;
+  background-color:#e3e2e2;
 }
-.title-text {
+.title-text-recommend{
   padding-left: 40px;
   padding-top: 3px;
+  color: #949394;
 }
-.food {
+.recommend {
   width: 100%;
   padding-top: 2px;
   padding-left: 40px;
-  background-color: #f6f6f6;
-}
-.edit {
-  width: 100%;
-  padding-top: 2px;
-  padding-left: 40px;
-  background-color: #f6f6f6;
+  color: #afafaf;
+  background-color:#ededec;
 }
 </style>
 
@@ -38,7 +33,7 @@
 <script>
 export default {
   props: {
-    foodData: Array
+    recommend: Array
   }
 };
 </script>

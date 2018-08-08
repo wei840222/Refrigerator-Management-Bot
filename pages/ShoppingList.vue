@@ -1,8 +1,14 @@
 <template>
   <div>
-    <title-bar class="title-bar"/>
-    <food-block class="food-block" v-for="foodData in data" :key="foodData.type" :foodData="foodData"/>
-    <recommend-block class="recommend-block" :foodData="recommend"/>
+    <div class="title-bar">
+      <div class="title-item">全選</div>
+      <div class="title-item" @click="edit = !edit">編輯</div>
+      <div class="sort-option">
+        <div class="option-text">品項</div>
+      </div>
+    </div>
+    <food-block class="food-block" v-for="foodData in data" :key="foodData.type" :edit="edit" :foodData="foodData"/>
+    <recommend-block class="recommend-block" :recommend="recommend"/>
   </div>
 </template>
 
@@ -18,6 +24,27 @@
   background-color: #ffffff;
   box-shadow: 0px 1px 2px rgba(20%, 20%, 40%, 0.5);
 }
+.title-item {
+  width: 40px;
+  height: 20px;
+  margin-top: 10px;
+  color: #aaaaaa
+}
+.sort-option {
+  margin-top: 11px;
+  height: 20px;
+  width: 40px;
+  border: #b7b7b8;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 10px;
+  text-align: center;
+  margin-left: auto;
+}
+.option-text {
+  font-size: 12px;
+  color:#cecfcf;
+}
 .food-block {
   position: relative;
   top: 40px;
@@ -31,7 +58,6 @@
 </style>
 
 <script>
-import TitleBar from "~/components/ShoppingList/TitleBar.vue";
 import FoodBlock from "~/components/ShoppingList/FoodBlock.vue";
 import RecommendBlock from "~/components/ShoppingList/RecommendBlock.vue";
 
@@ -41,8 +67,9 @@ export default {
       title: "購買清單"
     };
   },
-  async asyncData() {
+  data() {
     return {
+      edit: false,
       data: [
         {
           type: "菜",
@@ -74,7 +101,6 @@ export default {
     };
   },
   components: {
-    TitleBar,
     FoodBlock,
     RecommendBlock
   }

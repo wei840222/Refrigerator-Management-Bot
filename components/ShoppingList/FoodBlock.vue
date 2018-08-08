@@ -5,7 +5,7 @@
     </div>
     <b-collapse visible :id="foodData.type">
       <div class="food" v-for="food in foodData.foodArray" :key="food.id">{{ food.name }}</div>
-      <div class="edit">編輯</div>
+      <div v-if="edit" class="edit">編輯</div>
     </b-collapse>
   </div>
 </template>
