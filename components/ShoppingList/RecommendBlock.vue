@@ -1,11 +1,11 @@
 <template>
   <div>
-    <div class="title-recommend" v-b-toggle.recommend>
-      <div class="title-text-recommend">建議清單</div>
+    <div class="recommend-title" v-b-toggle.recommend>
+      <div class="recommend-title-text">建議清單</div>
     </div>
     <b-collapse visible id="recommend">
       <b-form-checkbox
-        class="recommend"
+        class="recommend-item"
         v-for="rmd in recommend"
         :key="rmd.id"
         :id="rmd.id"

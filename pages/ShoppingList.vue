@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="title-bar">
-      <div class="title-item">全選</div>
+      <div class="title-item" @click="selectAll">全選</div>
       <div class="title-item" @click="edit = !edit">編輯</div>
       <div class="sort-option">
         <div class="option-text">品項</div>
@@ -57,6 +57,15 @@ export default {
         { id: "12", name: "奶油餅", select: false }
       ]
     };
+  },
+  methods: {
+    selectAll() {
+      this.data.forEach(element => {
+        element.foodArray.forEach(food => {
+          food.select = true;
+        });
+      });
+    }
   },
   components: {
     FoodBlock,

@@ -1,11 +1,11 @@
 <template>
   <div>
-    <div class="title" v-b-toggle="foodData.type" :style="{ 'background-color': titleBackground }">
-      <div class="title-text">{{ foodData.type }}</div>
+    <div class="food-title" v-b-toggle="foodData.type" :style="{ 'background-color': titleBackground }">
+      <div class="food-title-text">{{ foodData.type }}</div>
     </div>
     <b-collapse visible :id="foodData.type">
       <b-form-checkbox
-        class="food"
+        class="food-item"
         v-for="food in foodData.foodArray"
         :key="food.id"
         :id="food.id"
