@@ -14,8 +14,7 @@
         {{ food.name }}
       </b-form-checkbox>
       <div v-if="edit" class="edit">
-        <b-form-input v-if="editing" v-model="addFoodName" type="text" class="edit-input" @blur.native="addFood"/>
-        <div v-else @click="editing = true">編輯</div>
+        <b-form-input v-model="addFoodName" type="text" :placeholder="editText" class="edit-input" @focus.native="editText = ''" @blur.native="addFood"/>
       </div>
     </b-collapse>
   </div>
@@ -30,7 +29,8 @@ export default {
   data() {
     return {
       editing: false,
-      addFoodName: ""
+      addFoodName: "",
+      editText: "編輯"
     };
   },
   computed: {
@@ -51,12 +51,15 @@ export default {
   },
   methods: {
     addFood() {
-      this.$emit("addFood", {
-        type: this.foodData.type,
-        addFoodName: this.addFoodName
-      });
-      this.editing = false;
-      this.addFoodName = "";
+      this.editText = "編輯";
+      if (this.addFoodName != "") {
+        this.$emit("addFood", {
+          type: this.foodData.type,
+          addFoodName: this.addFoodName
+        });
+        this.editing = false;
+        this.addFoodName = "";
+      }
     }
   }
 };
