@@ -28,7 +28,7 @@
   width: 40px;
   height: 20px;
   margin-top: 10px;
-  color: #aaaaaa
+  color: #aaaaaa;
 }
 .sort-option {
   margin-top: 11px;
@@ -43,7 +43,7 @@
 }
 .option-text {
   font-size: 12px;
-  color:#cecfcf;
+  color: #cecfcf;
 }
 .food-block {
   position: relative;
@@ -73,30 +73,33 @@ export default {
       data: [
         {
           type: "菜",
-          foodArray: [{ id: "1", name: "高麗菜" }, { id: "2", name: "花菜" }]
+          foodArray: [
+            { id: "1", name: "高麗菜", select: false },
+            { id: "2", name: "花菜", select: false }
+          ]
         },
         {
           type: "肉",
           foodArray: [
-            { id: "3", name: "牛五花" },
-            { id: "4", name: "梅花豬" },
-            { id: "5", name: "小羔羊" }
+            { id: "3", name: "牛五花", select: false },
+            { id: "4", name: "梅花豬", select: false },
+            { id: "5", name: "小羔羊", select: false }
           ]
         },
         {
           type: "魚",
           foodArray: [
-            { id: "6", name: "鱈魚" },
-            { id: "7", name: "虱目魚" },
-            { id: "8", name: "鯊魚" },
-            { id: "9", name: "鮭魚" }
+            { id: "6", name: "鱈魚", select: false },
+            { id: "7", name: "虱目魚", select: false },
+            { id: "8", name: "鯊魚", select: false },
+            { id: "9", name: "鮭魚", select: false }
           ]
         }
       ],
       recommend: [
-        { id: "1", name: "巧克力" },
-        { id: "2", name: "棉花糖" },
-        { id: "3", name: "奶油餅" }
+        { id: "10", name: "巧克力", select: false },
+        { id: "11", name: "棉花糖", select: false },
+        { id: "12", name: "奶油餅", select: false }
       ]
     };
   },

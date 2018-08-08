@@ -4,7 +4,15 @@
       <div class="title-text">{{ foodData.type }}</div>
     </div>
     <b-collapse visible :id="foodData.type">
-      <div class="food" v-for="food in foodData.foodArray" :key="food.id">{{ food.name }}</div>
+      <b-form-checkbox
+        class="food"
+        v-for="food in foodData.foodArray"
+        :key="food.id"
+        :id="food.id"
+        v-model="food.select"
+        :style="{ 'text-decoration':food.select ? 'line-through black' : '' }">
+        {{ food.name }}
+      </b-form-checkbox>
       <div v-if="edit" class="edit">編輯</div>
     </b-collapse>
   </div>
@@ -15,17 +23,16 @@
   height: 30px;
   width: 100%;
 }
-.title-text{
+.title-text {
   padding-left: 40px;
-  padding-top: 3px;
+  padding-top: 5px;
   color: #ffffff;
 }
 .food {
   width: 100%;
-  padding-top: 2px;
-  padding-left: 40px;
+  padding-left: 63px;
   color: #8a8a8a;
-  background-color:#f6f6f6;
+  background-color: #f6f6f6;
 }
 .edit {
   width: 100%;
@@ -35,7 +42,7 @@
   border-top-style: dashed;
   border-top-width: 1px;
   color: #d2d6da;
-  background-color:#f6f6f6;
+  background-color: #f6f6f6;
 }
 </style>
 
