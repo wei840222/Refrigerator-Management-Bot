@@ -17,27 +17,6 @@
   </div>
 </template>
 
-<style>
-.title-recommend {
-  height: 30px;
-  width: 100%;
-  background-color:#e3e2e2;
-}
-.title-text-recommend{
-  padding-left: 40px;
-  padding-top: 5px;
-  color: #949394;
-}
-.recommend {
-  width: 100%;
-  padding-top: 2px;
-  padding-left: 63px;
-  color: #afafaf;
-  background-color:#ededec;
-}
-</style>
-
-
 <script>
 export default {
   props: {

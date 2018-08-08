@@ -12,51 +12,6 @@
   </div>
 </template>
 
-<style>
-.title-bar {
-  padding-left: 40px;
-  padding-right: 20px;
-  height: 40px;
-  width: 100%;
-  display: flex;
-  position: fixed;
-  z-index: 1;
-  background-color: #ffffff;
-  box-shadow: 0px 1px 2px rgba(20%, 20%, 40%, 0.5);
-}
-.title-item {
-  width: 40px;
-  height: 20px;
-  margin-top: 10px;
-  color: #aaaaaa;
-}
-.sort-option {
-  margin-top: 11px;
-  height: 20px;
-  width: 40px;
-  border: #b7b7b8;
-  border-style: solid;
-  border-width: 1px;
-  border-radius: 10px;
-  text-align: center;
-  margin-left: auto;
-}
-.option-text {
-  font-size: 12px;
-  color: #cecfcf;
-}
-.food-block {
-  position: relative;
-  top: 40px;
-  width: 100%;
-}
-.recommend-block {
-  position: relative;
-  margin-top: 40px;
-  width: 100%;
-}
-</style>
-
 <script>
 import FoodBlock from "~/components/ShoppingList/FoodBlock.vue";
 import RecommendBlock from "~/components/ShoppingList/RecommendBlock.vue";

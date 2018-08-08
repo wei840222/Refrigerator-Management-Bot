@@ -18,35 +18,6 @@
   </div>
 </template>
 
-<style>
-.title {
-  height: 30px;
-  width: 100%;
-}
-.title-text {
-  padding-left: 40px;
-  padding-top: 5px;
-  color: #ffffff;
-}
-.food {
-  width: 100%;
-  padding-left: 63px;
-  color: #8a8a8a;
-  background-color: #f6f6f6;
-}
-.edit {
-  width: 100%;
-  padding-top: 2px;
-  padding-left: 40px;
-  border-top-color: #e5e5e5;
-  border-top-style: dashed;
-  border-top-width: 1px;
-  color: #d2d6da;
-  background-color: #f6f6f6;
-}
-</style>
-
-
 <script>
 export default {
   props: {
