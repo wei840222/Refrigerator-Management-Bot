@@ -1,8 +1,8 @@
 <template>
   <div>
     <div class="title-bar">
-      <div class="title-item" @click="selectedAll = !selectedAll; selectAll()">全選</div>
-      <div class="title-item" @click="edit = !edit">編輯</div>
+      <div class="title-item" @click="selectedAll = !selectedAll; selectAll()" :style="{ 'color': selectedAll ? '#000000' : '#aaaaaa' }">全選</div>
+      <div class="title-item" @click="edit = !edit" :style="{ 'color': edit ? '#000000' : '#aaaaaa' }">編輯</div>
       <div class="sort-option" @click="groupByType = !groupByType">
         <div class="option-text">{{ groupByType ? '品項' : '全部'}}</div>
       </div>
