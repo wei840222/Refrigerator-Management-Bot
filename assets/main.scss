@@ -53,23 +53,48 @@
 .food-item {
   width: 100%;
   height: 32px;
-  padding-left: 63px;
-  padding-top: 3px;
+  padding-left: 40px;
+  padding-top: 6px;
   margin-right: 0px;
   color: #8a8a8a;
   background-color: #f6f6f6;
+  display: flex;
+}
+
+.food-item-check-box {
+  height: 16px;
+  width: 16px;
+  margin-top: 2px;
+  margin-right: 10px;
+}
+
+.food-item-del {
+  height: 16px;
+  width: 16px;
+  margin-top: 2px;
+  margin-right: 20px;
+  z-index: 1;
 }
 
 .edit {
   width: 100%;
   height: 32px;
-  padding-top: 5px;
+  padding-top: 7px;
   padding-left: 40px;
   border-top-color: #e5e5e5;
   border-top-style: dashed;
   border-top-width: 1px;
   color: #d2d6da;
   background-color: #f6f6f6;
+  display: flex;
+}
+
+.edit-add {
+  height: 16px;
+  width: 16px;
+  margin-top: 0px;
+  margin-right: 8px;
+  z-index: 1;
 }
 
 .edit-input {

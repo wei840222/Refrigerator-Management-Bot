@@ -4,16 +4,14 @@
       <div class="food-title-text">{{ foodData.type }}</div>
     </div>
     <b-collapse visible :id="foodData.type">
-      <b-form-checkbox
-        class="food-item"
-        v-for="food in foodData.foodArray"
-        :key="food.id"
-        :id="food.id"
-        v-model="food.select"
-        :style="{ 'text-decoration':food.select ? 'line-through black' : '' }">
-        {{ food.name }}
-      </b-form-checkbox>
+      <div class="food-item" v-for="food in foodData.foodArray" :key="food.id" @click="food.select = !food.select">
+        <img v-if="food.select" src="ckeck-box-act.png" class="food-item-check-box"/>
+        <img v-else src="check-box.png" class="food-item-check-box"/>
+        <div :style="{ 'flex-grow': 1, 'text-decoration': food.select ? 'line-through black' : '' }">{{ food.name }}</div>
+        <img v-if="edit" src="del.png" class="food-item-del"/>
+      </div>
       <div v-if="edit" class="edit">
+        <img src="add.png" class="edit-add"/>
         <b-form-input v-model="addFoodName" type="text" :placeholder="editText" class="edit-input" @focus.native="editText = ''" @blur.native="addFood" @change="addFood(); editText = '';"/>
       </div>
     </b-collapse>
