@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="title-bar">
-      <div class="title-item" @click="selectAll">全選</div>
+      <div class="title-item" @click="selectedAll = !selectedAll; selectAll()">全選</div>
       <div class="title-item" @click="edit = !edit">編輯</div>
       <div class="sort-option" @click="groupByType = !groupByType">
         <div class="option-text">{{ groupByType ? '品項' : '全部'}}</div>
@@ -11,7 +11,7 @@
       <food-block class="food-block" v-for="foodData in data" :key="foodData.type" :edit="edit" :foodData="foodData" @addFood="addFood"/>
     </div>
     <div v-else>
-      <food-block class="food-block" :edit="edit" :foodData="allFoods" @addFood="addFood"/>
+      <food-block class="food-block" :edit="false" :foodData="allFoods" @addFood="addFood"/>
     </div>
     <recommend-block class="recommend-block" :recommend="recommend"/>
   </div>
@@ -31,6 +31,7 @@ export default {
     return {
       edit: false,
       groupByType: true,
+      selectedAll: false,
       addFoodId: 13,
       data: [
         {
@@ -82,7 +83,7 @@ export default {
     selectAll() {
       this.data.forEach(element => {
         element.foodArray.forEach(food => {
-          food.select = true;
+          food.select = this.selectedAll;
         });
       });
     },
