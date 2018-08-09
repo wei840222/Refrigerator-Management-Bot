@@ -91,10 +91,11 @@ export default {
       this.data.forEach(element => {
         if (element.type === e.type) {
           element.foodArray.push({
-            id: this.addFoodId++,
+            id: this.addFoodId.toString(),
             name: e.addFoodName,
             select: false
           });
+          this.addFoodId++;
         }
       });
     }

@@ -19,7 +19,7 @@
 .sort-option {
   margin-top: 11px;
   height: 20px;
-  width: 40px;
+  width: 49px;
   border: #b7b7b8;
   border-style: solid;
   border-width: 1px;
@@ -40,19 +40,21 @@
 }
 
 .food-title {
-  height: 30px;
+  height: 32px;
   width: 100%;
 }
 
 .food-title-text {
   padding-left: 40px;
-  padding-top: 5px;
+  padding-top: 4px;
   color: #ffffff;
 }
 
 .food-item {
   width: 100%;
+  height: 32px;
   padding-left: 63px;
+  padding-top: 3px;
   margin-right: 0px;
   color: #8a8a8a;
   background-color: #f6f6f6;
@@ -60,8 +62,8 @@
 
 .edit {
   width: 100%;
-  height: 25px;
-  padding-top: 2px;
+  height: 32px;
+  padding-top: 5px;
   padding-left: 40px;
   border-top-color: #e5e5e5;
   border-top-style: dashed;
@@ -92,20 +94,21 @@
 }
 
 .recommend-title {
-  height: 30px;
+  height: 32px;
   width: 100%;
   background-color:#e3e2e2;
 }
 
 .recommend-title-text{
   padding-left: 40px;
-  padding-top: 5px;
+  padding-top: 4px;
   color: #949394;
 }
 
 .recommend-item {
   width: 100%;
-  padding-top: 2px;
+  height: 32px;
+  padding-top: 3px;
   padding-left: 63px;
   margin-right: 0px;
   color: #afafaf;
