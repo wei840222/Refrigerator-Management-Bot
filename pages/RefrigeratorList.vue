@@ -1,37 +1,16 @@
 <template>
-  <b-container>
-    <br/>
-    <b-card no-body class="mb-1">
-      <b-card-header header-tag="header" class="p-1" role="tab">
-        <b-btn block href="#" v-b-toggle.accordion1 variant="warning">快過期</b-btn>
-      </b-card-header>
-      <b-collapse id="accordion1" visible accordion="my-accordion" role="tabpanel">
-        <b-card-body>
-          <food-block :foods="data"/>
-        </b-card-body>
-      </b-collapse>
-    </b-card>
-    <b-card no-body class="mb-1">
-      <b-card-header header-tag="header" class="p-1" role="tab">
-        <b-btn block href="#" v-b-toggle.accordion2 variant="danger">已過期</b-btn>
-      </b-card-header>
-      <b-collapse id="accordion2" accordion="my-accordion" role="tabpanel">
-        <b-card-body>
-          <food-block :foods="data"/>
-        </b-card-body>
-      </b-collapse>
-    </b-card>
-    <b-card no-body class="mb-1">
-      <b-card-header header-tag="header" class="p-1" role="tab">
-        <b-btn block href="#" v-b-toggle.accordion3 variant="success">能吃</b-btn>
-      </b-card-header>
-      <b-collapse id="accordion3" accordion="my-accordion" role="tabpanel">
-        <b-card-body>
-          <food-block :foods="data"/>
-        </b-card-body>
-      </b-collapse>
-    </b-card>
-  </b-container>
+  <div>
+    <div class="title-bar-tab">
+      <div class="title-item-tab" @click="tab = 'addList'" :style="{ 'color': tab === 'addList' ? '#000000' : '#aaaaaa', 'border-bottom': tab === 'addList' ? '#000000 2px solid' : '' }">近期新增</div>
+      <div class="title-item-tab" @click="tab = 'refrigeratorList'" :style="{ 'color': tab === 'refrigeratorList' ? '#000000' : '#aaaaaa', 'border-bottom': tab === 'refrigeratorList' ? '#000000 2px solid' : '' }">我的冰箱</div>
+    </div>
+    <div v-if="tab === 'addList'">
+      近期新增
+    </div>
+    <div v-else>
+      我的冰箱
+    </div>
+  </div>
 </template>
 
 <script>
@@ -43,8 +22,9 @@ export default {
       title: "冰箱"
     };
   },
-  data () {
+  data() {
     return {
+      tab: "addList",
       data: [
         {
           id: "1",
@@ -103,10 +83,10 @@ export default {
           name: "奶油餅"
         }
       ]
-    }
+    };
   },
   components: {
     FoodBlock
   }
-}
+};
 </script>
