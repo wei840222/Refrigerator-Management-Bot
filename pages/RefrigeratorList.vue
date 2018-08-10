@@ -5,10 +5,11 @@
       <div class="title-item-tab" @click="tab = 'refrigeratorList'" :style="{ 'color': tab === 'refrigeratorList' ? '#000000' : '#aaaaaa', 'border-bottom': tab === 'refrigeratorList' ? '#000000 2px solid' : '' }">我的冰箱</div>
     </div>
     <div v-if="tab === 'addList'">
-      近期新增
     </div>
-    <div v-else>
-      我的冰箱
+    <div v-else class="food-block">
+      <food-block :title="'快過期'" :titleBackground="'#d95a5a'" :foodData="data"/>
+      <food-block :title="'已過期'" :titleBackground="'#afafaf'" :foodData="data"/>
+      <food-block :title="'未過期'" :titleBackground="'#82bd51'" :foodData="data"/>
     </div>
   </div>
 </template>

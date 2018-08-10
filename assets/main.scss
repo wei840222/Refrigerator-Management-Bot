@@ -96,6 +96,16 @@
   display: flex;
 }
 
+.food-item-text1 {
+  width: 100px;
+  color: #8a8a8a;
+}
+
+.food-item-text2 {
+  flex-grow: 1;
+  color: #d95a5a;
+}
+
 .food-item-check-box {
   height: 16px;
   width: 16px;
@@ -107,7 +117,7 @@
   height: 16px;
   width: 16px;
   margin-top: 5px;
-  margin-right: 20px;
+  margin-right: 23px;
   z-index: 1;
 }
 
