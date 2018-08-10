@@ -10,6 +10,10 @@ module.exports = {
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ]
   },
+  css: [
+    '~/assets/reset.css',
+    '~/assets/main.scss'
+  ],
   modules: [
     'bootstrap-vue/nuxt'
   ],

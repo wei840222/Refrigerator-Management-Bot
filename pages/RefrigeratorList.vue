@@ -1,41 +1,25 @@
 <template>
-  <b-container>
-    <br/>
-    <b-card no-body class="mb-1">
-      <b-card-header header-tag="header" class="p-1" role="tab">
-        <b-btn block href="#" v-b-toggle.accordion1 variant="warning">快過期</b-btn>
-      </b-card-header>
-      <b-collapse id="accordion1" visible accordion="my-accordion" role="tabpanel">
-        <b-card-body>
-          <food-block :foods="data"/>
-        </b-card-body>
-      </b-collapse>
-    </b-card>
-    <b-card no-body class="mb-1">
-      <b-card-header header-tag="header" class="p-1" role="tab">
-        <b-btn block href="#" v-b-toggle.accordion2 variant="danger">已過期</b-btn>
-      </b-card-header>
-      <b-collapse id="accordion2" accordion="my-accordion" role="tabpanel">
-        <b-card-body>
-          <food-block :foods="data"/>
-        </b-card-body>
-      </b-collapse>
-    </b-card>
-    <b-card no-body class="mb-1">
-      <b-card-header header-tag="header" class="p-1" role="tab">
-        <b-btn block href="#" v-b-toggle.accordion3 variant="success">能吃</b-btn>
-      </b-card-header>
-      <b-collapse id="accordion3" accordion="my-accordion" role="tabpanel">
-        <b-card-body>
-          <food-block :foods="data"/>
-        </b-card-body>
-      </b-collapse>
-    </b-card>
-  </b-container>
+  <div>
+    <div class="title-bar-tab">
+      <div class="title-item-tab" @click="tab = 'addList'" :style="{ 'color': tab === 'addList' ? '#000000' : '#aaaaaa', 'border-bottom': tab === 'addList' ? '#000000 2px solid' : '' }">近期新增</div>
+      <div class="title-item-tab" @click="tab = 'refrigeratorList'" :style="{ 'color': tab === 'refrigeratorList' ? '#000000' : '#aaaaaa', 'border-bottom': tab === 'refrigeratorList' ? '#000000 2px solid' : '' }">我的冰箱</div>
+    </div>
+    <div v-if="tab === 'addList'" class="food-block">
+      <food-block-by-time :title="'2018-08-07'" :collapseVisible="true" :foodData="data"/>
+      <food-block-by-time :title="'2018-08-14'" :collapseVisible="false" :foodData="data"/>
+      <food-block-by-time :title="'2018-08-21'" :collapseVisible="false" :foodData="data"/>
+    </div>
+    <div v-else class="food-block">
+      <food-block :title="'快過期'" :titleBackground="'#d95a5a'" :collapseVisible="true" :foodData="data"/>
+      <food-block :title="'已過期'" :titleBackground="'#afafaf'" :collapseVisible="false" :foodData="data"/>
+      <food-block :title="'未過期'" :titleBackground="'#82bd51'" :collapseVisible="false" :foodData="data"/>
+    </div>
+  </div>
 </template>
 
 <script>
 import FoodBlock from "~/components/RefrigeratorList/FoodBlock.vue";
+import FoodBlockByTime from "~/components/RefrigeratorList/FoodBlockByTime.vue";
 
 export default {
   head() {
@@ -43,22 +27,23 @@ export default {
       title: "冰箱"
     };
   },
-  data () {
+  data() {
     return {
+      tab: "addList",
       data: [
         {
           id: "1",
-          type: "菜",
+          type: "魚",
           buyTime: "2018-07-31",
           period: "2018-08-07",
-          name: "高麗菜"
+          name: "鯛魚"
         },
         {
           id: "2",
-          type: "菜",
+          type: "魚",
           buyTime: "2018-07-31",
           period: "2018-08-07",
-          name: "花菜"
+          name: "鯊魚"
         },
         {
           id: "3",
@@ -103,10 +88,11 @@ export default {
           name: "奶油餅"
         }
       ]
-    }
+    };
   },
   components: {
-    FoodBlock
+    FoodBlock,
+    FoodBlockByTime
   }
-}
+};
 </script>

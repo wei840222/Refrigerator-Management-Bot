@@ -1,22 +1,21 @@
 <template>
   <div>
-    <b-card bg-variant="dark" text-variant="white" :title="type">
-      <recommend-row v-for="food in foods" :key="food.id"  :id="food.id" :name="food.name"/>
-    </b-card>
-    <br/>
+    <div class="recommend-title" v-b-toggle.recommend>
+      <div class="recommend-title-text">建議清單</div>
+    </div>
+    <div class="recommend-item" v-for="rmd in recommend" :key="rmd.id" @click="rmd.select = !rmd.select">
+      <img v-if="rmd.select" src="ckeck-box-act.png" class="food-item-check-box"/>
+      <img v-else src="check-box.png" class="food-item-check-box"/>
+      <div :style="{ 'flex-grow': 1, 'text-decoration': rmd.select ? 'line-through black' : '' }">{{ rmd.name }}</div>
+      <img v-if="edit" src="del.png" class="food-item-del"/>
+    </div>
   </div>
 </template>
 
 <script>
-import RecommendRow from "~/components/ShoppingList/RecommendRow.vue";
-
 export default {
   props: {
-    type: String,
-    foods: Array
-  },
-  components: {
-    RecommendRow
+    recommend: Array
   }
 };
 </script>

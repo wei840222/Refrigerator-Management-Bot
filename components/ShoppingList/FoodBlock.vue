@@ -1,22 +1,69 @@
 <template>
   <div>
-    <b-card :title="type">
-      <food-row v-for="food in foods" :key="food.id"  :id="food.id" :name="food.name"/>
-    </b-card>
-    <br/>
+    <div class="food-title" v-b-toggle="foodData.type" :style="{ 'background-color': titleBackground }" @click="collapsed =!collapsed">
+      <div class="food-title-text">{{ foodData.type }}</div>
+      <img v-if="collapsed" src="arrow-down.png" class="food-title-icon"/>
+      <img v-else src="arrow-up.png" class="food-title-icon"/>
+    </div>
+    <b-collapse visible :id="foodData.type">
+      <div class="food-item" v-for="food in foodData.foodArray" :key="food.id" @click="food.select = !food.select">
+        <img v-if="food.select" src="ckeck-box-act.png" class="food-item-check-box"/>
+        <img v-else src="check-box.png" class="food-item-check-box"/>
+        <div :style="{ 'flex-grow': 1, 'text-decoration': food.select ? 'line-through black' : '' }">{{ food.name }}</div>
+        <img v-if="edit" src="del.png" class="food-item-del"/>
+      </div>
+      <div v-if="edit" class="edit">
+        <img src="add.png" class="edit-add"/>
+        <div class="edit-input-box">
+          <b-form-input class="edit-input" v-model="addFoodName" type="text" :placeholder="editText" @focus.native="editText = ''" @blur.native="addFood" @change="addFood(); editText = '';"/>
+        </div>
+      </div>
+    </b-collapse>
   </div>
 </template>
 
 <script>
-import FoodRow from "~/components/ShoppingList/FoodRow.vue";
-
 export default {
   props: {
-    type: String,
-    foods: Array
+    foodData: Object,
+    edit: Boolean
   },
-  components: {
-    FoodRow
+  data() {
+    return {
+      editing: false,
+      addFoodName: "",
+      editText: "新增",
+      collapsed: false
+    };
+  },
+  computed: {
+    titleBackground() {
+      switch (this.foodData.type) {
+        case "菜":
+          return "#82db51";
+        case "肉":
+          return "#c29279";
+        case "魚":
+          return "#69b2c3";
+        case "魚":
+          return "#69b2c3";
+        default:
+          return "#000000";
+      }
+    }
+  },
+  methods: {
+    addFood() {
+      this.editText = "新增";
+      if (this.addFoodName != "") {
+        this.$emit("addFood", {
+          type: this.foodData.type,
+          addFoodName: this.addFoodName
+        });
+        this.editing = false;
+        this.addFoodName = "";
+      }
+    }
   }
 };
 </script>
