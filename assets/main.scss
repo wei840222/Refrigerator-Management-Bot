@@ -143,20 +143,23 @@
   height: 32px;
   width: 100%;
   background-color:#e3e2e2;
+  display: flex;
 }
 
 .recommend-title-text{
   padding-left: 40px;
   padding-top: 4px;
   color: #949394;
+  flex-grow: 1;
 }
 
 .recommend-item {
   width: 100%;
   height: 32px;
-  padding-top: 3px;
-  padding-left: 63px;
+  padding-left: 40px;
+  padding-top: 4px;
   margin-right: 0px;
   color: #afafaf;
   background-color:#ededec;
+  display: flex;
 }
