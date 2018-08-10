@@ -1,7 +1,9 @@
 <template>
   <div>
-    <div class="food-title" v-b-toggle="foodData.type" :style="{ 'background-color': titleBackground }">
+    <div class="food-title" v-b-toggle="foodData.type" :style="{ 'background-color': titleBackground }" @click="collapsed =!collapsed">
       <div class="food-title-text">{{ foodData.type }}</div>
+      <img v-if="collapsed" src="arrow-down.png" class="food-title-icon"/>
+      <img v-else src="arrow-up.png" class="food-title-icon"/>
     </div>
     <b-collapse visible :id="foodData.type">
       <div class="food-item" v-for="food in foodData.foodArray" :key="food.id" @click="food.select = !food.select">
@@ -30,7 +32,8 @@ export default {
     return {
       editing: false,
       addFoodName: "",
-      editText: "編輯"
+      editText: "新增",
+      collapsed: false
     };
   },
   computed: {
@@ -51,7 +54,7 @@ export default {
   },
   methods: {
     addFood() {
-      this.editText = "編輯";
+      this.editText = "新增";
       if (this.addFoodName != "") {
         this.$emit("addFood", {
           type: this.foodData.type,

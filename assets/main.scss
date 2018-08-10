@@ -50,12 +50,21 @@
 .food-title {
   height: 32px;
   width: 100%;
+  display: flex;
 }
 
 .food-title-text {
   padding-left: 40px;
   padding-top: 4px;
   color: #ffffff;
+  flex-grow: 1;
+}
+
+.food-title-icon {
+  height: 12px;
+  width: 21px;
+  margin-top: 11px;
+  margin-right: 35px;
 }
 
 .food-item {
