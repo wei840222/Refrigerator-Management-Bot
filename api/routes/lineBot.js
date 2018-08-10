@@ -135,6 +135,21 @@ function handleText(message, replyToken, source) {
           }
         })
       return;
+    case '罐頭':
+      client.replyMessage(
+        replyToken,
+        {
+          type: 'template',
+          altText: '容易過期提醒',
+          template: {
+            type: 'buttons',
+            text: `您新增的『${message.text}』商品屬於容易放過期的商品，要不要去確認一下準確的過期日呢？`,
+            actions: [
+              { label: '點我確認', type: 'postback', data: '1' },
+            ]
+          }
+        })
+      return;
     default:
       console.log(`Message from ${replyToken}: ${message.text}`);
   }
