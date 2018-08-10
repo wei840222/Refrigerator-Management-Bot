@@ -4,7 +4,10 @@
       <div class="title-item-tab" @click="tab = 'addList'" :style="{ 'color': tab === 'addList' ? '#000000' : '#aaaaaa', 'border-bottom': tab === 'addList' ? '#000000 2px solid' : '' }">近期新增</div>
       <div class="title-item-tab" @click="tab = 'refrigeratorList'" :style="{ 'color': tab === 'refrigeratorList' ? '#000000' : '#aaaaaa', 'border-bottom': tab === 'refrigeratorList' ? '#000000 2px solid' : '' }">我的冰箱</div>
     </div>
-    <div v-if="tab === 'addList'">
+    <div v-if="tab === 'addList'" class="food-block">
+      <food-block-by-time :title="'2018-08-07'" :collapseVisible="true" :foodData="data"/>
+      <food-block-by-time :title="'2018-08-14'" :collapseVisible="false" :foodData="data"/>
+      <food-block-by-time :title="'2018-08-21'" :collapseVisible="false" :foodData="data"/>
     </div>
     <div v-else class="food-block">
       <food-block :title="'快過期'" :titleBackground="'#d95a5a'" :collapseVisible="true" :foodData="data"/>
@@ -30,17 +33,17 @@ export default {
       data: [
         {
           id: "1",
-          type: "菜",
+          type: "魚",
           buyTime: "2018-07-31",
           period: "2018-08-07",
-          name: "高麗菜"
+          name: "鯛魚"
         },
         {
           id: "2",
-          type: "菜",
+          type: "魚",
           buyTime: "2018-07-31",
           period: "2018-08-07",
-          name: "花菜"
+          name: "鯊魚"
         },
         {
           id: "3",
