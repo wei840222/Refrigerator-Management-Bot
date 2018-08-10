@@ -5,6 +5,7 @@
       <div class="title-item" @click="edit = !edit" :style="{ 'color': edit ? '#000000' : '#aaaaaa' }">編輯</div>
       <div class="sort-option" @click="groupByType = !groupByType">
         <div class="option-text">{{ groupByType ? '品項' : '全部'}}</div>
+        <img src="option.png" class="option-icon"/>
       </div>
     </div>
     <div v-if="groupByType">
