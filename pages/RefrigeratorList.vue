@@ -7,15 +7,16 @@
     <div v-if="tab === 'addList'">
     </div>
     <div v-else class="food-block">
-      <food-block :title="'快過期'" :titleBackground="'#d95a5a'" :foodData="data"/>
-      <food-block :title="'已過期'" :titleBackground="'#afafaf'" :foodData="data"/>
-      <food-block :title="'未過期'" :titleBackground="'#82bd51'" :foodData="data"/>
+      <food-block :title="'快過期'" :titleBackground="'#d95a5a'" :collapseVisible="true" :foodData="data"/>
+      <food-block :title="'已過期'" :titleBackground="'#afafaf'" :collapseVisible="false" :foodData="data"/>
+      <food-block :title="'未過期'" :titleBackground="'#82bd51'" :collapseVisible="false" :foodData="data"/>
     </div>
   </div>
 </template>
 
 <script>
 import FoodBlock from "~/components/RefrigeratorList/FoodBlock.vue";
+import FoodBlockByTime from "~/components/RefrigeratorList/FoodBlockByTime.vue";
 
 export default {
   head() {
@@ -87,7 +88,8 @@ export default {
     };
   },
   components: {
-    FoodBlock
+    FoodBlock,
+    FoodBlockByTime
   }
 };
 </script>

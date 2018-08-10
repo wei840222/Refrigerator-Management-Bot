@@ -9,7 +9,7 @@
       <div class="food-item" v-for="food in foodData" :key="food.id">
         <div class="food-item-text1">{{ food.name }}</div>
         <div class="food-item-text2">{{ food.period }}</div>
-        <img src="del.png" class="food-item-del"/>
+        <img src="edit.png" class="food-item-del"/>
       </div>
     </b-collapse>
   </div>
@@ -19,7 +19,6 @@
 export default {
   props: {
     title: String,
-    titleBackground: String,
     collapseVisible: Boolean,
     foodData: Array
   },
