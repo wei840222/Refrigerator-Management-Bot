@@ -12,7 +12,9 @@
       </div>
       <div v-if="edit" class="edit">
         <img src="add.png" class="edit-add"/>
-        <b-form-input v-model="addFoodName" type="text" :placeholder="editText" class="edit-input" @focus.native="editText = ''" @blur.native="addFood" @change="addFood(); editText = '';"/>
+        <div class="edit-input-box">
+          <b-form-input class="edit-input" v-model="addFoodName" type="text" :placeholder="editText" @focus.native="editText = ''" @blur.native="addFood" @change="addFood(); editText = '';"/>
+        </div>
       </div>
     </b-collapse>
   </div>
