@@ -8,7 +8,7 @@
     <b-collapse :visible="collapseVisible" :id="title">
       <div class="food-item" v-for="food in foodData" :key="food.id">
         <div class="food-item-text1">{{ food.name }}</div>
-        <div class="food-item-text2">{{ food.period }}</div>
+        <div class="food-item-text2" :style="{ 'color': titleBackground }">{{ food.period }}</div>
         <img src="del.png" class="food-item-del"/>
       </div>
     </b-collapse>
