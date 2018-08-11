@@ -4,6 +4,7 @@
       <div class="title-item-tab" @click="tab = 'addList'" :style="{ 'color': tab === 'addList' ? '#000000' : '#aaaaaa', 'border-bottom': tab === 'addList' ? '#000000 2px solid' : '' }">近期新增</div>
       <div class="title-item-tab" @click="tab = 'refrigeratorList'" :style="{ 'color': tab === 'refrigeratorList' ? '#000000' : '#aaaaaa', 'border-bottom': tab === 'refrigeratorList' ? '#000000 2px solid' : '' }">我的冰箱</div>
     </div>
+    <div style="position: fixed; z-index: -1; height: 100%; width: 100%; background-color: #f6f6f6;"/>
     <div v-if="tab === 'addList'" class="food-block">
       <food-block-by-time :title="'2018-08-07'" :collapseVisible="true" :foodData="data"/>
       <food-block-by-time :title="'2018-08-14'" :collapseVisible="false" :foodData="data"/>
