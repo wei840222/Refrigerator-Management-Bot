@@ -6,12 +6,10 @@
       <img v-else src="arrow-up.png" class="food-title-icon"/>
     </div>
     <b-collapse :visible="collapseVisible" :id="title">
-      <div class="food-item" v-for="food in foodData" :key="food.id">
-        <img v-if="food.type === '魚'" src="type-fish.png" class="food-item-type"/>
-        <img v-if="food.type === '肉'" src="type-meat.png" class="food-item-type"/>
-        <img v-if="food.type === '點心'" src="type-snack.png" class="food-item-type"/>
-        <div class="food-item-text1">{{ food.name }}</div>
-        <div class="food-item-text3">{{ food.period }}</div>
+      <div class="food-item" v-for="(food, idx) in foods" :key="idx">
+        <b-badge variant="primary" class="food-item-type">{{ food.type }}</b-badge>
+        <div class="food-item-text1">{{ food.nameZh }}</div>
+        <div class="food-item-text3">{{ dateAdd(food.acquisitionDate, food.expirationDate) }}</div>
         <img src="edit.png" class="food-item-del"/>
       </div>
     </b-collapse>
@@ -23,12 +21,22 @@ export default {
   props: {
     title: String,
     collapseVisible: Boolean,
-    foodData: Array
+    foods: Array
   },
   data() {
     return {
       collapsed: false
     };
+  },
+  methods: {
+    dateAdd(acquisitionDate, expirationDate) {
+      return new Date(
+        new Date(acquisitionDate).getTime() +
+          expirationDate * 24 * 60 * 60 * 1000
+      )
+        .toLocaleDateString("zh-TW")
+        .replace(/\//g, "-");
+    }
   }
 };
 </script>

@@ -97,21 +97,21 @@
 }
 
 .food-item-text1 {
-  width: 100px;
   margin-top:-1px;
+  flex-grow: 1;
   color: #8a8a8a;
 }
 
 .food-item-text2 {
   padding-top: 1px;
   font-size: 14px;
-  flex-grow: 1;
+  margin-right: 50px;
 }
 
 .food-item-text3 {
   padding-top: 1px;
   font-size: 14px;
-  flex-grow: 1;
+  margin-right: 50px;
   color: #d6cecd;
 }
 
@@ -123,8 +123,7 @@
 }
 
 .food-item-type {
-  height: 15px;
-  width: 15px;
+  height: 17px;
   margin-top: 3px;
   margin-right: 10px;
   z-index: 1;

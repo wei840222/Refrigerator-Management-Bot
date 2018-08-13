@@ -6,9 +6,9 @@
       <img v-else src="arrow-up.png" class="food-title-icon"/>
     </div>
     <b-collapse :visible="collapseVisible" :id="title">
-      <div class="food-item" v-for="food in foodData" :key="food.id">
-        <div class="food-item-text1">{{ food.name }}</div>
-        <div class="food-item-text2" :style="{ 'color': titleBackground }">{{ food.period }}</div>
+      <div class="food-item" v-for="(food, idx) in foods" :key="idx">
+        <div class="food-item-text1">{{ food.nameZh }}</div>
+        <div class="food-item-text2" :style="{ 'color': titleBackground }">{{ expirationDate(food.acquisitionDate, food.expirationDate) }}</div>
         <img src="del.png" class="food-item-del"/>
       </div>
     </b-collapse>
@@ -21,12 +21,41 @@ export default {
     title: String,
     titleBackground: String,
     collapseVisible: Boolean,
-    foodData: Array
+    foods: Array
   },
   data() {
     return {
       collapsed: false
     };
+  },
+  methods: {
+    expirationDate(acquisitionDate, expirationDate) {
+      const expiration_date =
+        new Date(acquisitionDate).getTime() +
+        expirationDate * 24 * 60 * 60 * 1000;
+      const now = new Date(
+        new Date(Date.now()).toLocaleString("zh-TW", {
+          timeZone: "Asia/Taipei",
+          hour12: false
+        })
+      ).getTime();
+      if (expiration_date - now <= 604800000 && expiration_date - now >= 0)
+        return (
+          "剩" +
+          Math.floor((expiration_date - now) / 1000 / 60 / 60 / 24) +
+          "天"
+        );
+      else if (expiration_date - now < 0)
+        return (
+          "過期" +
+          Math.floor((now - expiration_date) / 1000 / 60 / 60 / 24) +
+          "天"
+        );
+      else
+        return new Date(expiration_date)
+          .toLocaleDateString("zh-TW")
+          .replace(/\//g, "-");
+    }
   }
 };
 </script>
