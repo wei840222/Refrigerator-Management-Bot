@@ -51,10 +51,19 @@ export default {
           Math.floor((now - expiration_date) / 1000 / 60 / 60 / 24) +
           "天"
         );
-      else
-        return new Date(expiration_date)
+      else {
+        const date = new Date(expiration_date)
           .toLocaleDateString("zh-TW")
-          .replace(/\//g, "-");
+          .replace(/\//g, "-")
+          .split("-");
+        return (
+          date[0] +
+          "-" +
+          (date[1].length === 1 ? "0" + date[1] : date[1]) +
+          "-" +
+          (date[2].length === 1 ? "0" + date[2] : date[2])
+        );
+      }
     }
   }
 };
