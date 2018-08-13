@@ -9,20 +9,37 @@
       </div>
     </div>
     <div v-if="groupByType">
-      <food-block class="food-block" v-for="foodData in data" :key="foodData.type" :edit="edit" :foodData="foodData" @addFood="addFood"/>
+      <food-block class="food-block" v-for="(type, idx) in types" :key="idx" :edit="edit" :type="type" :foods="foods(type)" @addFood="addFood"/>
     </div>
     <div v-else>
-      <food-block class="food-block" :edit="false" :foodData="allFoods" @addFood="addFood"/>
+      <food-block class="food-block" :edit="false" :type="'全部'" :foods="foods('all')" @addFood="addFood"/>
     </div>
-    <recommend-block class="recommend-block" :recommend="recommend"/>
+    <recommend-block class="recommend-block" :foods="recommendationList"/>
   </div>
 </template>
 
 <script>
+import axios from "~/plugins/axios";
 import FoodBlock from "~/components/ShoppingList/FoodBlock.vue";
 import RecommendBlock from "~/components/ShoppingList/RecommendBlock.vue";
 
 export default {
+  async asyncData() {
+    const shoppingItems = await axios.get("/cabinet/userId/shopping_list");
+    const recommendationList = await axios.get("/cabinet/userId/recommendation_list");
+    return {
+      shoppingItems: shoppingItems.data.shoppingItems,
+      recommendationList: recommendationList.data.recommendationList
+    };
+  },
+  created() {
+    this.shoppingItems.forEach(element => {
+      element.selected = false;
+    });
+    this.recommendationList.forEach(element => {
+      element.selected = false;
+    });
+  },
   head() {
     return {
       title: "購買清單"
@@ -32,72 +49,33 @@ export default {
     return {
       edit: false,
       groupByType: true,
-      selectedAll: false,
-      addFoodId: 13,
-      data: [
-        {
-          type: "菜",
-          foodArray: [
-            { id: "1", name: "高麗菜", select: false },
-            { id: "2", name: "花菜", select: false }
-          ]
-        },
-        {
-          type: "肉",
-          foodArray: [
-            { id: "3", name: "牛五花", select: false },
-            { id: "4", name: "梅花豬", select: false },
-            { id: "5", name: "小羔羊", select: false }
-          ]
-        },
-        {
-          type: "魚",
-          foodArray: [
-            { id: "6", name: "鱈魚", select: false },
-            { id: "7", name: "虱目魚", select: false },
-            { id: "8", name: "鯊魚", select: false },
-            { id: "9", name: "鮭魚", select: false }
-          ]
-        }
-      ],
-      recommend: [
-        { id: "10", name: "巧克力", select: false },
-        { id: "11", name: "棉花糖", select: false },
-        { id: "12", name: "奶油餅", select: false }
-      ]
+      selectedAll: false
     };
   },
   computed: {
-    allFoods() {
-      let allFoods = {};
-      allFoods.type = "全部";
-      allFoods.foodArray = [];
-      this.data.forEach(element => {
-        element.foodArray.forEach(element => {
-          allFoods.foodArray.push(element);
-        });
+    types() {
+      let types = [];
+      this.shoppingItems.forEach(element => {
+        if (!types.includes(element.type)) types.push(element.type);
       });
-      return allFoods;
+      return types;
     }
   },
   methods: {
+    foods(type) {
+      if (type === "all") return this.shoppingItems;
+      else return this.shoppingItems.filter(item => item.type === type);
+    },
     selectAll() {
-      this.data.forEach(element => {
-        element.foodArray.forEach(food => {
-          food.select = this.selectedAll;
-        });
+      this.shoppingItems.forEach(element => {
+        element.selected = this.selectedAll;
       });
     },
-    addFood(e) {
-      this.data.forEach(element => {
-        if (element.type === e.type) {
-          element.foodArray.push({
-            id: this.addFoodId.toString(),
-            name: e.addFoodName,
-            select: false
-          });
-          this.addFoodId++;
-        }
+    addFood(event) {
+      this.shoppingItems.push({
+        nameZh: event.addFoodName,
+        type: event.type,
+        selected: false
       });
     }
   },
