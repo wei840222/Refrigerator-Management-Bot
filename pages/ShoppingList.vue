@@ -39,6 +39,7 @@ export default {
     this.recommendationList.forEach(element => {
       element.selected = false;
     });
+    this.recommendationList.sort((a, b) => b.quantity - a.quantity);
   },
   head() {
     return {
