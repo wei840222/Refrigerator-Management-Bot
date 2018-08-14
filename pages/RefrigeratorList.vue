@@ -9,9 +9,9 @@
       <food-block-by-time v-for="(date, idx) in dates" :key="idx" :title="date" :collapseVisible="idx === 0 ? true : false" :foods="refrigeratorListGroupByDate(date)"/>
     </div>
     <div v-else class="food-block">
-      <food-block :title="'快過期'" :titleBackground="'#d95a5a'" :collapseVisible="true" :foods="foodsDying"/>
-      <food-block :title="'已過期'" :titleBackground="'#afafaf'" :collapseVisible="false" :foods="foodsDied"/>
-      <food-block :title="'未過期'" :titleBackground="'#82bd51'" :collapseVisible="false" :foods="foodsAlive"/>
+      <food-block :title="'快過期'" :titleBackground="'#d95a5a'" :collapseVisible="true" :foods="foodsDying" :now="now"/>
+      <food-block :title="'已過期'" :titleBackground="'#afafaf'" :collapseVisible="false" :foods="foodsDied" :now="now"/>
+      <food-block :title="'未過期'" :titleBackground="'#82bd51'" :collapseVisible="false" :foods="foodsAlive" :now="now"/>
     </div>
   </div>
 </template>
@@ -26,6 +26,21 @@ export default {
     const refrigeratorList = await axios.get(
       "/cabinet/userId/item_in_refrigerator"
     );
+    refrigeratorList.data.refrigeratorList.forEach(element => {
+      const date = new Date(
+        new Date(element.acquisitionDate).getTime() +
+          element.expirationDate * 24 * 60 * 60 * 1000
+      )
+        .toLocaleDateString("zh-TW")
+        .replace(/\//g, "-")
+        .split("-");
+      element.expirationDate =
+        date[0] +
+        "-" +
+        (date[1].length === 1 ? "0" + date[1] : date[1]) +
+        "-" +
+        (date[2].length === 1 ? "0" + date[2] : date[2]);
+    });
     return {
       refrigeratorList: refrigeratorList.data.refrigeratorList
     };
@@ -36,14 +51,22 @@ export default {
     };
   },
   data() {
+    const nowDate = new Date(Date.now())
+      .toLocaleString("zh-TW", {
+        timeZone: "Asia/Taipei",
+        hour12: false
+      })
+      .split(" ")[0]
+      .replace(/\//g, "-")
+      .split("-");
     return {
       tab: "addList",
-      now: new Date(
-        new Date(Date.now()).toLocaleString("zh-TW", {
-          timeZone: "Asia/Taipei",
-          hour12: false
-        })
-      ).getTime()
+      now:
+        nowDate[0] +
+        "-" +
+        (nowDate[1].length === 1 ? "0" + nowDate[1] : nowDate[1]) +
+        "-" +
+        (nowDate[2].length === 1 ? "0" + nowDate[2] : nowDate[2])
     };
   },
   computed: {
@@ -56,30 +79,34 @@ export default {
       return dates;
     },
     foodsDying() {
-      return this.refrigeratorList.filter(item => {
-        const expirationDate =
-          new Date(item.acquisitionDate).getTime() +
-          item.expirationDate * 24 * 60 * 60 * 1000;
-        return (
-          expirationDate - this.now <= 604800000 &&
-          expirationDate - this.now >= 0
-        );
+      return this.refrigeratorList.filter(food => {
+        const date =
+          new Date(food.expirationDate).getTime() -
+          new Date(this.now).getTime();
+        if (date <= 604800000 && date >= 0)
+          food.expirationDateString =
+            "剩" + Math.floor(date / 1000 / 60 / 60 / 24) + "天";
+        return date <= 604800000 && date >= 0;
       });
     },
     foodsDied() {
-      return this.refrigeratorList.filter(item => {
-        const expirationDate =
-          new Date(item.acquisitionDate).getTime() +
-          item.expirationDate * 24 * 60 * 60 * 1000;
-        return expirationDate - this.now < 0;
+      return this.refrigeratorList.filter(food => {
+        const date =
+          new Date(food.expirationDate).getTime() -
+          new Date(this.now).getTime();
+        if (date < 0)
+          food.expirationDateString =
+            "過期" + Math.floor(-date / 1000 / 60 / 60 / 24) + "天";
+        return date < 0;
       });
     },
     foodsAlive() {
-      return this.refrigeratorList.filter(item => {
-        const expirationDate =
-          new Date(item.acquisitionDate).getTime() +
-          item.expirationDate * 24 * 60 * 60 * 1000;
-        return expirationDate - this.now > 604800000;
+      return this.refrigeratorList.filter(food => {
+        const date =
+          new Date(food.expirationDate).getTime() -
+          new Date(this.now).getTime();
+        if (date > 604800000) food.expirationDateString = food.expirationDate;
+        return date > 604800000;
       });
     }
   },
