@@ -46,6 +46,10 @@ export default {
           return "#c29279";
         case "海鮮":
           return "#69b2c3";
+        case "飲料":
+          return "#EFCE43";
+        case "冷凍食品":
+          return "#7BA2DB";
         default:
           return "#000000";
       }
