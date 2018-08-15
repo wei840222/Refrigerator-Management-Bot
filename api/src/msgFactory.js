@@ -39,6 +39,11 @@ module.exports = {
             type: "postback",
             label: "我會吃完，不用再提醒我啦！",
             data: `noneNotify=${element.id}`
+          },
+          {
+            type: "postback",
+            label: "推薦食譜",
+            data: `cookbook=${element.nameZh}`
           }
         ]
       })

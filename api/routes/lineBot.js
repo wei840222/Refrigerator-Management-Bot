@@ -57,6 +57,14 @@ function handleEvent(event) {
             client.replyMessage(event.replyToken, [{ type: 'text', text: '恭喜你又消滅了一項食物！期待下次再一起去血拼！' }, { type: 'sticker', packageId: 2, stickerId: 516, }])
           }).catch(err => console.log(err))
       }
+      if (event.postback.data.includes('cookbook')) {
+        const food = event.postback.data.split('=')[1]
+        switch (food) {
+          case '大白菜':
+            client.replyMessage(event.replyToken, msgFactory.cookBook)
+            break
+        }
+      }
       console.log(`Got postback: ${event.postback.data}`)
       return
     default:
@@ -92,11 +100,6 @@ function handleText(message, replyToken, source) {
       return;
     case '罐頭':
       client.replyMessage(replyToken, msgFactory.easyExpireReminder(message.text))
-      return;
-    case '食譜':
-      client.replyMessage(replyToken, msgFactory.cookBook)
-        .then(res => console.log(res))
-        .catch(err => console.log(err))
       return;
     case '起來':
       const msg = ['前端伺服器已經喚醒！']
