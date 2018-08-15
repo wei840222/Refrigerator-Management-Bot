@@ -1,7 +1,10 @@
 const express = require('express')
 const lineBot = require('@line/bot-sdk')
 const msgFactory = require('../src/msgFactory.js')
-const axios = require('../../plugins/axios')
+const axios = require('axios')
+const backendApi = axios.create({
+  baseURL: 'https://refrigerator-mgt-bot-backend.herokuapp.com/'
+})
 
 // create LINE SDK config from env variables
 const config = {
@@ -58,7 +61,7 @@ async function handleText(message, replyToken, source) {
       client.replyMessage(replyToken, msgFactory.addList)
       return;
     case '過期提醒':
-      axios.get('/cabinet/userId/item_in_refrigerator')
+      backendApi.get('/cabinet/userId/item_in_refrigerator')
         .then(res => {
           console.log(res);
         })
@@ -69,7 +72,7 @@ async function handleText(message, replyToken, source) {
       client.replyMessage(replyToken, msgFactory.easyExpireReminder(message.text))
       return;
     case '起來':
-      const backend = await axios.get('/')
+      const backend = await backendApi.get('/')
       const msg = ['前端伺服器已經喚醒！']
       if (backend.data === 'hello world')
         msg.push('後端伺服器已經喚醒！')
