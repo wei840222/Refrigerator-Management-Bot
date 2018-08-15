@@ -64,7 +64,7 @@ function handleEvent(event) {
   }
 }
 
-async function handleText(message, replyToken, source) {
+function handleText(message, replyToken, source) {
   switch (message.text) {
     case '新增清單':
       client.replyMessage(replyToken, msgFactory.addList)
@@ -72,23 +72,19 @@ async function handleText(message, replyToken, source) {
     case '過期提醒':
       backendApi.get('/cabinet/userId/item_in_refrigerator')
         .then(res => {
-          const nowDate = new Date(Date.now())
+          const nowDate = new Date(new Date(Date.now())
             .toLocaleString("zh-TW", {
               timeZone: "Asia/Taipei",
               hour12: false
-            }).split(" ")[0]
-            .replace(/\//g, "-")
+            }))
           const expirationReminderList = res.data.refrigeratorList.filter(food => {
             food.expirationDate = new Date(
               new Date(food.acquisitionDate).getTime() +
-              food.expirationDate * 24 * 60 * 60 * 1000
-            )
-              .toLocaleDateString("zh-TW")
-              .replace(/\//g, "-")
-            const expirationPeriod =
-              new Date(food.expirationDate).getTime() -
-              new Date(nowDate).getTime();
-            return expirationPeriod <= 604800000 && expirationPeriod >= 0
+              food.expirationDate * 24 * 60 * 60 * 1000)
+              .toISOString().split('T')[0]
+            food.expirationPeriod = Math.floor((new Date(food.expirationDate).getTime() -
+              nowDate.getTime()) / 1000 / 24 / 60 / 60)
+            return food.expirationPeriod <= 7 && food.expirationPeriod >= 0
           });
           client.replyMessage(replyToken, msgFactory.expirationReminder(expirationReminderList))
         })
@@ -103,11 +99,16 @@ async function handleText(message, replyToken, source) {
         .catch(err => console.log(err))
       return;
     case '起來':
-      const backend = await backendApi.get('/')
       const msg = ['前端伺服器已經喚醒！']
-      if (backend.data === 'hello world')
-        msg.push('後端伺服器已經喚醒！')
-      replyText(replyToken, msg)
+      backendApi.get('/').then(res => {
+        if (res.data === 'hello world')
+          msg.push('後端伺服器已經喚醒！')
+        replyText(replyToken, msg)
+      }).catch(err => {
+        console.log(err)
+        msg.push('後端伺服器可能有問題？！')
+        replyText(replyToken, msg)
+      })
       return;
     default:
       console.log(`Message from ${replyToken}: ${message.text}`);
