@@ -26,7 +26,7 @@ module.exports = {
     }
     expirationReminderList.forEach(element => {
       msg.template.columns.push({
-        thumbnailImageUrl: process.env.BASE_URL + "vegetables.png",
+        thumbnailImageUrl: process.env.BASE_URL + "carousel-vegetable.png",
         title: `${element.nameZh}快過期囉！`,
         text: element.expirationDate,
         actions: [
