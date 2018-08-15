@@ -63,9 +63,11 @@ module.exports = {
       }
     }
   },
-  cookBook: {
-    "type": "flex",
-    "altText": "this is a flex message",
-    "contents": require('./cookBook.json')
+  flexSingle(flex) {
+    return {
+      "type": "flex",
+      "altText": "this is a flex message",
+      "contents": flex
+    }
   }
 }

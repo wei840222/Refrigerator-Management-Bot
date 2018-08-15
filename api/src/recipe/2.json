@@ -1,0 +1,175 @@
+{
+  "type": "bubble",
+  "hero": {
+    "type": "image",
+    "url": "https://tokyo-kitchen.icook.network/uploads/recipe/cover/251260/large_efb231b9fbe306c4.jpg",
+    "size": "full",
+    "aspectRatio": "20:13",
+    "aspectMode": "cover",
+    "margin": "none",
+    "action": {
+      "type": "uri",
+      "label": "按鈕",
+      "uri": "https://123"
+    }
+  },
+  "body": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "text",
+        "text": "日式壽喜燒",
+        "weight": "bold",
+        "wrap": false,
+        "color": "#464646",
+        "flex": 1,
+        "size": "xl",
+        "margin": "none",
+        "align": "start",
+        "gravity": "top"
+      },
+      {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+          {
+            "type": "box",
+            "layout": "baseline",
+            "contents": [
+              {
+                "type": "text",
+                "text": "食材",
+                "weight": "regular",
+                "wrap": false,
+                "color": "#aaaaaa",
+                "flex": 1,
+                "size": "sm",
+                "margin": "none",
+                "align": "start",
+                "gravity": "top"
+              },
+              {
+                "type": "text",
+                "text": "火鍋肉片、雪白菇、大白菜、水、豆腐、油、洋蔥、蒟蒻絲...",
+                "weight": "regular",
+                "wrap": true,
+                "color": "#666666",
+                "flex": 5,
+                "size": "sm",
+                "margin": "none",
+                "align": "start",
+                "gravity": "top"
+              }
+            ],
+            "flex": 1,
+            "spacing": "sm",
+            "margin": "md"
+          },
+          {
+            "type": "box",
+            "layout": "baseline",
+            "contents": [
+              {
+                "type": "text",
+                "text": "時長",
+                "weight": "regular",
+                "wrap": false,
+                "color": "#aaaaaa",
+                "flex": 1,
+                "size": "sm",
+                "margin": "none",
+                "align": "start",
+                "gravity": "top"
+              },
+              {
+                "type": "text",
+                "text": "20分鐘",
+                "weight": "regular",
+                "wrap": true,
+                "color": "#666666",
+                "flex": 5,
+                "size": "sm",
+                "margin": "none",
+                "align": "start",
+                "gravity": "top"
+              }
+            ],
+            "flex": 1,
+            "spacing": "sm",
+            "margin": "md"
+          }
+        ],
+        "flex": 1,
+        "spacing": "sm",
+        "margin": "lg"
+      }
+    ],
+    "flex": 1,
+    "spacing": "none",
+    "margin": "md"
+  },
+  "footer": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "button",
+        "action": {
+          "type": "uri",
+          "label": "查看食譜",
+          "uri": "https://123"
+        },
+        "flex": 1,
+        "margin": "none",
+        "height": "sm",
+        "style": "link",
+        "color": "#42659a",
+        "gravity": "top"
+      },
+      {
+        "type": "button",
+        "action": {
+          "type": "uri",
+          "label": "找下一份",
+          "uri": "https://123"
+        },
+        "flex": 1,
+        "margin": "none",
+        "height": "sm",
+        "style": "link",
+        "color": "#42659a",
+        "gravity": "top"
+      },
+      {
+        "type": "spacer",
+        "size": "sm"
+      }
+    ],
+    "flex": 0,
+    "spacing": "sm",
+    "margin": "md"
+  },
+  "styles": {
+    "header": {
+      "backgroundColor": "#FFFFFF",
+      "separator": false,
+      "separatorColor": "#FFFFFF"
+    },
+    "hero": {
+      "backgroundColor": "#FFFFFF",
+      "separator": false,
+      "separatorColor": "#FFFFFF"
+    },
+    "body": {
+      "backgroundColor": "#FFFFFF",
+      "separator": false,
+      "separatorColor": "#FFFFFF"
+    },
+    "footer": {
+      "backgroundColor": "#FFFFFF",
+      "separator": false,
+      "separatorColor": "#FFFFFF"
+    }
+  }
+}
