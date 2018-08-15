@@ -55,7 +55,7 @@ function handleEvent(event) {
         backendApi.post('/cabinet/userId/eaten', { 'id': id })
           .then(res => {
             console.log(res.data)
-            if (res.data === 'Edited has been saved to db.')
+            if (res.data === 'Status has been set eaten.')
               client.replyMessage(event.replyToken, [{ type: 'text', text: '恭喜你又消滅了一項食物！期待下次再一起去血拼！' }, { type: 'sticker', packageId: 2, stickerId: 516, }])
           }).catch(err => console.log(err))
       }
