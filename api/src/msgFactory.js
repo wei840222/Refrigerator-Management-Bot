@@ -13,67 +13,37 @@ module.exports = {
       ]
     }
   },
-  expirationReminder: {
-    type: "template",
-    altText: "過期提醒",
-    template: {
-      type: "carousel",
-      columns: [
-        {
-          thumbnailImageUrl: process.env.BASE_URL + "vegetables.png",
-          title: "高麗菜快過期囉！",
-          text: "2018-8-31",
-          actions: [
-            {
-              type: "postback",
-              label: "已吃完",
-              data: "a"
-            },
-            {
-              type: "postback",
-              label: "我知道了",
-              data: "b"
-            }
-          ]
-        },
-        {
-          thumbnailImageUrl: process.env.BASE_URL + "vegetables.png",
-          title: "花椰菜快過期囉！",
-          text: "2018-8-31",
-          actions: [
-            {
-              type: "postback",
-              label: "已吃完",
-              data: "a"
-            },
-            {
-              type: "postback",
-              label: "我知道了",
-              data: "b"
-            }
-          ]
-        },
-        {
-          thumbnailImageUrl: process.env.BASE_URL + "vegetables.png",
-          title: "空心菜快過期囉！",
-          text: "2018-8-31",
-          actions: [
-            {
-              type: "postback",
-              label: "已吃完",
-              data: "a"
-            },
-            {
-              type: "postback",
-              label: "我知道了",
-              data: "b"
-            }
-          ]
-        }
-      ],
-      imageAspectRatio: "rectangle",
-      imageSize: "cover"
+  expirationReminder(expirationReminderList) {
+    const msg = {
+      type: "template",
+      altText: "過期提醒",
+      template: {
+        type: "carousel",
+        columns: [],
+        imageAspectRatio: "rectangle",
+        imageSize: "cover"
+      }
     }
+    expirationReminderList.forEach(element => {
+      msg.template.columns.push({
+        thumbnailImageUrl: process.env.BASE_URL + "vegetables.png",
+        title: `${element.nameZh}快過期囉！`,
+        text: element.expirationDate,
+        actions: [
+          {
+            type: "postback",
+            label: "已吃完",
+            data: `eaten=${element.id}`
+          },
+          {
+            type: "postback",
+            label: "我會吃完，不用再提醒我啦！",
+            data: `noneNotify=${element.id}`
+          }
+        ]
+      })
+    })
+    return msg
   },
   easyExpireReminder(text) {
     return {

@@ -49,7 +49,16 @@ function handleEvent(event) {
         default:
           throw new Error(`Unknown message: ${JSON.stringify(message)}`);
       }
-
+    case 'postback':
+      if (event.postback.data.includes('eaten')) {
+        const id = event.postback.data.split('=')[1]
+        backendApi.post('/cabinet/userId/eaten', { 'id': id })
+          .then(res => {
+            client.replyMessage(event.replyToken, res.data)
+          }).catch(err => console.log(err))
+      }
+      console.log(`Got postback: ${event.postback.data}`)
+      return
     default:
       throw new Error(`Unknown event: ${JSON.stringify(event)}`);
   }
@@ -63,10 +72,27 @@ async function handleText(message, replyToken, source) {
     case '過期提醒':
       backendApi.get('/cabinet/userId/item_in_refrigerator')
         .then(res => {
-          console.log(res);
+          const nowDate = new Date(Date.now())
+            .toLocaleString("zh-TW", {
+              timeZone: "Asia/Taipei",
+              hour12: false
+            }).split(" ")[0]
+            .replace(/\//g, "-")
+          const expirationReminderList = res.data.refrigeratorList.filter(food => {
+            food.expirationDate = new Date(
+              new Date(food.acquisitionDate).getTime() +
+              food.expirationDate * 24 * 60 * 60 * 1000
+            )
+              .toLocaleDateString("zh-TW")
+              .replace(/\//g, "-")
+            const expirationPeriod =
+              new Date(food.expirationDate).getTime() -
+              new Date(nowDate).getTime();
+            return expirationPeriod <= 604800000 && expirationPeriod >= 0
+          });
+          client.replyMessage(replyToken, msgFactory.expirationReminder(expirationReminderList))
         })
         .catch(err => console.log(err))
-      client.replyMessage(replyToken, msgFactory.expirationReminder)
       return;
     case '罐頭':
       client.replyMessage(replyToken, msgFactory.easyExpireReminder(message.text))
