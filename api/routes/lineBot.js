@@ -97,6 +97,9 @@ async function handleText(message, replyToken, source) {
     case '罐頭':
       client.replyMessage(replyToken, msgFactory.easyExpireReminder(message.text))
       return;
+    case '食譜':
+      client.replyMessage(replyToken, msgFactory.cookBook)
+      return;
     case '起來':
       const backend = await backendApi.get('/')
       const msg = ['前端伺服器已經喚醒！']
