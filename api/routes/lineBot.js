@@ -94,6 +94,7 @@ function handleText(message, replyToken, source) {
     case '過期提醒':
       backendApi.get('/cabinet/userId/item_in_refrigerator')
         .then(res => {
+          console.log(res.data)
           const nowDate = new Date(new Date(Date.now())
             .toLocaleString("zh-TW", {
               timeZone: "Asia/Taipei",
@@ -118,6 +119,7 @@ function handleText(message, replyToken, source) {
     case '起來':
       const msg = ['前端伺服器已經喚醒！']
       backendApi.get('/').then(res => {
+        console.log(res.data)
         if (res.data === 'hello world')
           msg.push('後端伺服器已經喚醒！')
         replyText(replyToken, msg)
