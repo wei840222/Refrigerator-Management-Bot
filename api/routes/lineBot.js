@@ -99,6 +99,8 @@ async function handleText(message, replyToken, source) {
       return;
     case '食譜':
       client.replyMessage(replyToken, msgFactory.cookBook)
+        .then(res => console.log(res))
+        .catch(err => console.log(err))
       return;
     case '起來':
       const backend = await backendApi.get('/')
