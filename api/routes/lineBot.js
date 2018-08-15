@@ -54,7 +54,7 @@ function handleEvent(event) {
         const id = event.postback.data.split('=')[1]
         backendApi.post('/cabinet/userId/eaten', { 'id': id })
           .then(res => {
-            console.log(res)
+            console.log(res.data)
             if (res.data === 'Edited has been saved to db.')
               client.replyMessage(event.replyToken, [{ type: 'text', text: '恭喜你又消滅了一項食物！期待下次再一起去血拼！' }, { type: 'sticker', packageId: 2, stickerId: 516, }])
           }).catch(err => console.log(err))
@@ -63,7 +63,7 @@ function handleEvent(event) {
         const id = event.postback.data.split('=')[1]
         backendApi.post('/cabinet/userId/unnotify', { 'id': id })
           .then(res => {
-            console.log(res)
+            console.log(res.data)
             if (res.data === 'Notify has been turned off.')
               client.replyMessage(event.replyToken, [{ type: 'text', text: '好der！要趕快吃完喔！' }, { type: 'sticker', packageId: 2, stickerId: 165, }])
           }).catch(err => console.log(err))

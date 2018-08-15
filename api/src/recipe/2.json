@@ -6,12 +6,7 @@
     "size": "full",
     "aspectRatio": "20:13",
     "aspectMode": "cover",
-    "margin": "none",
-    "action": {
-      "type": "uri",
-      "label": "按鈕",
-      "uri": "https://123"
-    }
+    "margin": "none"
   },
   "body": {
     "type": "box",
@@ -118,7 +113,7 @@
         "action": {
           "type": "uri",
           "label": "查看食譜",
-          "uri": "https://123"
+          "uri": "https://icook.tw/recipes/251260"
         },
         "flex": 1,
         "margin": "none",
@@ -130,9 +125,9 @@
       {
         "type": "button",
         "action": {
-          "type": "uri",
+          "type": "postback",
           "label": "找下一份",
-          "uri": "https://123"
+          "data": "recipe=大白菜"
         },
         "flex": 1,
         "margin": "none",
