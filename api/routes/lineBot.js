@@ -1,6 +1,6 @@
 const express = require('express')
 const lineBot = require('@line/bot-sdk')
-const msg = require('../src/msg.js')
+const msgFactory = require('../src/msgFactory.js')
 const axios = require('axios')
 
 // create LINE SDK config from env variables
@@ -55,13 +55,13 @@ function handleEvent(event) {
 async function handleText(message, replyToken, source) {
   switch (message.text) {
     case '新增清單':
-      client.replyMessage(replyToken, msg.addList)
+      client.replyMessage(replyToken, msgFactory.addList)
       return;
     case '過期提醒':
-      client.replyMessage(replyToken, msg.expirationReminder)
+      client.replyMessage(replyToken, msgFactory.expirationReminder)
       return;
     case '罐頭':
-      client.replyMessage(replyToken, msg.easyExpireReminder(message.text))
+      client.replyMessage(replyToken, msgFactory.easyExpireReminder(message.text))
       return;
     case '起來':
       const backend = await axios.get('https://refrigerator-mgt-bot-backend.herokuapp.com/')
