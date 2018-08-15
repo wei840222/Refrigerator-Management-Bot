@@ -15,7 +15,7 @@
       <div v-if="edit" class="edit">
         <img src="add.png" class="edit-add"/>
         <div class="edit-input-box">
-          <b-form-input class="edit-input" v-model="addFoodName" type="text" :placeholder="editText" @focus.native="editText = ''" @blur.native="editText = '新增'" @change="addFood"/>
+          <b-form-input class="edit-input" v-model="addFoodName" type="text" placeholder="新增" @change="addFood"/>
         </div>
       </div>
     </b-collapse>

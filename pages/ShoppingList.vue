@@ -26,7 +26,9 @@ import RecommendBlock from "~/components/ShoppingList/RecommendBlock.vue";
 export default {
   async asyncData() {
     const shoppingItems = await axios.get("/cabinet/userId/shopping_list");
-    const recommendationList = await axios.get("/cabinet/userId/recommendation_list");
+    const recommendationList = await axios.get(
+      "/cabinet/userId/recommendation_list"
+    );
     return {
       shoppingItems: shoppingItems.data.shoppingItems,
       recommendationList: recommendationList.data.recommendationList
@@ -72,12 +74,16 @@ export default {
         element.selected = this.selectedAll;
       });
     },
-    addFood(event) {
-      this.shoppingItems.push({
-        nameZh: event.addFoodName,
-        type: event.type,
-        selected: false
+    async addFood(event) {
+      const res = await axios.post("/cabinet/userId/add_item_to_shoppingist", {
+        nameZh: event.addFoodName
       });
+      if (res.data === "Add item to shoppingList.")
+        this.shoppingItems.push({
+          nameZh: event.addFoodName,
+          type: event.type,
+          selected: false
+        });
     }
   },
   components: {
