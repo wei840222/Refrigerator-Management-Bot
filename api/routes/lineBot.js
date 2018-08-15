@@ -54,7 +54,7 @@ function handleEvent(event) {
         const id = event.postback.data.split('=')[1]
         backendApi.post('/cabinet/userId/eaten', { 'id': id })
           .then(res => {
-            client.replyMessage(event.replyToken, res.data)
+            client.replyMessage(event.replyToken, [{ type: 'text', text: '恭喜你又消滅了一項食物！期待下次再一起去血拼！' }, { type: 'sticker', packageId: 2, stickerId: 516, }])
           }).catch(err => console.log(err))
       }
       console.log(`Got postback: ${event.postback.data}`)
