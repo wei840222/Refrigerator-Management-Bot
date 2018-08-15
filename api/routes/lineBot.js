@@ -54,10 +54,21 @@ function handleEvent(event) {
         const id = event.postback.data.split('=')[1]
         backendApi.post('/cabinet/userId/eaten', { 'id': id })
           .then(res => {
-            client.replyMessage(event.replyToken, [{ type: 'text', text: '恭喜你又消滅了一項食物！期待下次再一起去血拼！' }, { type: 'sticker', packageId: 2, stickerId: 516, }])
+            console.log(res)
+            if (res.data === 'Edited has been saved to db.')
+              client.replyMessage(event.replyToken, [{ type: 'text', text: '恭喜你又消滅了一項食物！期待下次再一起去血拼！' }, { type: 'sticker', packageId: 2, stickerId: 516, }])
           }).catch(err => console.log(err))
       }
-      if (event.postback.data.includes('cookbook')) {
+      else if (event.postback.data.includes('unnotify')) {
+        const id = event.postback.data.split('=')[1]
+        backendApi.post('/cabinet/userId/unnotify', { 'id': id })
+          .then(res => {
+            console.log(res)
+            if (res.data === 'Notify has been turned off.')
+              client.replyMessage(event.replyToken, [{ type: 'text', text: '好der！要趕快吃完喔！' }, { type: 'sticker', packageId: 2, stickerId: 165, }])
+          }).catch(err => console.log(err))
+      }
+      else if (event.postback.data.includes('recipe')) {
         const food = event.postback.data.split('=')[1]
         switch (food) {
           case '大白菜':
