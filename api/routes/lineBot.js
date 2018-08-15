@@ -25,6 +25,15 @@ router.post('/lineBot', lineBot.middleware(config), (req, res) => {
     })
 })
 
+// simple reply function
+const replyText = (token, texts) => {
+  texts = Array.isArray(texts) ? texts : [texts];
+  return client.replyMessage(
+    token,
+    texts.map((text) => ({ type: 'text', text }))
+  );
+};
+
 // callback function to handle a single event
 function handleEvent(event) {
   switch (event.type) {
@@ -42,7 +51,7 @@ function handleEvent(event) {
   }
 }
 
-function handleText(message, replyToken, source) {
+async function handleText(message, replyToken, source) {
   switch (message.text) {
     case '新增清單':
       client.replyMessage(replyToken, msg.addList)
@@ -52,6 +61,13 @@ function handleText(message, replyToken, source) {
       return;
     case '罐頭':
       client.replyMessage(replyToken, msg.easyExpireReminder(message.text))
+      return;
+    case '起來':
+      const backend = await axios.get('https://refrigerator-mgt-bot-backend.herokuapp.com/')
+      const msg = ['前端伺服器已經喚醒！']
+      if (backend.data === 'hello world')
+        msg.push('後端伺服器已經喚醒！')
+      replyText(replyToken, msg)
       return;
     default:
       console.log(`Message from ${replyToken}: ${message.text}`);
