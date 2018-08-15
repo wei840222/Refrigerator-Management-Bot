@@ -1,6 +1,7 @@
 const express = require('express')
 const lineBot = require('@line/bot-sdk')
 const msg = require('../src/msg.js')
+const axios = require('axios')
 
 // create LINE SDK config from env variables
 const config = {
