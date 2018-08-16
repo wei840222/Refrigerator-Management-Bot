@@ -6,18 +6,77 @@
       <div class="title-item" @click="addToRefrigerator">冰箱</div>
       <div class="sort-option" @click="groupByType = !groupByType">
         <div class="option-text">{{ groupByType ? '品項' : '全部'}}</div>
-        <img src="option.png" class="option-icon"/>
+        <img class="option-icon" src="option.png"/>
       </div>
     </div>
     <div v-if="groupByType">
       <food-block class="food-block" v-for="(type, idx) in types" :key="idx" :edit="edit" :type="type" :foods="foods(type)" @addFood="addFood" @delFood="delFood"/>
     </div>
     <div v-else>
-      <food-block class="food-block" :edit="false" :type="'全部'" :foods="foods('all')" @addFood="addFood"/>
+      <food-block class="food-block" :edit="false" :type="'all'" :foods="foods('all')" @addFood="addFood"/>
     </div>
     <recommend-block class="recommend-block" :foods="recommendationList"/>
   </div>
 </template>
+
+<style>
+.title-bar {
+  top: 0px;
+  padding-left: 40px;
+  padding-right: 20px;
+  height: 40px;
+  width: 100%;
+  display: flex;
+  position: fixed;
+  z-index: 10;
+  background-color: #ffffff;
+  box-shadow: 0px 1px 2px rgba(20%, 20%, 40%, 0.5);
+}
+
+.title-item {
+  width: 60px;
+  height: 20px;
+  margin-top: 10px;
+}
+
+.sort-option {
+  margin-top: 11px;
+  height: 22px;
+  width: 60px;
+  border: #b7b7b8;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 11px;
+  margin-left: auto;
+  display: flex;
+}
+
+.option-text {
+  font-size: 12px;
+  margin-left: 12px;
+  margin-top: 2px;
+  color: #cecfcf;
+}
+
+.option-icon {
+  height: 5px;
+  width: 9px;
+  margin-top: 8px;
+  margin-left: 4px;
+}
+
+.food-block {
+  position: relative;
+  top: 40px;
+  width: 100%;
+}
+
+.recommend-block {
+  position: relative;
+  margin-top: 40px;
+  width: 100%;
+}
+</style>
 
 <script>
 import axios from "~/plugins/axios";
@@ -106,6 +165,7 @@ export default {
             nameZh: item.nameZh
           });
       });
+      console.log(buyItems)
       const res = await axios.post("/cabinet/userId/buy", buyItems);
       if (res.status === 200) await this.delFood();
     }

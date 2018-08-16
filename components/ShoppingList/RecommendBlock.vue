@@ -11,6 +11,40 @@
   </div>
 </template>
 
+<style>
+.recommend-title {
+  height: 40px;
+  width: 100%;
+  background-color:#e3e2e2;
+  display: flex;
+}
+
+.recommend-title-text{
+  padding-left: 40px;
+  padding-top: 8px;
+  color: #949394;
+  flex-grow: 1;
+}
+
+.recommend-item {
+  width: 100%;
+  height: 38px;
+  padding-left: 40px;
+  padding-top: 8px;
+  margin-right: 0px;
+  color: #afafaf;
+  background-color:#ededec;
+  display: flex;
+}
+
+.food-item-check-box {
+  height: 14px;
+  width: 14px;
+  margin-top: 4px;
+  margin-right: 10px;
+}
+</style>
+
 <script>
 export default {
   props: {

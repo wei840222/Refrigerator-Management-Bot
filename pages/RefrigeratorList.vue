@@ -16,6 +16,31 @@
   </div>
 </template>
 
+<style>
+.title-bar-tab {
+  height: 40px;
+  width: 100%;
+  display: flex;
+  position: fixed;
+  z-index: 10;
+  background-color: #ffffff;
+  box-shadow: 0px 1px 2px rgba(20%, 20%, 40%, 0.5);
+}
+
+.title-item-tab {
+  margin-top: 10px;
+  height: 28px;
+  text-align: center;
+  flex-grow: 1;
+}
+
+.food-block {
+  position: relative;
+  top: 40px;
+  width: 100%;
+}
+</style>
+
 <script>
 import axios from "~/plugins/axios";
 import FoodBlock from "~/components/RefrigeratorList/FoodBlock.vue";

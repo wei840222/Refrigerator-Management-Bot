@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="food-title" v-b-toggle="type" :style="{ 'background-color': titleBackground }" @click="collapsed =!collapsed">
+    <div v-if="type != 'all'" class="food-title" v-b-toggle="type" :style="{ 'background-color': titleBackground }" @click="collapsed =!collapsed">
       <div class="food-title-text">{{ type }}</div>
       <img v-if="collapsed" src="arrow-down.png" class="food-title-icon"/>
       <img v-else src="arrow-up.png" class="food-title-icon"/>
@@ -21,6 +21,94 @@
     </b-collapse>
   </div>
 </template>
+
+<style>
+.food-title {
+  height: 40px;
+  width: 100%;
+  display: flex;
+}
+
+.food-title-text {
+  padding-left: 40px;
+  padding-top: 10px;
+  color: #ffffff;
+  flex-grow: 1;
+}
+
+.food-title-icon {
+  height: 12px;
+  width: 21px;
+  margin-top: 14px;
+  margin-right: 20px;
+}
+
+.food-item {
+  width: 100%;
+  height: 38px;
+  padding-left: 40px;
+  padding-top: 9px;
+  margin-right: 0px;
+  color: #8a8a8a;
+  background-color: #f6f6f6;
+  display: flex;
+}
+
+.food-item-check-box {
+  height: 14px;
+  width: 14px;
+  margin-top: 4px;
+  margin-right: 10px;
+}
+
+.food-item-del {
+  height: 15px;
+  width: 15px;
+  margin-top: 3px;
+  margin-right: 23px;
+  z-index: 1;
+}
+
+.edit {
+  width: 100%;
+  height: 40px;
+  padding-left: 38px;
+  border-top-color: #e5e5e5;
+  border-top-style: dashed;
+  border-top-width: 1px;
+  color: #d2d6da;
+  background-color: #f6f6f6;
+  display: flex;
+}
+
+.edit-add {
+  height: 17px;
+  width: 17px;
+  margin-top: 11px;
+  margin-right: 8px;
+  z-index: 1;
+}
+
+.edit-input-box {
+  width: 80%;
+  height: 30px;
+  margin-left: -10px;
+  margin-top: 4px;
+}
+
+.edit-input {
+  border-width: 0px;
+  height: 30px;
+  box-shadow:#f6f6f6;
+  color: #d2d6da;
+  background-color: #f6f6f6;
+}
+
+.form-control:focus {
+  box-shadow: none;
+  background-color: #f6f6f6;
+}
+</style>
 
 <script>
 import axios from "~/plugins/axios";

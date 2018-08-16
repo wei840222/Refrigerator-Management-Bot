@@ -26,6 +26,68 @@
   </div>
 </template>
 
+<style>
+.food-title {
+  height: 40px;
+  width: 100%;
+  display: flex;
+}
+
+.food-title-text {
+  padding-left: 40px;
+  padding-top: 10px;
+  color: #ffffff;
+  flex-grow: 1;
+}
+
+.food-title-icon {
+  height: 12px;
+  width: 21px;
+  margin-top: 14px;
+  margin-right: 20px;
+}
+
+.food-item {
+  width: 100%;
+  height: 38px;
+  padding-left: 40px;
+  padding-top: 9px;
+  margin-right: 0px;
+  color: #8a8a8a;
+  background-color: #f6f6f6;
+  display: flex;
+}
+
+.food-item-type {
+  height: 17px;
+  margin-top: 3px;
+  margin-right: 10px;
+  z-index: 1;
+}
+
+.food-item-text1 {
+  margin-top:-1px;
+  flex-grow: 1;
+  color: #8a8a8a;
+}
+
+.food-item-text3 {
+  padding-top: 1px;
+  font-size: 14px;
+  margin-right: 50px;
+  color: #d6cecd;
+}
+
+.food-item-del {
+  height: 15px;
+  width: 15px;
+  margin-top: 3px;
+  margin-right: 23px;
+  z-index: 1;
+}
+</style>
+
+
 <script>
 import axios from "~/plugins/axios";
 
