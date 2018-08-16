@@ -80,19 +80,19 @@
 
 .footer {
   bottom: 0px;
-  height: 50px;
+  height: 80px;
   width: 100%;
   display: flex;
   position: fixed;
   z-index: 9;
   background-color: #ffffff;
   justify-content: center;
-  box-shadow: 0 0 2px rgba(20%, 20%, 40%, 0.5);
+  box-shadow: 0 0 5px rgba(20%, 20%, 40%, 0.5);
 }
 
 .footer-bar {
   bottom: 0px;
-  margin-bottom: 5px;
+  margin-bottom: 20px;
   height: 40px;
   width: 310px;
   position: fixed;
