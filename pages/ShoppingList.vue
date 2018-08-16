@@ -80,7 +80,7 @@
 
 .footer {
   bottom: 0px;
-  height: 80px;
+  height: 70px;
   width: 100%;
   display: flex;
   position: fixed;
@@ -92,7 +92,7 @@
 
 .footer-bar {
   bottom: 0px;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
   height: 40px;
   width: 310px;
   position: fixed;
