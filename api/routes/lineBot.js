@@ -105,7 +105,7 @@ function handleText(message, replyToken, source) {
               new Date(food.acquisitionDate).getTime() +
               food.expirationDate * 24 * 60 * 60 * 1000)
               .toISOString().split('T')[0]
-            food.expirationPeriod = Math.floor((new Date(food.expirationDate).getTime() -
+            food.expirationPeriod = Math.ceil((new Date(food.expirationDate).getTime() -
               nowDate.getTime()) / 1000 / 24 / 60 / 60)
             return food.expirationPeriod <= 7 && food.expirationPeriod >= 0
           });
