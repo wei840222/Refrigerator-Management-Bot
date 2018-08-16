@@ -15,7 +15,7 @@
       <div v-if="edit" class="edit">
         <img src="add.png" class="edit-add"/>
         <div class="edit-input-box">
-          <b-form-input class="edit-input" v-model="addFoodName" type="text" placeholder="新增" @change="addFood"/>
+          <input class="edit-input" v-model="addFoodName" type="text" placeholder="新增" @change="addFood"/>
         </div>
       </div>
     </b-collapse>
@@ -104,10 +104,10 @@
   background-color: #f6f6f6;
 }
 
-/* .form-control:focus {
+.form-control:focus {
   box-shadow: none;
   background-color: #f6f6f6;
-} */
+}
 </style>
 
 <script>
