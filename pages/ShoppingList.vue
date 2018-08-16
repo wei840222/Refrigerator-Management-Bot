@@ -74,13 +74,13 @@
 .recommend-block {
   position: relative;
   margin-top: 40px;
-  padding-bottom: 70px;
+  padding-bottom: 64px;
   width: 100%;
 }
 
 .footer {
   bottom: 0px;
-  height: 70px;
+  height: 64px;
   width: 100%;
   display: flex;
   position: fixed;
@@ -92,7 +92,7 @@
 
 .footer-bar {
   bottom: 0px;
-  margin-bottom: 15px;
+  margin-bottom: 12px;
   height: 40px;
   width: 310px;
   position: fixed;

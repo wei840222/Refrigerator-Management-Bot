@@ -92,16 +92,17 @@
 .edit-input-box {
   width: 80%;
   height: 30px;
-  margin-left: -10px;
+  margin-left: 0px;
   margin-top: 4px;
 }
 
 .edit-input {
   border-width: 0px;
   height: 30px;
-  box-shadow:#f6f6f6;
-  color: #d2d6da;
+  caret-color: #848484;
+  color: #848484;
   background-color: #f6f6f6;
+  outline: none;
 }
 
 .form-control:focus {
