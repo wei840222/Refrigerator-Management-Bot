@@ -6,90 +6,160 @@
     </div>
     <div style="position: fixed; z-index: -1; height: 100%; width: 100%; background-color: #f6f6f6;"/>
     <div v-if="tab === 'addList'" class="food-block">
-      <food-block-by-time :title="'2018-08-07'" :collapseVisible="true" :foodData="data"/>
-      <food-block-by-time :title="'2018-08-14'" :collapseVisible="false" :foodData="data"/>
-      <food-block-by-time :title="'2018-08-21'" :collapseVisible="false" :foodData="data"/>
+      <food-block-by-time v-for="(date, idx) in dates" :key="idx" :title="date" :collapseVisible="idx === 0 ? true : false" :foods="refrigeratorListGroupByDate(date)"/>
     </div>
     <div v-else class="food-block">
-      <food-block :title="'快過期'" :titleBackground="'#d95a5a'" :collapseVisible="true" :foodData="data"/>
-      <food-block :title="'已過期'" :titleBackground="'#afafaf'" :collapseVisible="false" :foodData="data"/>
-      <food-block :title="'未過期'" :titleBackground="'#82bd51'" :collapseVisible="false" :foodData="data"/>
+      <food-block :title="'快過期'" :titleBackground="'#d95a5a'" :collapseVisible="true" :foods="foodsDying" :now="now" @delFood="delFood"/>
+      <food-block :title="'已過期'" :titleBackground="'#afafaf'" :collapseVisible="false" :foods="foodsDied" :now="now" @delFood="delFood"/>
+      <food-block :title="'未過期'" :titleBackground="'#82bd51'" :collapseVisible="false" :foods="foodsAlive" :now="now" @delFood="delFood"/>
     </div>
   </div>
 </template>
 
+<style>
+.title-bar-tab {
+  height: 40px;
+  width: 100%;
+  display: flex;
+  position: fixed;
+  z-index: 10;
+  background-color: #ffffff;
+  box-shadow: 0px 1px 2px rgba(20%, 20%, 40%, 0.5);
+}
+
+.title-item-tab {
+  margin-top: 10px;
+  height: 28px;
+  text-align: center;
+  flex-grow: 1;
+}
+
+.food-block {
+  position: relative;
+  top: 40px;
+  width: 100%;
+}
+</style>
+
 <script>
+import axios from "~/plugins/axios";
 import FoodBlock from "~/components/RefrigeratorList/FoodBlock.vue";
 import FoodBlockByTime from "~/components/RefrigeratorList/FoodBlockByTime.vue";
 
 export default {
+  async asyncData() {
+    const refrigeratorList = await axios.get(
+      "/cabinet/userId/item_in_refrigerator"
+    );
+    refrigeratorList.data.refrigeratorList.forEach(element => {
+      const date = new Date(
+        new Date(element.acquisitionDate).getTime() +
+          element.expirationDate * 24 * 60 * 60 * 1000
+      )
+        .toLocaleDateString("zh-TW")
+        .replace(/\//g, "-")
+        .split("-");
+      element.expirationDate =
+        date[0] +
+        "-" +
+        (date[1].length === 1 ? "0" + date[1] : date[1]) +
+        "-" +
+        (date[2].length === 1 ? "0" + date[2] : date[2]);
+    });
+    return {
+      refrigeratorList: refrigeratorList.data.refrigeratorList
+    };
+  },
   head() {
     return {
       title: "冰箱"
     };
   },
   data() {
+    const nowDate = new Date(Date.now())
+      .toLocaleString("zh-TW", {
+        timeZone: "Asia/Taipei",
+        hour12: false
+      })
+      .split(" ")[0]
+      .replace(/\//g, "-")
+      .split("-");
     return {
       tab: "addList",
-      data: [
-        {
-          id: "1",
-          type: "魚",
-          buyTime: "2018-07-31",
-          period: "2018-08-07",
-          name: "鯛魚"
-        },
-        {
-          id: "2",
-          type: "魚",
-          buyTime: "2018-07-31",
-          period: "2018-08-07",
-          name: "鯊魚"
-        },
-        {
-          id: "3",
-          type: "肉",
-          buyTime: "2018-07-31",
-          period: "2018-08-14",
-          name: "牛五花"
-        },
-        {
-          id: "4",
-          type: "肉",
-          buyTime: "2018-07-31",
-          period: "2018-08-14",
-          name: "梅花豬"
-        },
-        {
-          id: "5",
-          type: "肉",
-          buyTime: "2018-07-31",
-          period: "2018-08-14",
-          name: "小羔羊"
-        },
-        {
-          id: "7",
-          type: "點心",
-          buyTime: "2018-07-31",
-          period: "2018-08-31",
-          name: "巧克力"
-        },
-        {
-          id: "8",
-          type: "點心",
-          buyTime: "2018-07-31",
-          period: "2018-08-31",
-          name: "棉花糖"
-        },
-        {
-          id: "9",
-          type: "點心",
-          buyTime: "2018-07-31",
-          period: "2018-08-31",
-          name: "奶油餅"
-        }
-      ]
+      now:
+        nowDate[0] +
+        "-" +
+        (nowDate[1].length === 1 ? "0" + nowDate[1] : nowDate[1]) +
+        "-" +
+        (nowDate[2].length === 1 ? "0" + nowDate[2] : nowDate[2])
     };
+  },
+  computed: {
+    dates() {
+      let dates = [];
+      this.refrigeratorList.forEach(element => {
+        if (!dates.includes(element.acquisitionDate))
+          dates.push(element.acquisitionDate);
+      });
+      return dates;
+    },
+    foodsDying() {
+      return this.refrigeratorList.filter(food => {
+        const date =
+          new Date(food.expirationDate).getTime() -
+          new Date(this.now).getTime();
+        if (date <= 604800000 && date >= 0)
+          food.expirationDateString =
+            "剩" + Math.floor(date / 1000 / 60 / 60 / 24) + "天";
+        return date <= 604800000 && date >= 0;
+      });
+    },
+    foodsDied() {
+      return this.refrigeratorList.filter(food => {
+        const date =
+          new Date(food.expirationDate).getTime() -
+          new Date(this.now).getTime();
+        if (date < 0)
+          food.expirationDateString =
+            "過期" + Math.floor(-date / 1000 / 60 / 60 / 24) + "天";
+        return date < 0;
+      });
+    },
+    foodsAlive() {
+      return this.refrigeratorList.filter(food => {
+        const date =
+          new Date(food.expirationDate).getTime() -
+          new Date(this.now).getTime();
+        if (date > 604800000) food.expirationDateString = food.expirationDate;
+        return date > 604800000;
+      });
+    }
+  },
+  methods: {
+    refrigeratorListGroupByDate(date) {
+      return this.refrigeratorList.filter(
+        item => item.acquisitionDate === date
+      );
+    },
+    async delFood() {
+      const res = await axios.get("/cabinet/userId/item_in_refrigerator");
+      res.data.refrigeratorList.forEach(element => {
+        const date = new Date(
+          new Date(element.acquisitionDate).getTime() +
+            element.expirationDate * 24 * 60 * 60 * 1000
+        )
+          .toLocaleDateString("zh-TW")
+          .replace(/\//g, "-")
+          .split("-");
+        element.expirationDate =
+          date[0] +
+          "-" +
+          (date[1].length === 1 ? "0" + date[1] : date[1]) +
+          "-" +
+          (date[2].length === 1 ? "0" + date[2] : date[2]);
+      });
+      this.refrigeratorList = res.data.refrigeratorList;
+    }
   },
   components: {
     FoodBlock,

@@ -1,21 +1,54 @@
 <template>
   <div>
-    <div class="recommend-title" v-b-toggle.recommend>
+    <div class="recommend-title">
       <div class="recommend-title-text">建議清單</div>
     </div>
-    <div class="recommend-item" v-for="rmd in recommend" :key="rmd.id" @click="rmd.select = !rmd.select">
-      <img v-if="rmd.select" src="ckeck-box-act.png" class="food-item-check-box"/>
+    <div class="recommend-item" v-for="(food, idx) in foods" :key="idx" @click="food.selected = !food.selected">
+      <img v-if="food.selected" src="ckeck-box-act.png" class="food-item-check-box"/>
       <img v-else src="check-box.png" class="food-item-check-box"/>
-      <div :style="{ 'flex-grow': 1, 'text-decoration': rmd.select ? 'line-through black' : '' }">{{ rmd.name }}</div>
-      <img v-if="edit" src="del.png" class="food-item-del"/>
+      <div :style="{ 'flex-grow': 1, 'text-decoration': food.selected ? 'line-through black' : '' }">{{ food.nameZh }}</div>
     </div>
   </div>
 </template>
 
+<style>
+.recommend-title {
+  height: 40px;
+  width: 100%;
+  background-color:#e3e2e2;
+  display: flex;
+}
+
+.recommend-title-text{
+  padding-left: 40px;
+  padding-top: 8px;
+  color: #949394;
+  flex-grow: 1;
+}
+
+.recommend-item {
+  width: 100%;
+  height: 38px;
+  padding-left: 40px;
+  padding-top: 8px;
+  margin-right: 0px;
+  color: #afafaf;
+  background-color:#ededec;
+  display: flex;
+}
+
+.food-item-check-box {
+  height: 14px;
+  width: 14px;
+  margin-top: 4px;
+  margin-right: 10px;
+}
+</style>
+
 <script>
 export default {
   props: {
-    recommend: Array
+    foods: Array
   }
 };
 </script>

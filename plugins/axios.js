@@ -1,9 +1,6 @@
-import * as axios from 'axios'
+import axios from 'axios'
 
-let options = {}
-// The server-side needs a full url to works
-if (process.server) {
-  options.baseURL = process.env.BASE_URL
-}
-
-export default axios.create(options)
+export default axios.create({
+  baseURL: 'https://refrigerator-mgt-bot-backend.herokuapp.com/',
+  timeout: 2500
+});
