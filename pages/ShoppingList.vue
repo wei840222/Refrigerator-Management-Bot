@@ -3,6 +3,7 @@
     <div class="title-bar">
       <div class="title-item" @click="selectedAll = !selectedAll; selectAll()" :style="{ 'color': selectedAll ? '#000000' : '#aaaaaa' }">全選</div>
       <div class="title-item" @click="edit = !edit" :style="{ 'color': edit ? '#000000' : '#aaaaaa' }">編輯</div>
+      <div class="title-item" @click="addToRefrigerator">冰箱</div>
       <div class="sort-option" @click="groupByType = !groupByType">
         <div class="option-text">{{ groupByType ? '品項' : '全部'}}</div>
         <img src="option.png" class="option-icon"/>
@@ -95,6 +96,18 @@ export default {
         ).selected;
       });
       this.shoppingItems = res.data.shoppingItems;
+    },
+    async addToRefrigerator() {
+      const buyItems = [];
+      this.shoppingItems.forEach(item => {
+        if (item.selected)
+          buyItems.push({
+            id: item.id,
+            nameZh: item.nameZh
+          });
+      });
+      const res = await axios.post("/cabinet/userId/buy", buyItems);
+      if (res.status === 200) await this.delFood();
     }
   },
   components: {
