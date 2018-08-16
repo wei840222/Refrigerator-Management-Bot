@@ -107,7 +107,7 @@ function handleText(message, replyToken, source) {
               .toISOString().split('T')[0]
             food.expirationPeriod = Math.ceil((new Date(food.expirationDate).getTime() -
               nowDate.getTime()) / 1000 / 24 / 60 / 60)
-            return food.expirationPeriod <= 7 && food.expirationPeriod >= 0
+            return food.expirationPeriod <= 7 && food.expirationPeriod >= 0 && food.notify
           });
           client.replyMessage(replyToken, msgFactory.expirationReminder(expirationReminderList))
         })
