@@ -104,10 +104,10 @@
   background-color: #f6f6f6;
 }
 
-.form-control:focus {
+/* .form-control:focus {
   box-shadow: none;
   background-color: #f6f6f6;
-}
+} */
 </style>
 
 <script>

@@ -3,7 +3,6 @@
     <div class="title-bar">
       <div class="title-item" @click="selectedAll = !selectedAll; selectAll()" :style="{ 'color': selectedAll ? '#000000' : '#aaaaaa' }">全選</div>
       <div class="title-item" @click="edit = !edit" :style="{ 'color': edit ? '#000000' : '#aaaaaa' }">編輯</div>
-      <div class="title-item" @click="addToRefrigerator">冰箱</div>
       <div class="sort-option" @click="groupByType = !groupByType">
         <div class="option-text">{{ groupByType ? '品項' : '全部'}}</div>
         <img class="option-icon" src="option.png"/>
@@ -16,6 +15,7 @@
       <food-block class="food-block" :edit="false" :type="'all'" :foods="foods('all')" @addFood="addFood"/>
     </div>
     <recommend-block class="recommend-block" :foods="recommendationList"/>
+    <div class="footer"><img src="addToRefrigerator.png" class="footer-bar" @click="addToRefrigerator"/></div>
   </div>
 </template>
 
@@ -75,6 +75,26 @@
   position: relative;
   margin-top: 40px;
   width: 100%;
+}
+
+.footer {
+  bottom: 0px;
+  height: 50px;
+  width: 100%;
+  display: flex;
+  position: fixed;
+  z-index: 9;
+  background-color: #ffffff;
+  justify-content: center;
+}
+
+.footer-bar {
+  bottom: 0px;
+  margin-bottom: 10px;
+  height: 30px;
+  width: 250px;
+  position: fixed;
+  z-index: 10;
 }
 </style>
 

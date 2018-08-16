@@ -49,14 +49,17 @@
 
 .food-item-text1 {
   margin-top:-1px;
-  flex-grow: 1;
+  width: 200px;
   color: #8a8a8a;
 }
 
 .food-item-text2 {
   padding-top: 1px;
+  width: 60px;
   font-size: 14px;
+  flex-grow: 1;
   margin-right: 50px;
+  text-align: left;
 }
 
 .food-item-del {
