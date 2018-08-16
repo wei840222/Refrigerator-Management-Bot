@@ -74,7 +74,7 @@
 .recommend-block {
   position: relative;
   margin-top: 40px;
-  padding-bottom: 50px;
+  padding-bottom: 70px;
   width: 100%;
 }
 
