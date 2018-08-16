@@ -74,7 +74,8 @@
 .food-item-text3 {
   padding-top: 1px;
   font-size: 14px;
-  margin-right: 50px;
+  min-width: 80px;
+  margin-right: 10px;
   color: #d6cecd;
 }
 
