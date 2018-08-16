@@ -17,6 +17,7 @@
         <div class="edit-input-box">
           <input class="edit-input" v-model="addFoodName" type="text" placeholder="新增" @change="addFood"/>
         </div>
+        <img src="addFin.png" class="food-item-add-fin" @click="addFood"/>
       </div>
     </b-collapse>
   </div>
@@ -94,20 +95,27 @@
   height: 30px;
   margin-left: 0px;
   margin-top: 4px;
+  flex-grow: 1;
+  display: flex;
 }
 
 .edit-input {
   border-width: 0px;
   height: 30px;
-  caret-color: #848484;
-  color: #848484;
+  margin-right: 10px;
+  caret-color: #b5b5b5;
+  color: #b5b5b5;
   background-color: #f6f6f6;
   outline: none;
+  flex-grow: 1;
 }
 
-.form-control:focus {
-  box-shadow: none;
-  background-color: #f6f6f6;
+.food-item-add-fin {
+  height: 20px;
+  width: 48px;
+  margin-top: 9px;
+  margin-right: 20px;
+  z-index: 1;
 }
 </style>
 
