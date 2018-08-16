@@ -9,9 +9,9 @@
       <food-block-by-time v-for="(date, idx) in dates" :key="idx" :title="date" :collapseVisible="idx === 0 ? true : false" :foods="refrigeratorListGroupByDate(date)"/>
     </div>
     <div v-else class="food-block">
-      <food-block :title="'快過期'" :titleBackground="'#d95a5a'" :collapseVisible="true" :foods="foodsDying" :now="now"/>
-      <food-block :title="'已過期'" :titleBackground="'#afafaf'" :collapseVisible="false" :foods="foodsDied" :now="now"/>
-      <food-block :title="'未過期'" :titleBackground="'#82bd51'" :collapseVisible="false" :foods="foodsAlive" :now="now"/>
+      <food-block :title="'快過期'" :titleBackground="'#d95a5a'" :collapseVisible="true" :foods="foodsDying" :now="now" @delFood="delFood"/>
+      <food-block :title="'已過期'" :titleBackground="'#afafaf'" :collapseVisible="false" :foods="foodsDied" :now="now" @delFood="delFood"/>
+      <food-block :title="'未過期'" :titleBackground="'#82bd51'" :collapseVisible="false" :foods="foodsAlive" :now="now" @delFood="delFood"/>
     </div>
   </div>
 </template>
@@ -115,6 +115,25 @@ export default {
       return this.refrigeratorList.filter(
         item => item.acquisitionDate === date
       );
+    },
+    async delFood() {
+      const res = await axios.get("/cabinet/userId/item_in_refrigerator");
+      res.data.refrigeratorList.forEach(element => {
+        const date = new Date(
+          new Date(element.acquisitionDate).getTime() +
+            element.expirationDate * 24 * 60 * 60 * 1000
+        )
+          .toLocaleDateString("zh-TW")
+          .replace(/\//g, "-")
+          .split("-");
+        element.expirationDate =
+          date[0] +
+          "-" +
+          (date[1].length === 1 ? "0" + date[1] : date[1]) +
+          "-" +
+          (date[2].length === 1 ? "0" + date[2] : date[2]);
+      });
+      this.refrigeratorList = res.data.refrigeratorList;
     }
   },
   components: {

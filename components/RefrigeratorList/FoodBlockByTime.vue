@@ -42,6 +42,7 @@ export default {
   },
   methods: {
     async updateItem(food) {
+      console.log(food);
       const res = await axios.post("/cabinet/userId/edit_item", food);
     }
   }
