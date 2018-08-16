@@ -9,7 +9,7 @@
       </div>
     </div>
     <div v-if="groupByType">
-      <food-block class="food-block" v-for="(type, idx) in types" :key="idx" :edit="edit" :type="type" :foods="foods(type)" @addFood="addFood"/>
+      <food-block class="food-block" v-for="(type, idx) in types" :key="idx" :edit="edit" :type="type" :foods="foods(type)" @addFood="addFood" @delFood="delFood"/>
     </div>
     <div v-else>
       <food-block class="food-block" :edit="false" :type="'全部'" :foods="foods('all')" @addFood="addFood"/>
@@ -76,14 +76,25 @@ export default {
     },
     async addFood(event) {
       const res = await axios.post("/cabinet/userId/add_item_to_shoppingist", {
-        nameZh: event.addFoodName
+        nameZh: event.addFoodName,
+        type: event.type
       });
-      if (res.data === "Add item to shoppingList.")
+      if (res.status === 200)
         this.shoppingItems.push({
+          id: res.data,
           nameZh: event.addFoodName,
           type: event.type,
           selected: false
         });
+    },
+    async delFood() {
+      const res = await axios.get("/cabinet/userId/shopping_list");
+      res.data.shoppingItems.forEach(element => {
+        element.selected = this.shoppingItems.filter(
+          item => item.id === element.id
+        ).selected;
+      });
+      this.shoppingItems = res.data.shoppingItems;
     }
   },
   components: {

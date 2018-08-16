@@ -6,11 +6,11 @@
       <img v-else src="arrow-up.png" class="food-title-icon"/>
     </div>
     <b-collapse visible :id="type">
-      <div class="food-item" v-for="(food, idx) in foods" :key="idx" @click="food.selected = !food.selected">
-        <img v-if="food.selected" src="ckeck-box-act.png" class="food-item-check-box"/>
-        <img v-else src="check-box.png" class="food-item-check-box"/>
-        <div :style="{ 'flex-grow': 1, 'text-decoration': food.selected ? 'line-through black' : '' }">{{ food.nameZh }}</div>
-        <img v-if="edit" src="del.png" class="food-item-del"/>
+      <div class="food-item" v-for="(food, idx) in foods" :key="idx">
+        <img v-if="food.selected" src="ckeck-box-act.png" class="food-item-check-box" @click="food.selected = !food.selected"/>
+        <img v-else src="check-box.png" class="food-item-check-box" @click="food.selected = !food.selected"/>
+        <div :style="{ 'flex-grow': 1, 'text-decoration': food.selected ? 'line-through black' : '' }" @click="food.selected = !food.selected">{{ food.nameZh }}</div>
+        <img v-if="edit" src="del.png" class="food-item-del" @click="delFood(arguments, food)"/>
       </div>
       <div v-if="edit" class="edit">
         <img src="add.png" class="edit-add"/>
@@ -23,6 +23,8 @@
 </template>
 
 <script>
+import axios from "~/plugins/axios";
+
 export default {
   props: {
     type: String,
@@ -66,6 +68,17 @@ export default {
         this.editing = false;
         this.addFoodName = "";
       }
+    },
+    async delFood(event, food) {
+      const res = await axios.post(
+        "/cabinet/userId/delete_item_from_shoppingist",
+        {
+          id: food.id,
+          nameZh: food.addFoodName,
+          type: food.type
+        }
+      );
+      if (res.status === 200) this.$emit("delFood");
     }
   }
 };
