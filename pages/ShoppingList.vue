@@ -87,13 +87,14 @@
   z-index: 9;
   background-color: #ffffff;
   justify-content: center;
+  box-shadow: 0 0 2px rgba(20%, 20%, 40%, 0.5);
 }
 
 .footer-bar {
   bottom: 0px;
-  margin-bottom: 10px;
-  height: 30px;
-  width: 250px;
+  margin-bottom: 5px;
+  height: 40px;
+  width: 310px;
   position: fixed;
   z-index: 10;
 }
