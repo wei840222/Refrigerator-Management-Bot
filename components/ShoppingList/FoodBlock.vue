@@ -113,6 +113,7 @@
 .food-item-add-fin {
   height: 20px;
   width: 48px;
+  min-width: 48px;
   margin-top: 9px;
   margin-right: 20px;
   z-index: 1;

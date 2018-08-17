@@ -109,6 +109,7 @@ function handleText(message, replyToken, source) {
               nowDate.getTime()) / 1000 / 24 / 60 / 60)
             return food.expirationPeriod <= 7 && food.expirationPeriod >= 0 && food.notify
           });
+          expirationReminderList.sort((a, b) => a.expirationPeriod > b.expirationPeriod ? 1 : -1)
           client.replyMessage(replyToken, msgFactory.expirationReminder(expirationReminderList))
         })
         .catch(err => console.log(err))
