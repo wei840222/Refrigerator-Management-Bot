@@ -100,7 +100,7 @@ function handleText(message, replyToken, source) {
               timeZone: "Asia/Taipei",
               hour12: false
             }))
-          const expirationReminderList = res.data.refrigeratorList.filter(food => {
+          let expirationReminderList = res.data.refrigeratorList.filter(food => {
             food.expirationDate = new Date(
               new Date(food.acquisitionDate).getTime() +
               food.expirationDate * 24 * 60 * 60 * 1000)
@@ -110,6 +110,7 @@ function handleText(message, replyToken, source) {
             return food.expirationPeriod <= 7 && food.expirationPeriod >= 0 && food.notify
           });
           expirationReminderList.sort((a, b) => a.expirationPeriod > b.expirationPeriod ? 1 : -1)
+          if (expirationReminderList.length > 10) expirationReminderList.slice(0, 10)
           client.replyMessage(replyToken, msgFactory.expirationReminder(expirationReminderList))
         })
         .catch(err => console.log(err))
