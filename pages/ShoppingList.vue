@@ -134,17 +134,19 @@ export default {
     return {
       edit: false,
       groupByType: true,
-      selectedAll: false
+      selectedAll: false,
+      types: [
+        "冷凍",
+        "飲料",
+        "青菜",
+        "肉",
+        "海鮮",
+        "甜品",
+        "零食",
+        "水果",
+        "其他"
+      ]
     };
-  },
-  computed: {
-    types() {
-      let types = [];
-      this.shoppingItems.forEach(element => {
-        if (!types.includes(element.type)) types.push(element.type);
-      });
-      return types;
-    }
   },
   methods: {
     foods(type) {
@@ -187,7 +189,7 @@ export default {
             nameZh: item.nameZh
           });
       });
-      console.log(buyItems)
+      console.log(buyItems);
       const res = await axios.post("/cabinet/userId/buy", buyItems);
       if (res.status === 200) await this.delFood();
     }

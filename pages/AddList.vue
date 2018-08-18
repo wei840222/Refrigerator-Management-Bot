@@ -118,7 +118,7 @@ export default {
         expirationDate: ""
       });
     },
-    addFoodToDB() {
+    async addFoodToDB() {
       this.foods.forEach(food => {
         axios.post("/cabinet/userId/add_item", {
           nameZh: food.nameZh,
