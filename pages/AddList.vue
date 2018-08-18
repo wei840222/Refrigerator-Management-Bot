@@ -82,21 +82,21 @@ export default {
     };
   },
   data() {
-    const nowDateArray = new Date(Date.now())
+    const nowDate = new Date(Date.now())
       .toLocaleString("zh-TW", {
         timeZone: "Asia/Taipei",
         hour12: false
       })
       .split(" ")[0]
-      .split("/");
-    const nowDate =
-      nowDateArray[0] +
-      "-" +
-      (nowDateArray[1].length === 1 ? "0" + nowDateArray[1] : nowDateArray[1]) +
-      "-" +
-      (nowDateArray[2].length === 1 ? "0" + nowDateArray[2] : nowDateArray[2]);
+      .replace(/\//g, "-")
+      .split("-");
     return {
-      nowDate: nowDate,
+      nowDate:
+        nowDate[0] +
+        "-" +
+        (nowDate[1].length === 1 ? "0" + nowDate[1] : nowDate[1]) +
+        "-" +
+        (nowDate[2].length === 1 ? "0" + nowDate[2] : nowDate[2]),
       foods: [
         {
           title: "品項 1",

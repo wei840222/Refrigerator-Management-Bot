@@ -16,7 +16,6 @@ module.exports = {
   modules: [
     'bootstrap-vue/nuxt'
   ],
-  mode: 'spa',
   build: {
     vendor: ['axios'],
     extend(config, ctx) {
