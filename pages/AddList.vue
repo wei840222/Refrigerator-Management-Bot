@@ -16,7 +16,7 @@
     </div>
     <div class="btn-row">
       <img class="btn" src="addBtn.png" @click="addFood"/>
-      <img class="btn" src="addFinBtn.png"/>
+      <img class="btn" src="addFinBtn.png" @click="addFoodToDB"/>
     </div>
   </div>
 </template>
@@ -47,6 +47,7 @@
 
 .edit-input {
   border: 1px #dbdbdb solid;
+  background-color: #ffffff;
   border-radius: 5px;
   height: 30px;
   width: 90%;
@@ -72,6 +73,8 @@
 </style>
 
 <script>
+import axios from "~/plugins/axios";
+
 export default {
   head() {
     return {
@@ -114,6 +117,17 @@ export default {
         acquisitionDate: this.nowDate,
         expirationDate: ""
       });
+    },
+    addFoodToDB() {
+      this.foods.forEach(food => {
+        axios.post("/cabinet/userId/add_item", {
+          nameZh: food.nameZh,
+          type: food.type,
+          expirationDate: food.expirationDate
+        });
+      });
+      this.foods = [];
+      this.addFood();
     }
   }
 };
