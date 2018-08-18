@@ -97,16 +97,11 @@ export default {
         (nowDate[1].length === 1 ? "0" + nowDate[1] : nowDate[1]) +
         "-" +
         (nowDate[2].length === 1 ? "0" + nowDate[2] : nowDate[2]),
-      foods: [
-        {
-          title: "品項 1",
-          nameZh: "",
-          type: "",
-          acquisitionDate: nowDate,
-          expirationDate: ""
-        }
-      ]
+      foods: []
     };
+  },
+  created() {
+    this.addFood();
   },
   methods: {
     addFood() {
