@@ -8,7 +8,7 @@
     <b-collapse :visible="collapseVisible" :id="title">
       <div class="food-item" v-for="(food, idx) in foods" :key="idx">
         <div class="food-item-text1">{{ food.nameZh }}</div>
-        <div class="food-item-text2" :style="{ 'color': titleBackground }">{{ food.expirationDateString }}</div>
+        <div class="food-item-text2" :style="{ 'color': foodColor }">{{ food.expirationDateString }}</div>
         <img src="del.png" class="food-item-del" @click="delFood(arguments, food)"/>
       </div>
     </b-collapse>
@@ -48,7 +48,7 @@
 }
 
 .food-item-text1 {
-  margin-top:-1px;
+  margin-top: -1px;
   flex-grow: 1;
   color: #8a8a8a;
 }
@@ -77,6 +77,7 @@ export default {
   props: {
     title: String,
     titleBackground: String,
+    foodColor: String,
     collapseVisible: Boolean,
     foods: Array
   },

@@ -1,92 +1,120 @@
 <template>
-  <b-container>
-    <br/>
-    <title-bar @add-item="addItem"/>
-    <br/>
-    <food-row v-for="foodData in data" :key="foodData.id" :id="foodData.id" :name="foodData.name" :type="foodData.type" :buyTime="foodData.buyTime" :period="foodData.period"/>
-  </b-container>
+  <div>
+    <div v-for="(food, idx) in foods" :key="idx">
+      <div class="title-bar">
+        <div class="title-text">{{ food.title }}</div>
+      </div>
+      <div class="form-option">名稱：</div>
+      <input class="edit-input" v-model="food.nameZh" type="text"/>
+      <div class="form-option">品項：</div>
+      <input class="edit-input" v-model="food.type" type="text"/>
+      <div class="form-option">購買日期：</div>
+      <input class="edit-input" v-model="food.acquisitionDate" type="date"/>
+      <div class="form-option">保存期限：</div>
+      <input class="edit-input" v-model="food.expirationDate" type="date"/>
+      <br/><br/>
+    </div>
+    <div class="btn-row">
+      <img class="btn" src="addBtn.png" @click="addFood"/>
+      <img class="btn" src="addFinBtn.png"/>
+    </div>
+  </div>
 </template>
 
-<script>
-import TitleBar from "~/components/AddList/TitleBar.vue";
-import FoodRow from "~/components/AddList/FoodRow.vue";
+<style>
+.title-bar {
+  height: 40px;
+  width: 100%;
+  display: flex;
+  border-top: 1px #d1d1d1 solid;
+  border-bottom: 1px #d1d1d1 solid;
+  background-color: #f4f4f4;
+}
 
+.title-text {
+  font-size: 16px;
+  margin-left: 12px;
+  margin-top: 6px;
+  color: #7e7e7f;
+}
+
+.form-option {
+  font-size: 14px;
+  margin-left: 12px;
+  margin-top: 6px;
+  color: #b2b2b2;
+}
+
+.edit-input {
+  border: 1px #dbdbdb solid;
+  border-radius: 5px;
+  height: 30px;
+  width: 90%;
+  margin-top: 6px;
+  margin-left: 12px;
+  outline: none;
+}
+
+.btn-row {
+  width: 100%;
+  margin-top: -20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+.btn {
+  height: 42px;
+  width: 65px;
+  margin-right: 8px;
+  margin-left: -30px;
+}
+</style>
+
+<script>
 export default {
   head() {
     return {
       title: "新增清單"
     };
   },
-  async asyncData() {
+  data() {
+    const nowDateArray = new Date(Date.now())
+      .toLocaleString("zh-TW", {
+        timeZone: "Asia/Taipei",
+        hour12: false
+      })
+      .split(" ")[0]
+      .split("/");
+    const nowDate =
+      nowDateArray[0] +
+      "-" +
+      (nowDateArray[1].length === 1 ? "0" + nowDateArray[1] : nowDateArray[1]) +
+      "-" +
+      (nowDateArray[2].length === 1 ? "0" + nowDateArray[2] : nowDateArray[2]);
     return {
-      data: [
+      nowDate: nowDate,
+      foods: [
         {
-          id: "1",
-          type: "菜",
-          buyTime: "2018-07-31",
-          period: "2018-08-07",
-          name: "高麗菜"
-        },
-        {
-          id: "2",
-          type: "菜",
-          buyTime: "2018-07-31",
-          period: "2018-08-07",
-          name: "花菜"
-        },
-        {
-          id: "3",
-          type: "肉",
-          buyTime: "2018-07-31",
-          period: "2018-08-14",
-          name: "牛五花"
-        },
-        {
-          id: "4",
-          type: "肉",
-          buyTime: "2018-07-31",
-          period: "2018-08-14",
-          name: "梅花豬"
-        },
-        {
-          id: "5",
-          type: "肉",
-          buyTime: "2018-07-31",
-          period: "2018-08-14",
-          name: "小羔羊"
-        },
-        {
-          id: "7",
-          type: "點心",
-          buyTime: "2018-07-31",
-          period: "2018-08-31",
-          name: "巧克力"
-        },
-        {
-          id: "8",
-          type: "點心",
-          buyTime: "2018-07-31",
-          period: "2018-08-31",
-          name: "棉花糖"
-        },
-        {
-          id: "9",
-          type: "點心",
-          buyTime: "2018-07-31",
-          period: "2018-08-31",
-          name: "奶油餅"
+          title: "品項 1",
+          nameZh: "",
+          type: "",
+          acquisitionDate: nowDate,
+          expirationDate: ""
         }
       ]
     };
   },
   methods: {
-    addItem(item) {
-      this.data.push(item);
+    addFood() {
+      this.foods.push({
+        title: "品項 " + (this.foods.length + 1),
+        nameZh: "",
+        type: "",
+        acquisitionDate: this.nowDate,
+        expirationDate: ""
+      });
     }
-  },
-  components: {
-    TitleBar,
-    FoodRow
   }
 };
 </script>

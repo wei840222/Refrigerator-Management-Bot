@@ -9,9 +9,9 @@
       <food-block-by-time v-for="(date, idx) in dates" :key="idx" :title="date" :collapseVisible="idx === 0 ? true : false" :foods="refrigeratorListGroupByDate(date)"/>
     </div>
     <div v-else class="food-block">
-      <food-block :title="'快過期'" :titleBackground="'#d95a5a'" :collapseVisible="true" :foods="foodsDying" :now="now" @delFood="delFood"/>
-      <food-block :title="'已過期'" :titleBackground="'#afafaf'" :collapseVisible="false" :foods="foodsDied" :now="now" @delFood="delFood"/>
-      <food-block :title="'未過期'" :titleBackground="'#82bd51'" :collapseVisible="false" :foods="foodsAlive" :now="now" @delFood="delFood"/>
+      <food-block :title="'快過期'" :titleBackground="'#d95a5a'" :foodColor="'#F47070'" :collapseVisible="true" :foods="foodsDying" :now="now" @delFood="delFood"/>
+      <food-block :title="'已過期'" :titleBackground="'#afafaf'" :foodColor="'#565656'" :collapseVisible="false" :foods="foodsDied" :now="now" @delFood="delFood"/>
+      <food-block :title="'未過期'" :titleBackground="'#82bd51'" :foodColor="'#65BE2B'" :collapseVisible="false" :foods="foodsAlive" :now="now" @delFood="delFood"/>
     </div>
   </div>
 </template>
