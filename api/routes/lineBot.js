@@ -34,10 +34,32 @@ router.get('/lineBot/push/expirationReminderList', (req, resp) => {
   backendApi.get('user/userId/get_uid').then(res => {
     const userIdArray = []
     res.data.uidlist.forEach(element => userIdArray.push(element.uid))
-    console.log(userIdArray)
-    const easyExpireReminderMsg = msgFactory.expirationReminder(getExpirationReminderList())
-    client.multicast(userIdArray, easyExpireReminderMsg)
-    return resp.json({ userIdArray: userIdArray, easyExpireReminderMsg: easyExpireReminderMsg })
+    backendApi.get('/cabinet/userId/item_in_refrigerator')
+      .then(res => {
+        console.log(res.data)
+        const nowDate = new Date(new Date(Date.now())
+          .toLocaleString("zh-TW", {
+            timeZone: "Asia/Taipei",
+            hour12: false
+          }))
+        let expirationReminderList = res.data.refrigeratorList.filter(food => {
+          food.expirationDate = new Date(
+            new Date(food.acquisitionDate).getTime() +
+            food.expirationDate * 24 * 60 * 60 * 1000)
+            .toISOString().split('T')[0]
+          food.expirationPeriod = Math.ceil((new Date(food.expirationDate).getTime() -
+            nowDate.getTime()) / 1000 / 24 / 60 / 60)
+          return food.expirationPeriod <= 7 && food.expirationPeriod >= 0 && food.notify
+        });
+        expirationReminderList.sort((a, b) => a.expirationPeriod > b.expirationPeriod ? 1 : -1)
+        if (expirationReminderList.length > 10) expirationReminderList.slice(0, 10)
+        client.multicast(userIdArray, msgFactory.expirationReminder(expirationReminderList))
+        return resp.json({ userIdArray: userIdArray, expirationReminderList: expirationReminderList })
+      })
+      .catch(err => {
+        console.log(err)
+        return resp.send(500, err);
+      })
   }).catch(err => {
     console.log(err)
     return resp.send(500, err);
@@ -52,32 +74,6 @@ function replyText(replyToken, texts) {
     texts.map((text) => ({ type: 'text', text }))
   );
 };
-
-// Get Expiration Reminder List
-async function getExpirationReminderList() {
-  try {
-    const res = await backendApi.get('/cabinet/userId/item_in_refrigerator')
-    console.log(res.data)
-    const nowDate = new Date(new Date(Date.now())
-      .toLocaleString("zh-TW", {
-        timeZone: "Asia/Taipei",
-        hour12: false
-      }))
-    let expirationReminderList = res.data.refrigeratorList.filter(food => {
-      food.expirationDate = new Date(
-        new Date(food.acquisitionDate).getTime() +
-        food.expirationDate * 24 * 60 * 60 * 1000)
-        .toISOString().split('T')[0]
-      food.expirationPeriod = Math.ceil((new Date(food.expirationDate).getTime() -
-        nowDate.getTime()) / 1000 / 24 / 60 / 60)
-      return food.expirationPeriod <= 7 && food.expirationPeriod >= 0 && food.notify
-    });
-    expirationReminderList.sort((a, b) => a.expirationPeriod > b.expirationPeriod ? 1 : -1)
-    if (expirationReminderList.length > 10) expirationReminderList.slice(0, 10)
-    return expirationReminderList
-  }
-  catch (err) { console.log(err) }
-}
 
 // callback function to handle a single event
 function handleEvent(event) {
@@ -142,7 +138,28 @@ function handleText(message, replyToken, source) {
       client.replyMessage(replyToken, msgFactory.addList)
       return;
     case '過期提醒':
-      client.replyMessage(replyToken, msgFactory.expirationReminder(getExpirationReminderList()))
+      backendApi.get('/cabinet/userId/item_in_refrigerator')
+        .then(res => {
+          console.log(res.data)
+          const nowDate = new Date(new Date(Date.now())
+            .toLocaleString("zh-TW", {
+              timeZone: "Asia/Taipei",
+              hour12: false
+            }))
+          let expirationReminderList = res.data.refrigeratorList.filter(food => {
+            food.expirationDate = new Date(
+              new Date(food.acquisitionDate).getTime() +
+              food.expirationDate * 24 * 60 * 60 * 1000)
+              .toISOString().split('T')[0]
+            food.expirationPeriod = Math.ceil((new Date(food.expirationDate).getTime() -
+              nowDate.getTime()) / 1000 / 24 / 60 / 60)
+            return food.expirationPeriod <= 7 && food.expirationPeriod >= 0 && food.notify
+          });
+          expirationReminderList.sort((a, b) => a.expirationPeriod > b.expirationPeriod ? 1 : -1)
+          if (expirationReminderList.length > 10) expirationReminderList.slice(0, 10)
+          client.replyMessage(replyToken, msgFactory.expirationReminder(expirationReminderList))
+        })
+        .catch(err => console.log(err))
       return;
     case '罐頭':
       client.replyMessage(replyToken, msgFactory.easyExpireReminder(message.text))
