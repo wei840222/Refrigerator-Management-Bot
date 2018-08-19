@@ -14,7 +14,7 @@
     <div v-else>
       <food-block class="food-block" :edit="false" :type="'all'" :foods="foods('all')" @addFood="addFood"/>
     </div>
-    <recommend-block class="recommend-block" :foods="recommendationList"/>
+    <recommend-block class="recommend-block" :foods="recommendationList" @addRecommendFood="addRecommendFood"/>
     <div class="footer"><img src="addToRefrigerator.png" class="footer-bar" @click="addToRefrigerator"/></div>
   </div>
 </template>
@@ -103,6 +103,7 @@
 import axios from "~/plugins/axios";
 import FoodBlock from "~/components/ShoppingList/FoodBlock.vue";
 import RecommendBlock from "~/components/ShoppingList/RecommendBlock.vue";
+import { setTimeout } from "timers";
 
 export default {
   async asyncData() {
@@ -157,16 +158,16 @@ export default {
         element.selected = this.selectedAll;
       });
     },
-    async addFood(event) {
+    async addFood(food) {
       const res = await axios.post("/cabinet/userId/add_item_to_shoppingist", {
-        nameZh: event.addFoodName,
-        type: event.type
+        nameZh: food.addFoodName,
+        type: food.type
       });
       if (res.status === 200)
         this.shoppingItems.push({
           id: res.data,
-          nameZh: event.addFoodName,
-          type: event.type,
+          nameZh: food.addFoodName,
+          type: food.type,
           selected: false
         });
     },
@@ -178,6 +179,17 @@ export default {
         ).selected;
       });
       this.shoppingItems = res.data.shoppingItems;
+    },
+    addRecommendFood(idx) {
+      setTimeout(() => {
+        this.addFood({
+          addFoodName: this.recommendationList[idx].nameZh,
+          type: this.recommendationList[idx].type
+        });
+        this.recommendationList = this.recommendationList
+          .slice(0, idx)
+          .concat(this.recommendationList.slice(idx + 1));
+      }, 1000);
     },
     async addToRefrigerator() {
       const buyItems = [];

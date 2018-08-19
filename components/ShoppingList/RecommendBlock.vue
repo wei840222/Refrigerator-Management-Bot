@@ -3,7 +3,7 @@
     <div class="recommend-title">
       <div class="recommend-title-text">建議清單</div>
     </div>
-    <div class="recommend-item" v-for="(food, idx) in foods" :key="idx" @click="food.selected = !food.selected">
+    <div class="recommend-item" v-for="(food, idx) in foods" :key="idx" @click="food.selected = !food.selected; $emit('addRecommendFood', idx);">
       <img v-if="food.selected" src="ckeck-box-act.png" class="food-item-check-box"/>
       <img v-else src="check-box.png" class="food-item-check-box"/>
       <div :style="{ 'flex-grow': 1, 'text-decoration': food.selected ? 'line-through black' : '' }">{{ food.nameZh }}</div>
@@ -15,11 +15,11 @@
 .recommend-title {
   height: 40px;
   width: 100%;
-  background-color:#e3e2e2;
+  background-color: #e3e2e2;
   display: flex;
 }
 
-.recommend-title-text{
+.recommend-title-text {
   padding-left: 40px;
   padding-top: 8px;
   color: #949394;
@@ -33,7 +33,7 @@
   padding-top: 8px;
   margin-right: 0px;
   color: #afafaf;
-  background-color:#ededec;
+  background-color: #ededec;
   display: flex;
 }
 
