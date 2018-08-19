@@ -2,8 +2,10 @@
   <div>
     <div class="food-title" v-b-toggle="title" :style="{ 'background-color': titleBackground }" @click="collapsed =!collapsed">
       <div class="food-title-text">{{ title }}</div>
-      <img v-if="collapsed" src="arrow-down.png" class="food-title-icon"/>
-      <img v-else src="arrow-up.png" class="food-title-icon"/>
+      <div v-if="foods.length > 0">
+        <img v-if="collapsed" src="arrow-down.png" class="food-title-icon"/>
+        <img v-else src="arrow-up.png" class="food-title-icon"/>
+      </div>
     </div>
     <b-collapse :visible="collapseVisible" :id="title">
       <div class="food-item" v-for="(food, idx) in foods" :key="idx">
