@@ -30,14 +30,14 @@ router.post('/lineBot', lineBot.middleware(config), (req, res) => {
 })
 
 // register api for push expirationReminder to user
-router.get('/lineBot/push/expirationReminder', (req, resp) => {
+router.get('/lineBot/multicast/expirationReminder', (req, resp) => {
   backendApi.get('user/userId/get_uid')
     .then(res => {
       const userIdArray = res.data.uidlist.map(element => element.uid)
-      console.log(res.data.uidlist.map(element => element.uid))
       backendApi.get('/cabinet/userId/item_in_refrigerator')
         .then(res => {
-          client.multicast(userIdArray, msgFactory.expirationReminder(res.data.refrigeratorList))
+          const expirationReminder = msgFactory.expirationReminder(res.data.refrigeratorList)
+          client.multicast(userIdArray, expirationReminder)
           return resp.json({ userIdArray: userIdArray, expirationReminder: expirationReminder })
         })
         .catch(err => {
