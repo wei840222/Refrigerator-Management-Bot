@@ -85,8 +85,8 @@
 }
 
 .btn {
-  height: 48px;
-  width: 74px;
+  height: 37px;
+  width: 57px;
   padding: 0px;
   margin-left: 6px;
 }
@@ -138,6 +138,7 @@ export default {
   methods: {
     delFood() {
       this.foods.pop();
+      if (this.foods.length === 0) this.addFood();
       if (this.foods.length > 1) jump(".btn");
     },
     addFood() {
