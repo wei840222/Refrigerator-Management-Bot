@@ -14,11 +14,11 @@
       </div>
       <div class="form-row">
         <div class="form-option">購買日期：</div>
-        <input class="edit-input" v-model="food.acquisitionDate" type="date"/>
+        <b-form-input class="edit-input" v-model="food.acquisitionDate" type="date"/>
       </div>
       <div class="form-row">
         <div class="form-option">保存期限：</div>
-        <input class="edit-input" v-model="food.expirationDate" type="date"/>
+        <b-form-input class="edit-input" v-model="food.expirationDate" type="date"/>
       </div>
       <br/>
     </div>
@@ -62,8 +62,9 @@
 .edit-input {
   border: 1px #dbdbdb solid;
   background-color: #ffffff;
+  color: #878787;
   border-radius: 5px;
-  height: 30px;
+  height: 40px;
   width: 90%;
   margin-top: 6px;
   outline: none;
