@@ -33,7 +33,8 @@ router.post('/lineBot', lineBot.middleware(config), (req, res) => {
 router.get('/lineBot/push/expirationReminderList', (req, resp) => {
   backendApi.get('user/userId/get_uid').then(res => {
     console.log(res.data)
-    const userIdArray = res.data.uidlist.map(element => element.uid)
+    const userIdArray = (res.data.uidlist.map(element => element.uid)).uidlist
+    console.log(userIdArray)
     const easyExpireReminderMsg = msgFactory.expirationReminder(getExpirationReminderList())
     client.multicast(userIdArray, easyExpireReminderMsg)
     return resp.json({ userIdArray: res.data, easyExpireReminderMsg: easyExpireReminderMsg })
