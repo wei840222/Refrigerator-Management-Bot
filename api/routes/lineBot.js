@@ -54,29 +54,29 @@ function replyText(replyToken, texts) {
 };
 
 // Get Expiration Reminder List
-function getExpirationReminderList() {
-  backendApi.get('/cabinet/userId/item_in_refrigerator')
-    .then(res => {
-      console.log(res.data)
-      const nowDate = new Date(new Date(Date.now())
-        .toLocaleString("zh-TW", {
-          timeZone: "Asia/Taipei",
-          hour12: false
-        }))
-      let expirationReminderList = res.data.refrigeratorList.filter(food => {
-        food.expirationDate = new Date(
-          new Date(food.acquisitionDate).getTime() +
-          food.expirationDate * 24 * 60 * 60 * 1000)
-          .toISOString().split('T')[0]
-        food.expirationPeriod = Math.ceil((new Date(food.expirationDate).getTime() -
-          nowDate.getTime()) / 1000 / 24 / 60 / 60)
-        return food.expirationPeriod <= 7 && food.expirationPeriod >= 0 && food.notify
-      });
-      expirationReminderList.sort((a, b) => a.expirationPeriod > b.expirationPeriod ? 1 : -1)
-      if (expirationReminderList.length > 10) expirationReminderList.slice(0, 10)
-      return expirationReminderList
-    })
-    .catch(err => console.log(err))
+async function getExpirationReminderList() {
+  try {
+    const res = await backendApi.get('/cabinet/userId/item_in_refrigerator')
+    console.log(res.data)
+    const nowDate = new Date(new Date(Date.now())
+      .toLocaleString("zh-TW", {
+        timeZone: "Asia/Taipei",
+        hour12: false
+      }))
+    let expirationReminderList = res.data.refrigeratorList.filter(food => {
+      food.expirationDate = new Date(
+        new Date(food.acquisitionDate).getTime() +
+        food.expirationDate * 24 * 60 * 60 * 1000)
+        .toISOString().split('T')[0]
+      food.expirationPeriod = Math.ceil((new Date(food.expirationDate).getTime() -
+        nowDate.getTime()) / 1000 / 24 / 60 / 60)
+      return food.expirationPeriod <= 7 && food.expirationPeriod >= 0 && food.notify
+    });
+    expirationReminderList.sort((a, b) => a.expirationPeriod > b.expirationPeriod ? 1 : -1)
+    if (expirationReminderList.length > 10) expirationReminderList.slice(0, 10)
+    return expirationReminderList
+  }
+  catch (err) { console.log(err) }
 }
 
 // callback function to handle a single event
