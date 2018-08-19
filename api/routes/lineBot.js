@@ -31,32 +31,37 @@ router.post('/lineBot', lineBot.middleware(config), (req, res) => {
 
 // register api for push expirationReminder to user
 router.get('/lineBot/push/expirationReminder', (req, resp) => {
-  backendApi.get('user/userId/get_uid').then(res => {
-    const userIdArray = res.data.uidlist.map(element => element.uid).uidlist
-    backendApi.get('/cabinet/userId/item_in_refrigerator')
-      .then(res => {
-        client.multicast(userIdArray, msgFactory.expirationReminder(res.data.refrigeratorList))
-        return resp.json({ userIdArray: userIdArray, expirationReminder: expirationReminder })
-      })
-      .catch(err => {
-        console.log(err)
-        return resp.send(500, err);
-      })
-  }).catch(err => {
-    console.log(err)
-    return resp.send(500, err);
-  })
+  backendApi.get('user/userId/get_uid')
+    .then(res => {
+      const userIdArray = res.data.uidlist.map(element => element.uid)
+      console.log(res.data.uidlist.map(element => element.uid))
+      backendApi.get('/cabinet/userId/item_in_refrigerator')
+        .then(res => {
+          client.multicast(userIdArray, msgFactory.expirationReminder(res.data.refrigeratorList))
+          return resp.json({ userIdArray: userIdArray, expirationReminder: expirationReminder })
+        })
+        .catch(err => {
+          console.log(err)
+          return resp.send(500, err);
+        })
+    })
+    .catch(err => {
+      console.log(err)
+      return resp.send(500, err);
+    })
 })
 
 // callback function to handle a single event
 function handleEvent(event) {
   switch (event.type) {
     case 'follow':
-      backendApi.get('user/userId/get_uid').then(res => {
-        console.log(res.data)
-        if (res.data.uidlist.find(element => element.uid === event.source.userId) === undefined)
-          backendApi.post('/user/userId/post_uid', { uid: event.source.userId }).then(res => console.log(res.data)).catch(err => console.log(err))
-      }).catch(err => console.log(err))
+      console.log(`Followed this bot: ${JSON.stringify(event)}`);
+      backendApi.get('user/userId/get_uid')
+        .then(res => {
+          if (res.data.uidlist.find(element => element.uid === event.source.userId) === undefined)
+            backendApi.post('/user/userId/post_uid', { uid: event.source.userId }).then(res => console.log(res.data)).catch(err => console.log(err))
+        })
+        .catch(err => console.log(err))
       return
     case 'unfollow':
       return console.log(`Unfollowed this bot: ${JSON.stringify(event)}`);
@@ -76,7 +81,8 @@ function handleEvent(event) {
             console.log(res.data)
             if (res.data === 'Status has been set eaten.')
               client.replyMessage(event.replyToken, [{ type: 'text', text: '恭喜你又消滅了一項食物！期待下次再一起去血拼！' }, { type: 'sticker', packageId: 2, stickerId: 516, }])
-          }).catch(err => console.log(err))
+          })
+          .catch(err => console.log(err))
       }
       else if (event.postback.data.includes('unnotify')) {
         const id = event.postback.data.split('=')[1]
@@ -85,7 +91,8 @@ function handleEvent(event) {
             console.log(res.data)
             if (res.data === 'Notify has been turned off.')
               client.replyMessage(event.replyToken, [{ type: 'text', text: '好der！要趕快吃完喔！' }, { type: 'sticker', packageId: 2, stickerId: 165, }])
-          }).catch(err => console.log(err))
+          })
+          .catch(err => console.log(err))
       }
       else if (event.postback.data.includes('recipe')) {
         const food = event.postback.data.split('=')[1]
@@ -119,10 +126,12 @@ function handleText(message, replyToken, source) {
       client.replyMessage(replyToken, msgFactory.easyExpireReminder(message.text))
       return;
     case '伺服器狀態':
-      backendApi.get('/').then(res => {
-        if (res.status === 200)
-          client.replyMessage(replyToken, { type: 'text', text: '前後端伺服器運行中！' })
-      }).catch(err => console.log(err))
+      backendApi.get('/')
+        .then(res => {
+          if (res.status === 200)
+            client.replyMessage(replyToken, { type: 'text', text: '前後端伺服器運行中！' })
+        })
+        .catch(err => console.log(err))
       return;
     default:
       console.log(`Message from ${replyToken}: ${message.text}`);
