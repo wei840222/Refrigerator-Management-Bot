@@ -98,10 +98,10 @@ function handleEvent(event) {
         const food = event.postback.data.split('=')[1]
         switch (food) {
           case '大白菜':
-            client.replyMessage(event.replyToken, msgFactory.flexSingle(require('../src/recipe/1.json')))
+            client.replyMessage(event.replyToken, msgFactory.flexSingle(require('../src/recipe/1.json'), '大白菜推薦食譜'))
             break
           case '牛肉片':
-            client.replyMessage(event.replyToken, msgFactory.flexSingle(require('../src/recipe/2.json')))
+            client.replyMessage(event.replyToken, msgFactory.flexSingle(require('../src/recipe/2.json'), '牛肉片推薦食譜'))
             break
         }
       }

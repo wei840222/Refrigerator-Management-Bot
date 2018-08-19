@@ -79,10 +79,10 @@ module.exports = {
       }
     }
   },
-  flexSingle(flex) {
+  flexSingle(flex, altText) {
     return {
       "type": "flex",
-      "altText": "this is a flex message",
+      "altText": altText,
       "contents": flex
     }
   }
