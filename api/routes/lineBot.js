@@ -29,14 +29,54 @@ router.post('/lineBot', lineBot.middleware(config), (req, res) => {
     })
 })
 
+// register api for push expirationReminderList to user
+router.get('/lineBot/push/expirationReminderList', (req, resp) => {
+  backendApi.get('user/userId/get_uid').then(res => {
+    console.log(res.data)
+    const userIdArray = res.data.uidlist.map(element => element.uid)
+    const easyExpireReminderMsg = msgFactory.expirationReminder(getExpirationReminderList())
+    client.multicast(userIdArray, easyExpireReminderMsg)
+    return resp.json({ userIdArray: res.data, easyExpireReminderMsg: easyExpireReminderMsg })
+  }).catch(err => {
+    console.log(err)
+    return resp.send(500, err);
+  })
+})
+
 // simple reply function
-const replyText = (token, texts) => {
+function replyText(replyToken, texts) {
   texts = Array.isArray(texts) ? texts : [texts];
   return client.replyMessage(
-    token,
+    replyToken,
     texts.map((text) => ({ type: 'text', text }))
   );
 };
+
+// Get Expiration Reminder List
+function getExpirationReminderList() {
+  backendApi.get('/cabinet/userId/item_in_refrigerator')
+    .then(res => {
+      console.log(res.data)
+      const nowDate = new Date(new Date(Date.now())
+        .toLocaleString("zh-TW", {
+          timeZone: "Asia/Taipei",
+          hour12: false
+        }))
+      let expirationReminderList = res.data.refrigeratorList.filter(food => {
+        food.expirationDate = new Date(
+          new Date(food.acquisitionDate).getTime() +
+          food.expirationDate * 24 * 60 * 60 * 1000)
+          .toISOString().split('T')[0]
+        food.expirationPeriod = Math.ceil((new Date(food.expirationDate).getTime() -
+          nowDate.getTime()) / 1000 / 24 / 60 / 60)
+        return food.expirationPeriod <= 7 && food.expirationPeriod >= 0 && food.notify
+      });
+      expirationReminderList.sort((a, b) => a.expirationPeriod > b.expirationPeriod ? 1 : -1)
+      if (expirationReminderList.length > 10) expirationReminderList.slice(0, 10)
+      return expirationReminderList
+    })
+    .catch(err => console.log(err))
+}
 
 // callback function to handle a single event
 function handleEvent(event) {
@@ -47,6 +87,7 @@ function handleEvent(event) {
         if (res.data.uidlist.find(element => element.uid === event.source.userId) === undefined)
           backendApi.post('/user/userId/post_uid', { uid: event.source.userId }).then(res => console.log(res.data)).catch(err => console.log(err))
       }).catch(err => console.log(err))
+      return
     case 'unfollow':
       return console.log(`Unfollowed this bot: ${JSON.stringify(event)}`);
     case 'message':
@@ -100,28 +141,7 @@ function handleText(message, replyToken, source) {
       client.replyMessage(replyToken, msgFactory.addList)
       return;
     case '過期提醒':
-      backendApi.get('/cabinet/userId/item_in_refrigerator')
-        .then(res => {
-          console.log(res.data)
-          const nowDate = new Date(new Date(Date.now())
-            .toLocaleString("zh-TW", {
-              timeZone: "Asia/Taipei",
-              hour12: false
-            }))
-          let expirationReminderList = res.data.refrigeratorList.filter(food => {
-            food.expirationDate = new Date(
-              new Date(food.acquisitionDate).getTime() +
-              food.expirationDate * 24 * 60 * 60 * 1000)
-              .toISOString().split('T')[0]
-            food.expirationPeriod = Math.ceil((new Date(food.expirationDate).getTime() -
-              nowDate.getTime()) / 1000 / 24 / 60 / 60)
-            return food.expirationPeriod <= 7 && food.expirationPeriod >= 0 && food.notify
-          });
-          expirationReminderList.sort((a, b) => a.expirationPeriod > b.expirationPeriod ? 1 : -1)
-          if (expirationReminderList.length > 10) expirationReminderList.slice(0, 10)
-          client.replyMessage(replyToken, msgFactory.expirationReminder(expirationReminderList))
-        })
-        .catch(err => console.log(err))
+      client.replyMessage(replyToken, msgFactory.expirationReminder(getExpirationReminderList()))
       return;
     case '罐頭':
       client.replyMessage(replyToken, msgFactory.easyExpireReminder(message.text))
