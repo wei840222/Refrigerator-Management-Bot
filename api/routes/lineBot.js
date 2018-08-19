@@ -41,6 +41,14 @@ const replyText = (token, texts) => {
 // callback function to handle a single event
 function handleEvent(event) {
   switch (event.type) {
+    case 'follow':
+      backendApi.get('user/userId/get_uid').then(res => {
+        console.log(res.data)
+        if (res.data.uidlist.find(element => element.uid === event.source.userId) === undefined)
+          backendApi.post('/user/userId/post_uid', { uid: event.source.userId }).then(res => console.log(res.data)).catch(err => console.log(err))
+      }).catch(err => console.log(err))
+    case 'unfollow':
+      return console.log(`Unfollowed this bot: ${JSON.stringify(event)}`);
     case 'message':
       const message = event.message;
       switch (message.type) {
