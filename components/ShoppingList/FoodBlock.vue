@@ -2,8 +2,10 @@
   <div>
     <div v-if="type != 'all'" class="food-title" v-b-toggle="type" :style="{ 'background-color': titleBackground }" @click="collapsed =!collapsed">
       <div class="food-title-text">{{ type }}</div>
-      <img v-if="collapsed" src="arrow-down.png" class="food-title-icon"/>
-      <img v-else src="arrow-up.png" class="food-title-icon"/>
+      <div v-if="foods.length > 0">
+        <img v-if="collapsed" src="arrow-down.png" class="food-title-icon"/>
+        <img v-else src="arrow-up.png" class="food-title-icon"/>
+      </div>
     </div>
     <b-collapse visible :id="type">
       <div class="food-item" v-for="(food, idx) in foods" :key="idx">
@@ -113,6 +115,7 @@
 .food-item-add-fin {
   height: 20px;
   width: 48px;
+  min-width: 48px;
   margin-top: 9px;
   margin-right: 20px;
   z-index: 1;
@@ -139,18 +142,24 @@ export default {
   computed: {
     titleBackground() {
       switch (this.type) {
-        case "青菜":
-          return "#82db51";
-        case "肉":
-          return "#c29279";
-        case "海鮮":
-          return "#69b2c3";
+        case "冷凍":
+          return "#7BA2DB";
         case "飲料":
           return "#EFCE43";
-        case "冷凍食品":
-          return "#7BA2DB";
-        default:
-          return "#000000";
+        case "青菜":
+          return "#81C14E";
+        case "肉":
+          return "#C18F7B";
+        case "海鮮":
+          return "#80C9E0";
+        case "甜品":
+          return "#FC97C5";
+        case "零食":
+          return "#F9914B";
+        case "水果":
+          return "#36CEB8";
+        case "其他":
+          return "#C683F2";
       }
     }
   },

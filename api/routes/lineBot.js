@@ -29,18 +29,42 @@ router.post('/lineBot', lineBot.middleware(config), (req, res) => {
     })
 })
 
-// simple reply function
-const replyText = (token, texts) => {
-  texts = Array.isArray(texts) ? texts : [texts];
-  return client.replyMessage(
-    token,
-    texts.map((text) => ({ type: 'text', text }))
-  );
-};
+// register api for push expirationReminder to user
+router.get('/lineBot/multicast/expirationReminder', (req, resp) => {
+  backendApi.get('user/userId/get_uid')
+    .then(res => {
+      const userIdArray = res.data.uidlist.map(element => element.uid)
+      backendApi.get('/cabinet/userId/item_in_refrigerator')
+        .then(res => {
+          const expirationReminder = msgFactory.expirationReminder(res.data.refrigeratorList)
+          client.multicast(userIdArray, expirationReminder)
+          return resp.json({ userIdArray: userIdArray, expirationReminder: expirationReminder })
+        })
+        .catch(err => {
+          console.log(err)
+          return resp.send(500, err);
+        })
+    })
+    .catch(err => {
+      console.log(err)
+      return resp.send(500, err);
+    })
+})
 
 // callback function to handle a single event
 function handleEvent(event) {
   switch (event.type) {
+    case 'follow':
+      console.log(`Followed this bot: ${JSON.stringify(event)}`);
+      backendApi.get('user/userId/get_uid')
+        .then(res => {
+          if (res.data.uidlist.find(element => element.uid === event.source.userId) === undefined)
+            backendApi.post('/user/userId/post_uid', { uid: event.source.userId }).then(res => console.log(res.data)).catch(err => console.log(err))
+        })
+        .catch(err => console.log(err))
+      return
+    case 'unfollow':
+      return console.log(`Unfollowed this bot: ${JSON.stringify(event)}`);
     case 'message':
       const message = event.message;
       switch (message.type) {
@@ -57,7 +81,8 @@ function handleEvent(event) {
             console.log(res.data)
             if (res.data === 'Status has been set eaten.')
               client.replyMessage(event.replyToken, [{ type: 'text', text: '恭喜你又消滅了一項食物！期待下次再一起去血拼！' }, { type: 'sticker', packageId: 2, stickerId: 516, }])
-          }).catch(err => console.log(err))
+          })
+          .catch(err => console.log(err))
       }
       else if (event.postback.data.includes('unnotify')) {
         const id = event.postback.data.split('=')[1]
@@ -66,16 +91,17 @@ function handleEvent(event) {
             console.log(res.data)
             if (res.data === 'Notify has been turned off.')
               client.replyMessage(event.replyToken, [{ type: 'text', text: '好der！要趕快吃完喔！' }, { type: 'sticker', packageId: 2, stickerId: 165, }])
-          }).catch(err => console.log(err))
+          })
+          .catch(err => console.log(err))
       }
       else if (event.postback.data.includes('recipe')) {
         const food = event.postback.data.split('=')[1]
         switch (food) {
           case '大白菜':
-            client.replyMessage(event.replyToken, msgFactory.flexSingle(require('../src/recipe/1.json')))
+            client.replyMessage(event.replyToken, msgFactory.flexSingle(require('../src/recipe/1.json'), '大白菜推薦食譜'))
             break
           case '牛肉片':
-            client.replyMessage(event.replyToken, msgFactory.flexSingle(require('../src/recipe/2.json')))
+            client.replyMessage(event.replyToken, msgFactory.flexSingle(require('../src/recipe/2.json'), '牛肉片推薦食譜'))
             break
         }
       }
@@ -93,41 +119,19 @@ function handleText(message, replyToken, source) {
       return;
     case '過期提醒':
       backendApi.get('/cabinet/userId/item_in_refrigerator')
-        .then(res => {
-          console.log(res.data)
-          const nowDate = new Date(new Date(Date.now())
-            .toLocaleString("zh-TW", {
-              timeZone: "Asia/Taipei",
-              hour12: false
-            }))
-          const expirationReminderList = res.data.refrigeratorList.filter(food => {
-            food.expirationDate = new Date(
-              new Date(food.acquisitionDate).getTime() +
-              food.expirationDate * 24 * 60 * 60 * 1000)
-              .toISOString().split('T')[0]
-            food.expirationPeriod = Math.ceil((new Date(food.expirationDate).getTime() -
-              nowDate.getTime()) / 1000 / 24 / 60 / 60)
-            return food.expirationPeriod <= 7 && food.expirationPeriod >= 0 && food.notify
-          });
-          client.replyMessage(replyToken, msgFactory.expirationReminder(expirationReminderList))
-        })
+        .then(res => client.replyMessage(replyToken, msgFactory.expirationReminder(res.data.refrigeratorList)))
         .catch(err => console.log(err))
       return;
     case '罐頭':
       client.replyMessage(replyToken, msgFactory.easyExpireReminder(message.text))
       return;
-    case '起來':
-      const msg = ['前端伺服器已經喚醒！']
-      backendApi.get('/').then(res => {
-        console.log(res.data)
-        if (res.data === 'hello world')
-          msg.push('後端伺服器已經喚醒！')
-        replyText(replyToken, msg)
-      }).catch(err => {
-        console.log(err)
-        msg.push('後端伺服器可能有問題？！')
-        replyText(replyToken, msg)
-      })
+    case '伺服器狀態':
+      backendApi.get('/')
+        .then(res => {
+          if (res.status === 200)
+            client.replyMessage(replyToken, { type: 'text', text: '前後端伺服器運行中！' })
+        })
+        .catch(err => console.log(err))
       return;
     default:
       console.log(`Message from ${replyToken}: ${message.text}`);

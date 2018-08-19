@@ -1,15 +1,100 @@
 <template>
-  <b-container>
-    <br/>
-    <title-bar @add-item="addItem"/>
-    <br/>
-    <food-row v-for="foodData in data" :key="foodData.id" :id="foodData.id" :name="foodData.name" :type="foodData.type" :buyTime="foodData.buyTime" :period="foodData.period"/>
-  </b-container>
+  <div>
+    <div v-for="(food, idx) in foods" :key="idx">
+      <div class="title-bar">
+        <div class="title-text">{{ food.title }}</div>
+      </div>
+      <div class="form-row">
+        <div class="form-option">名稱：</div>
+        <input class="edit-input" v-model="food.nameZh" type="text"/>
+      </div>
+      <div class="form-row">
+        <div class="form-option">品項：</div>
+        <b-form-select class="edit-input" v-model="food.type" :options="options"/>
+      </div>
+      <div class="form-row">
+        <div class="form-option">購買日期：</div>
+        <b-form-input class="edit-input" v-model="food.acquisitionDate" type="date"/>
+      </div>
+      <div class="form-row">
+        <div class="form-option">保存期限：</div>
+        <b-form-input class="edit-input" v-model="food.expirationDate" type="date"/>
+      </div>
+      <br/>
+    </div>
+    <div class="btn-row">
+      <img class="btn" src="cancel-btn.png" @click="delFood"/>
+      <img class="btn" src="addBtn.png" @click="addFood"/>
+      <img class="btn" src="addFinBtn.png" @click="addFoodToDB"/>
+    </div>
+  </div>
 </template>
 
+<style>
+.title-bar {
+  height: 40px;
+  width: 100%;
+  border-top: 1px #d1d1d1 solid;
+  border-bottom: 1px #d1d1d1 solid;
+  background-color: #f4f4f4;
+}
+
+.title-text {
+  font-size: 16px;
+  margin-left: 12px;
+  margin-top: 6px;
+  color: #7e7e7f;
+}
+
+.form-row {
+  width: 100%;
+  padding-left: 12px;
+  padding-right: 12px;
+  display: flex;
+  margin: 0px;
+}
+
+.form-option {
+  font-size: 14px;
+  margin-top: 6px;
+  color: #b2b2b2;
+}
+
+.edit-input {
+  border: 1px #dbdbdb solid;
+  background-color: #ffffff;
+  color: #878787;
+  border-radius: 5px;
+  height: 40px;
+  width: 90%;
+  margin-top: 6px;
+  outline: none;
+  flex-grow: 1;
+}
+
+.btn-row {
+  width: 100%;
+  padding-left: 12px;
+  padding-right: 12px;
+  display: flex;
+  margin: 0px;
+  margin-top: -10px;
+  margin-bottom: 15px;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+.btn {
+  height: 48px;
+  width: 74px;
+  padding: 0px;
+  margin-left: 6px;
+}
+</style>
+
 <script>
-import TitleBar from "~/components/AddList/TitleBar.vue";
-import FoodRow from "~/components/AddList/FoodRow.vue";
+import axios from "~/plugins/axios";
+import jump from "jump.js";
 
 export default {
   head() {
@@ -17,76 +102,65 @@ export default {
       title: "新增清單"
     };
   },
-  async asyncData() {
+  data() {
+    const nowDate = new Date(Date.now())
+      .toLocaleString("zh-TW", {
+        timeZone: "Asia/Taipei",
+        hour12: false
+      })
+      .split(" ")[0]
+      .replace(/\//g, "-")
+      .split("-");
     return {
-      data: [
-        {
-          id: "1",
-          type: "菜",
-          buyTime: "2018-07-31",
-          period: "2018-08-07",
-          name: "高麗菜"
-        },
-        {
-          id: "2",
-          type: "菜",
-          buyTime: "2018-07-31",
-          period: "2018-08-07",
-          name: "花菜"
-        },
-        {
-          id: "3",
-          type: "肉",
-          buyTime: "2018-07-31",
-          period: "2018-08-14",
-          name: "牛五花"
-        },
-        {
-          id: "4",
-          type: "肉",
-          buyTime: "2018-07-31",
-          period: "2018-08-14",
-          name: "梅花豬"
-        },
-        {
-          id: "5",
-          type: "肉",
-          buyTime: "2018-07-31",
-          period: "2018-08-14",
-          name: "小羔羊"
-        },
-        {
-          id: "7",
-          type: "點心",
-          buyTime: "2018-07-31",
-          period: "2018-08-31",
-          name: "巧克力"
-        },
-        {
-          id: "8",
-          type: "點心",
-          buyTime: "2018-07-31",
-          period: "2018-08-31",
-          name: "棉花糖"
-        },
-        {
-          id: "9",
-          type: "點心",
-          buyTime: "2018-07-31",
-          period: "2018-08-31",
-          name: "奶油餅"
-        }
-      ]
+      nowDate:
+        nowDate[0] +
+        "-" +
+        (nowDate[1].length === 1 ? "0" + nowDate[1] : nowDate[1]) +
+        "-" +
+        (nowDate[2].length === 1 ? "0" + nowDate[2] : nowDate[2]),
+      options: [
+        { value: "甜品", text: "甜品" },
+        { value: "零食", text: "零食" },
+        { value: "飲料", text: "飲料" },
+        { value: "青菜", text: "青菜" },
+        { value: "水果", text: "水果" },
+        { value: "海鮮", text: "海鮮" },
+        { value: "冷凍", text: "冷凍" },
+        { value: "其他", text: "其他" },
+        { value: "肉", text: "肉" }
+      ],
+      foods: []
     };
   },
-  methods: {
-    addItem(item) {
-      this.data.push(item);
-    }
+  created() {
+    this.addFood();
   },
-  components: {
-    TitleBar,
-    FoodRow
+  methods: {
+    delFood() {
+      this.foods.pop();
+      if (this.foods.length > 1) jump(".btn");
+    },
+    addFood() {
+      this.foods.push({
+        title: "品項 " + (this.foods.length + 1),
+        nameZh: "",
+        type: "",
+        acquisitionDate: this.nowDate,
+        expirationDate: ""
+      });
+      if (this.foods.length > 1) jump(".btn");
+    },
+    async addFoodToDB() {
+      this.foods.forEach(food => {
+        axios.post("/cabinet/userId/add_item", {
+          nameZh: food.nameZh,
+          type: food.type,
+          expirationDate: food.expirationDate
+        });
+      });
+      this.foods = [];
+      this.addFood();
+    }
   }
 };
 </script>

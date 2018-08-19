@@ -92,10 +92,9 @@
 
 .footer-bar {
   bottom: 0px;
+  margin-top: 12px;
   margin-bottom: 12px;
   height: 40px;
-  width: 310px;
-  position: fixed;
   z-index: 10;
 }
 </style>
@@ -134,17 +133,19 @@ export default {
     return {
       edit: false,
       groupByType: true,
-      selectedAll: false
+      selectedAll: false,
+      types: [
+        "甜品",
+        "零食",
+        "飲料",
+        "青菜",
+        "水果",
+        "海鮮",
+        "冷凍",
+        "其他",
+        "肉"
+      ]
     };
-  },
-  computed: {
-    types() {
-      let types = [];
-      this.shoppingItems.forEach(element => {
-        if (!types.includes(element.type)) types.push(element.type);
-      });
-      return types;
-    }
   },
   methods: {
     foods(type) {
@@ -187,7 +188,7 @@ export default {
             nameZh: item.nameZh
           });
       });
-      console.log(buyItems)
+      console.log(buyItems);
       const res = await axios.post("/cabinet/userId/buy", buyItems);
       if (res.status === 200) await this.delFood();
     }
