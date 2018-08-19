@@ -92,10 +92,9 @@
 
 .footer-bar {
   bottom: 0px;
+  margin-top: 12px;
   margin-bottom: 12px;
   height: 40px;
-  width: 310px;
-  position: fixed;
   z-index: 10;
 }
 </style>
