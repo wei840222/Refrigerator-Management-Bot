@@ -4,18 +4,26 @@
       <div class="title-bar">
         <div class="title-text">{{ food.title }}</div>
       </div>
-      <div class="form-option">名稱：</div>
-      <input class="edit-input" v-model="food.nameZh" type="text"/>
-      <div class="form-option">品項：</div>
-      <input class="edit-input" v-model="food.type" type="text"/>
-      <div class="form-option">購買日期：</div>
-      <input class="edit-input" v-model="food.acquisitionDate" type="date"/>
-      <div class="form-option">保存期限：</div>
-      <input class="edit-input" v-model="food.expirationDate" type="date"/>
-      <br/><br/>
+      <div class="form-row">
+        <div class="form-option">名稱：</div>
+        <input class="edit-input" v-model="food.nameZh" type="text"/>
+      </div>
+      <div class="form-row">
+        <div class="form-option">品項：</div>
+        <b-form-select class="edit-input" v-model="food.type" :options="options"/>
+      </div>
+      <div class="form-row">
+        <div class="form-option">購買日期：</div>
+        <input class="edit-input" v-model="food.acquisitionDate" type="date"/>
+      </div>
+      <div class="form-row">
+        <div class="form-option">保存期限：</div>
+        <input class="edit-input" v-model="food.expirationDate" type="date"/>
+      </div>
+      <br/>
     </div>
     <div class="btn-row">
-      <img class="btn" src="addBtn.png" @click="addFood"/>
+      <img class="btn" src="addBtn.png" @click="addFood()"/>
       <img class="btn" src="addFinBtn.png" @click="addFoodToDB"/>
     </div>
   </div>
@@ -25,7 +33,6 @@
 .title-bar {
   height: 40px;
   width: 100%;
-  display: flex;
   border-top: 1px #d1d1d1 solid;
   border-bottom: 1px #d1d1d1 solid;
   background-color: #f4f4f4;
@@ -38,9 +45,16 @@
   color: #7e7e7f;
 }
 
+.form-row {
+  width: 100%;
+  padding-left: 12px;
+  padding-right: 12px;
+  display: flex;
+  margin: 0px;
+}
+
 .form-option {
   font-size: 14px;
-  margin-left: 12px;
   margin-top: 6px;
   color: #b2b2b2;
 }
@@ -52,28 +66,32 @@
   height: 30px;
   width: 90%;
   margin-top: 6px;
-  margin-left: 12px;
   outline: none;
+  flex-grow: 1;
 }
 
 .btn-row {
   width: 100%;
-  margin-top: -20px;
+  padding-left: 12px;
+  padding-right: 12px;
   display: flex;
+  margin: 0px;
+  margin-top: -10px;
   flex-direction: row;
   justify-content: flex-end;
 }
 
 .btn {
-  height: 42px;
-  width: 65px;
-  margin-right: 8px;
-  margin-left: -30px;
+  height: 32px;
+  width: 49px;
+  padding: 0px;
+  margin-left: 6px;
 }
 </style>
 
 <script>
 import axios from "~/plugins/axios";
+import jump from "jump.js";
 
 export default {
   head() {
@@ -97,6 +115,17 @@ export default {
         (nowDate[1].length === 1 ? "0" + nowDate[1] : nowDate[1]) +
         "-" +
         (nowDate[2].length === 1 ? "0" + nowDate[2] : nowDate[2]),
+      options: [
+        { value: "甜品", text: "甜品" },
+        { value: "零食", text: "零食" },
+        { value: "飲料", text: "飲料" },
+        { value: "青菜", text: "青菜" },
+        { value: "水果", text: "水果" },
+        { value: "海鮮", text: "海鮮" },
+        { value: "冷凍", text: "冷凍" },
+        { value: "其他", text: "其他" },
+        { value: "肉", text: "肉" }
+      ],
       foods: []
     };
   },
@@ -112,6 +141,7 @@ export default {
         acquisitionDate: this.nowDate,
         expirationDate: ""
       });
+      if (this.foods.length > 1) jump(".btn");
     },
     async addFoodToDB() {
       this.foods.forEach(food => {
