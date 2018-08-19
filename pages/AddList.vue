@@ -23,7 +23,8 @@
       <br/>
     </div>
     <div class="btn-row">
-      <img class="btn" src="addBtn.png" @click="addFood()"/>
+      <img class="btn" src="cancel-btn.png" @click="delFood"/>
+      <img class="btn" src="addBtn.png" @click="addFood"/>
       <img class="btn" src="addFinBtn.png" @click="addFoodToDB"/>
     </div>
   </div>
@@ -78,6 +79,7 @@
   display: flex;
   margin: 0px;
   margin-top: -10px;
+  margin-bottom: 15px;
   flex-direction: row;
   justify-content: flex-end;
 }
@@ -134,6 +136,10 @@ export default {
     this.addFood();
   },
   methods: {
+    delFood() {
+      this.foods.pop();
+      if (this.foods.length > 1) jump(".btn");
+    },
     addFood() {
       this.foods.push({
         title: "品項 " + (this.foods.length + 1),
