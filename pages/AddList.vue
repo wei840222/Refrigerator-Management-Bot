@@ -85,8 +85,8 @@
 }
 
 .btn {
-  height: 32px;
-  width: 49px;
+  height: 48px;
+  width: 74px;
   padding: 0px;
   margin-left: 6px;
 }
