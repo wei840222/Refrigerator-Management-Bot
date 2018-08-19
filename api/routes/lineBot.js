@@ -29,32 +29,14 @@ router.post('/lineBot', lineBot.middleware(config), (req, res) => {
     })
 })
 
-// register api for push expirationReminderList to user
-router.get('/lineBot/push/expirationReminderList', (req, resp) => {
+// register api for push expirationReminder to user
+router.get('/lineBot/push/expirationReminder', (req, resp) => {
   backendApi.get('user/userId/get_uid').then(res => {
-    const userIdArray = []
-    res.data.uidlist.forEach(element => userIdArray.push(element.uid))
+    const userIdArray = res.data.uidlist.map(element => element.uid).uidlist
     backendApi.get('/cabinet/userId/item_in_refrigerator')
       .then(res => {
-        console.log(res.data)
-        const nowDate = new Date(new Date(Date.now())
-          .toLocaleString("zh-TW", {
-            timeZone: "Asia/Taipei",
-            hour12: false
-          }))
-        let expirationReminderList = res.data.refrigeratorList.filter(food => {
-          food.expirationDate = new Date(
-            new Date(food.acquisitionDate).getTime() +
-            food.expirationDate * 24 * 60 * 60 * 1000)
-            .toISOString().split('T')[0]
-          food.expirationPeriod = Math.ceil((new Date(food.expirationDate).getTime() -
-            nowDate.getTime()) / 1000 / 24 / 60 / 60)
-          return food.expirationPeriod <= 7 && food.expirationPeriod >= 0 && food.notify
-        });
-        expirationReminderList.sort((a, b) => a.expirationPeriod > b.expirationPeriod ? 1 : -1)
-        if (expirationReminderList.length > 10) expirationReminderList.slice(0, 10)
-        client.multicast(userIdArray, msgFactory.expirationReminder(expirationReminderList))
-        return resp.json({ userIdArray: userIdArray, expirationReminderList: expirationReminderList })
+        client.multicast(userIdArray, msgFactory.expirationReminder(res.data.refrigeratorList))
+        return resp.json({ userIdArray: userIdArray, expirationReminder: expirationReminder })
       })
       .catch(err => {
         console.log(err)
@@ -65,15 +47,6 @@ router.get('/lineBot/push/expirationReminderList', (req, resp) => {
     return resp.send(500, err);
   })
 })
-
-// simple reply function
-function replyText(replyToken, texts) {
-  texts = Array.isArray(texts) ? texts : [texts];
-  return client.replyMessage(
-    replyToken,
-    texts.map((text) => ({ type: 'text', text }))
-  );
-};
 
 // callback function to handle a single event
 function handleEvent(event) {
@@ -139,43 +112,17 @@ function handleText(message, replyToken, source) {
       return;
     case '過期提醒':
       backendApi.get('/cabinet/userId/item_in_refrigerator')
-        .then(res => {
-          console.log(res.data)
-          const nowDate = new Date(new Date(Date.now())
-            .toLocaleString("zh-TW", {
-              timeZone: "Asia/Taipei",
-              hour12: false
-            }))
-          let expirationReminderList = res.data.refrigeratorList.filter(food => {
-            food.expirationDate = new Date(
-              new Date(food.acquisitionDate).getTime() +
-              food.expirationDate * 24 * 60 * 60 * 1000)
-              .toISOString().split('T')[0]
-            food.expirationPeriod = Math.ceil((new Date(food.expirationDate).getTime() -
-              nowDate.getTime()) / 1000 / 24 / 60 / 60)
-            return food.expirationPeriod <= 7 && food.expirationPeriod >= 0 && food.notify
-          });
-          expirationReminderList.sort((a, b) => a.expirationPeriod > b.expirationPeriod ? 1 : -1)
-          if (expirationReminderList.length > 10) expirationReminderList.slice(0, 10)
-          client.replyMessage(replyToken, msgFactory.expirationReminder(expirationReminderList))
-        })
+        .then(res => client.replyMessage(replyToken, msgFactory.expirationReminder(res.data.refrigeratorList)))
         .catch(err => console.log(err))
       return;
     case '罐頭':
       client.replyMessage(replyToken, msgFactory.easyExpireReminder(message.text))
       return;
-    case '起來':
-      const msg = ['前端伺服器已經喚醒！']
+    case '伺服器狀態':
       backendApi.get('/').then(res => {
-        console.log(res.data)
-        if (res.data === 'hello world')
-          msg.push('後端伺服器已經喚醒！')
-        replyText(replyToken, msg)
-      }).catch(err => {
-        console.log(err)
-        msg.push('後端伺服器可能有問題？！')
-        replyText(replyToken, msg)
-      })
+        if (res.status === 200)
+          client.replyMessage(replyToken, { type: 'text', text: '前後端伺服器運行中！' })
+      }).catch(err => console.log(err))
       return;
     default:
       console.log(`Message from ${replyToken}: ${message.text}`);

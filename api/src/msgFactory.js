@@ -13,7 +13,23 @@ module.exports = {
       ]
     }
   },
-  expirationReminder(expirationReminderList) {
+  expirationReminder(refrigeratorList) {
+    const nowDate = new Date(new Date(Date.now())
+      .toLocaleString("zh-TW", {
+        timeZone: "Asia/Taipei",
+        hour12: false
+      }))
+    let expirationReminderList = refrigeratorList.filter(food => {
+      food.expirationDate = new Date(
+        new Date(food.acquisitionDate).getTime() +
+        food.expirationDate * 24 * 60 * 60 * 1000)
+        .toISOString().split('T')[0]
+      food.expirationPeriod = Math.ceil((new Date(food.expirationDate).getTime() -
+        nowDate.getTime()) / 1000 / 24 / 60 / 60)
+      return food.expirationPeriod <= 7 && food.expirationPeriod >= 0 && food.notify
+    });
+    expirationReminderList.sort((a, b) => a.expirationPeriod > b.expirationPeriod ? 1 : -1)
+    if (expirationReminderList.length > 10) expirationReminderList.slice(0, 10)
     const msg = {
       type: "template",
       altText: "過期提醒",
