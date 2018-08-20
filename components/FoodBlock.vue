@@ -24,7 +24,7 @@
     flex-direction: row;
     border-radius: 10px 10px 0 0;
     background-color: #ffffff;
-    box-shadow: 2px 2px 3px 1px #8a8a8a;
+    box-shadow: 2px 2px 2px #8a8a8a;
     z-index: 1;
 
     .icon {

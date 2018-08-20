@@ -10,23 +10,12 @@
       </div>
     </div>
     <div v-if="groupByType">
-      <food-block  v-for="(type, idx) in types" :key="idx">
+      <food-block v-for="(type, idx) in types" :key="idx">
         <img slot="icon" :src="foodBlockIconSrc(type)"/>
         <span slot="text">{{ type }}</span>
         <img slot="arrow" src="img/ShoppingList/arrow-green.png"/>
-        <div class="food" v-for="(food, idx) in foods(type)" :key="idx" :style="{ 'border-radius': !edit && idx === foods(type).length - 1 ? '0 0 10px 10px' : '' }">
-          <img v-if="food.selected" src="img/ShoppingList/check-box-act.png" class="check-box" @click="food.selected = !food.selected"/>
-          <img v-else src="img/ShoppingList/check-box.png" class="check-box" @click="food.selected = !food.selected"/>
-          <div :style="{ 'flex-grow': 1, 'text-decoration': food.selected ? 'line-through black' : '' }" @click="food.selected = !food.selected">{{ food.nameZh }}</div>
-          <img v-if="edit" src="img/ShoppingList/food-del.png" class="del" @click="delFood(food);"/>
-        </div>
-        <div v-if="edit" class="edit">
-          <img src="img/ShoppingList/food-add.png" class="add"/>
-          <div class="input-box">
-            <input class="input" type="text" placeholder="新增" v-model="addFood[type]" @change="addFood({ nameZh: addFood[type], type: type }); addFood[type] = '';"/>
-          </div>
-          <img src="img/ShoppingList/food-add-fin.png" class="fin" @click="addFood({ nameZh: addFood[type], type: type }); addFood[type] = '';"/>
-        </div>
+        <food v-for="(food, idx) in foods(type)" :key="idx" :edit="edit" :lastItem="idx === foods(type).length - 1" :food="food" @del-food="delFood"/>
+        <edit v-if="edit" :type="type" @add-food="addFood"/>
         <div v-if="!edit && foods(type).length === 0" style="height: 10px; width: 100%;"/>
       </food-block>
     </div>
@@ -34,26 +23,17 @@
       <food-block>
         <img slot="icon" src="img/ShoppingList/type-all.png"/>
         <span slot="text">全部</span>
-        <div class="food" v-for="(food, idx) in foods()" :key="idx" :style="idx === foods().length - 1 ? 'border-radius: 0 0 10px 10px;' : ''">
-          <img v-if="food.selected" src="img/ShoppingList/check-box-act.png" class="check-box" @click="food.selected = !food.selected"/>
-          <img v-else src="img/ShoppingList/check-box.png" class="check-box" @click="food.selected = !food.selected"/>
-          <div :style="{ 'flex-grow': 1, 'text-decoration': food.selected ? 'line-through black' : '' }" @click="food.selected = !food.selected">{{ food.nameZh }}</div>
-          <img v-if="edit" src="img/ShoppingList/food-del.png" class="del" @click="delFood(food);"/>
-        </div>
+        <food v-for="(food, idx) in foods()" :key="idx" :edit="edit" :lastItem="idx === foods().length - 1" :food="food" @del-food="delFood"/>
         <div v-if="foods().length === 0" style="height: 10px; width: 100%;"/>
       </food-block>
     </div>
-    <food-block>
+    <food-block style="margin-bottom: 85px;">
       <img slot="icon" src="img/ShoppingList/type-all.png"/>
       <span slot="text">建議</span>
-      <div class="food" v-for="(food, idx) in recommendationList.slice(0, 5)" :key="idx" :style="idx === recommendationList.slice(0, 5).length - 1 ? 'border-radius: 0 0 10px 10px; margin-bottom: 85px;' : ''">
-        <img v-if="food.selected" src="img/ShoppingList/check-box-act.png" class="check-box" @click="food.selected = !food.selected; addRecommendFood(idx);"/>
-        <img v-else src="img/ShoppingList/check-box.png" class="check-box" @click="food.selected = !food.selected"/>
-        <div :style="{ 'flex-grow': 1, 'text-decoration': food.selected ? 'line-through black' : '' }" @click="food.selected = !food.selected; addRecommendFood(idx);">{{ food.nameZh }}</div>
-      </div>
-      <div v-if="recommendationList.slice(0, 5).length === 0" style="height: 10px; width: 100%; margin-bottom: 85px;"/>
+      <food v-for="(food, idx) in recommendationList.slice(0, 5)" :key="idx" :edit="false" :lastItem="idx === recommendationList.slice(0, 5).length - 1" :food="food" @selecte-food="addRecommendFood"/>
+      <div v-if="recommendationList.slice(0, 5).length === 0" style="height: 10px; width: 100%;"/>
     </food-block>
-    <div class="footer"><img src="addToRefrigerator.png" class="button" @click="addToRefrigerator"/></div>
+    <div class="footer"><img class="button" src="addToRefrigerator.png" @click="addToRefrigerator"/></div>
   </div>
 </template>
 
@@ -112,78 +92,6 @@
   }
 }
 
-.food {
-  width: 100%;
-  height: 38px;
-  padding-left: 40px;
-  padding-top: 9px;
-  color: #8a8a8a;
-  background-color: #ffffff;
-  box-shadow: 1px 2px 1px #8a8a8a;
-  display: flex;
-
-  .check-box {
-    height: 14px;
-    width: 14px;
-    margin-top: 4px;
-    margin-right: 10px;
-  }
-
-  .del {
-    height: 15px;
-    width: 15px;
-    margin-top: 3px;
-    margin-right: 23px;
-    z-index: 1;
-  }
-}
-
-.edit {
-  width: 100%;
-  height: 40px;
-  padding-left: 38px;
-  color: #d2d6da;
-  background-color: #ffffff;
-  box-shadow: 2px 2px 2px#8a8a8a;
-  border-top: 1px #e8e8e8 dashed;
-  border-radius: 0 0 10px 10px;
-  display: flex;
-
-  .add {
-    height: 17px;
-    width: 17px;
-    margin-top: 11px;
-    margin-right: 8px;
-    z-index: 1;
-  }
-
-  .input-box {
-    flex-grow: 1;
-  }
-
-  .input {
-    border-width: 0px;
-    height: 30px;
-    width: 100px;
-    margin-left: 0px;
-    margin-top: 4px;
-    margin-right: 10px;
-    caret-color: #cdd2d6;
-    color: #cdd2d6;
-    background-color: #ffffff;
-    outline: none;
-  }
-
-  .fin {
-    height: 20px;
-    width: 48px;
-    min-width: 48px;
-    margin-top: 9px;
-    margin-right: 17.6px;
-    z-index: 1;
-  }
-}
-
 .footer {
   bottom: 0px;
   height: 64px;
@@ -207,7 +115,9 @@
 
 <script>
 import axios from "~/plugins/axios";
-import FoodBlock from "~/components/FoodBlock.vue";
+import foodBlock from "~/components/foodBlock.vue";
+import food from "~/components/shoppingList/food.vue";
+import edit from "~/components/shoppingList/edit.vue";
 
 export default {
   async asyncData() {
@@ -305,12 +215,16 @@ export default {
         this.shoppingItems = res.data.shoppingItems;
       }
     },
-    addRecommendFood(idx) {
+    addRecommendFood(food) {
       setTimeout(() => {
         this.addFood({
-          nameZh: this.recommendationList[idx].nameZh,
-          type: this.recommendationList[idx].type
+          nameZh: food.nameZh,
+          type: food.type
         });
+        const idx = this.recommendationList.findIndex(
+          element =>
+            element.nameZh === food.nameZh && element.type === food.type
+        );
         this.recommendationList = this.recommendationList
           .slice(0, idx)
           .concat(this.recommendationList.slice(idx + 1));
@@ -330,7 +244,9 @@ export default {
     }
   },
   components: {
-    FoodBlock
+    foodBlock,
+    food,
+    edit
   }
 };
 </script>
