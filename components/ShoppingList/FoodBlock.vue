@@ -13,18 +13,18 @@
     </div>
     <b-collapse visible :id="type">
       <div class="food-item" v-for="(food, idx) in foods" :key="idx">
-        <img v-if="food.selected" src="ckeck-box-act.png" class="food-item-check-box" @click="food.selected = !food.selected"/>
-        <img v-else src="check-box.png" class="food-item-check-box" @click="food.selected = !food.selected"/>
+        <img v-if="food.selected" src="img/ShoppingList/check-box-act.png" class="food-item-check-box" @click="food.selected = !food.selected"/>
+        <img v-else src="img/ShoppingList/check-box.png" class="food-item-check-box" @click="food.selected = !food.selected"/>
         <div :style="{ 'flex-grow': 1, 'text-decoration': food.selected ? 'line-through black' : '' }" @click="food.selected = !food.selected">{{ food.nameZh }}</div>
-        <img v-if="edit" src="del.png" class="food-item-del" @click="delFood(arguments, food)"/>
+        <img v-if="edit" src="img/ShoppingList/food-del.png" class="food-item-del" @click="delFood(arguments, food)"/>
       </div>
     </b-collapse>
     <div v-if="edit" class="edit">
-      <img src="add.png" class="edit-add"/>
+      <img src="img/ShoppingList/food-add.png" class="edit-add"/>
       <div class="edit-input-box">
         <input class="edit-input" v-model="addFoodName" type="text" placeholder="新增" @change="addFood"/>
       </div>
-      <img src="addFin.png" class="food-item-add-fin" @click="addFood"/>
+      <img src="img/ShoppingList/food-add-fin.png" class="food-item-add-fin" @click="addFood"/>
     </div>
     <div class="food-footer"/>
   </div>
@@ -123,23 +123,20 @@
 }
 
 .edit-input-box {
-  width: 80%;
-  height: 30px;
-  margin-left: 0px;
-  margin-top: 4px;
   flex-grow: 1;
-  display: flex;
 }
 
 .edit-input {
   border-width: 0px;
   height: 30px;
+  width: 100px;
+  margin-left: 0px;
+  margin-top: 4px;
   margin-right: 10px;
   caret-color: #cdd2d6;
   color: #cdd2d6;
   background-color: #ffffff;
   outline: none;
-  flex-grow: 1;
 }
 
 .food-item-add-fin {
@@ -147,7 +144,7 @@
   width: 48px;
   min-width: 48px;
   margin-top: 9px;
-  margin-right: 20px;
+  margin-right: 17.6px;
   z-index: 1;
 }
 
