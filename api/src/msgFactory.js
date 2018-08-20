@@ -40,9 +40,20 @@ module.exports = {
         imageSize: "cover"
       }
     }
+    const imgSrc = {
+      "冷凍": "img/LINEBot/type-frozen-food.png",
+      "飲料": "img/LINEBot/type-drinks.png",
+      "青菜": "img/LINEBot/type-vegetable.png",
+      "肉": "img/LINEBot/type-meat.png",
+      "海鮮": "img/LINEBot/type-seafood.png",
+      "甜品": "img/LINEBot/type-sweet.png",
+      "零食": "img/LINEBot/type-sweet.png",
+      "水果": "img/LINEBot/type-fruit.png",
+      "其他": "img/LINEBot/type-others.png"
+    }
     expirationReminderList.forEach(element => {
       msg.template.columns.push({
-        thumbnailImageUrl: process.env.BASE_URL + "carousel-vegetable.png",
+        thumbnailImageUrl: process.env.BASE_URL + imgSrc[element.type],
         title: element.expirationPeriod === 0 ? `${element.nameZh}今天就過期囉！` : `${element.nameZh}還有${element.expirationPeriod}天就過期囉！`,
         text: `過期日：${element.expirationDate}`,
         actions: [
