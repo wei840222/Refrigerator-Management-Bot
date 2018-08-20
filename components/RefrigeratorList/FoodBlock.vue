@@ -14,6 +14,7 @@
         <img src="del.png" class="food-item-del" @click="delFood(arguments, food)"/>
       </div>
     </b-collapse>
+    <div class="food-footer" :style="{ 'background-color': titleBackground }"/>
   </div>
 </template>
 
@@ -44,8 +45,7 @@
   padding-left: 40px;
   padding-top: 9px;
   margin-right: 0px;
-  color: #8a8a8a;
-  background-color: #f6f6f6;
+  background-color: #ffffff;
   display: flex;
 }
 
@@ -69,6 +69,14 @@
   margin-top: 3px;
   margin-right: 23px;
   z-index: 1;
+}
+
+.food-footer {
+  height: 15px;
+  width: 100%;
+  border-radius: 0 0 15px 15px;
+  background-color: #ffffff;
+  box-shadow: 1px 2px 1px #8a8a8a;
 }
 </style>
 

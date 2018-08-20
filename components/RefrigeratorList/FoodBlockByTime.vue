@@ -1,7 +1,10 @@
 <template>
   <div>
-    <div class="food-title" v-b-toggle="title + 'collapse'" style="background-color: #eae8e8" @click="collapsed =!collapsed">
-      <div class="food-title-text" style="color: #b7b7b8">{{ title }}</div>
+    <div class="food-title" v-b-toggle="title + 'collapse'" @click="collapsed =!collapsed">
+      <div class="food-title-date">
+        <div class="food-title-date-text">{{ title.slice(5).replace('-', ".") }}</div>
+      </div>
+      <div class="food-title-text2" style="color: #b7b7b8">{{ title.slice(0, 4) }}</div>
       <img v-if="collapsed" src="arrow-gray-down.png" class="food-title-icon"/>
       <img v-else src="arrow-gray-up.png" class="food-title-icon"/>
     </div>
@@ -31,27 +34,49 @@
         </b-modal>
       </div>
     </b-collapse>
+    <div class="food-footer"/>
   </div>
 </template>
 
 <style>
 .food-title {
-  height: 40px;
   width: 100%;
   display: flex;
+  flex-direction: row;
+  border-radius: 15px 15px 0 0;
+  background-color: #ffffff;
+  box-shadow: 1px 2px 1px #8a8a8a;
 }
 
-.food-title-text {
-  padding-left: 40px;
-  padding-top: 10px;
-  color: #ffffff;
+.food-title-date {
+  height: 63px;
+  width: 63px;
+  margin-left: -28px;
+  margin-top: 14px;
+  border-radius: 31.5px;
+  box-shadow: 1px 2px 1px #8a8a8a;
+  background-color: #ffffff;
+  z-index: 1;
+}
+
+.food-title-date-text {
+  text-align: center;
+  margin-top: 18px;
+  font-size: 18px;
+  color: #27ab38;
+}
+
+.food-title-text2 {
+  padding: 21.6px;
+  color: #6d6d6d;
+  font-size: 24px;
   flex-grow: 1;
 }
 
 .food-title-icon {
   height: 12px;
   width: 21px;
-  margin-top: 14px;
+  margin-top: 41.1px;
   margin-right: 20px;
 }
 
@@ -61,8 +86,8 @@
   padding-left: 40px;
   padding-top: 9px;
   margin-right: 0px;
-  color: #8a8a8a;
-  background-color: #f6f6f6;
+  background-color: #ffffff;
+  box-shadow: 1px 2px 1px #8a8a8a;
   display: flex;
 }
 
@@ -120,6 +145,14 @@
   padding-left: 6px;
   outline: none;
   flex-grow: 1;
+}
+
+.food-footer {
+  height: 15px;
+  width: 100%;
+  border-radius: 0 0 15px 15px;
+  background-color: #ffffff;
+  box-shadow: 1px 2px 1px #8a8a8a;
 }
 </style>
 

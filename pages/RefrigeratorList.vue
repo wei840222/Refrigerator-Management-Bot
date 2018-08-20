@@ -1,25 +1,35 @@
 <template>
   <div>
+    <div class="green-bar"/>
     <div class="title-bar-tab">
-      <div class="title-item-tab" @click="tab = 'addList'" :style="{ 'color': tab === 'addList' ? '#000000' : '#aaaaaa', 'border-bottom': tab === 'addList' ? '#000000 2px solid' : '' }">近期新增</div>
-      <div class="title-item-tab" @click="tab = 'refrigeratorList'" :style="{ 'color': tab === 'refrigeratorList' ? '#000000' : '#aaaaaa', 'border-bottom': tab === 'refrigeratorList' ? '#000000 2px solid' : '' }">我的冰箱</div>
+      <div class="title-item-tab" @click="tab = 'addList'" :style="{ 'color': tab === 'addList' ? '#2ea239' : '#80c37c', 'border-bottom': tab === 'addList' ? '#27ab38 2px solid' : '' }">近期新增</div>
+      <div class="title-item-tab" @click="tab = 'refrigeratorList'" :style="{ 'color': tab === 'refrigeratorList' ? '#2ea239' : '#80c37c', 'border-bottom': tab === 'refrigeratorList' ? '#27ab38 2px solid' : '' }">我的冰箱</div>
     </div>
-    <div style="position: fixed; z-index: -1; height: 100%; width: 100%; background-color: #f6f6f6;"/>
-    <div v-if="tab === 'addList'" class="food-block">
-      <food-block-by-time v-for="(date, idx) in dates" :key="idx" :title="date" :collapseVisible="idx === 0 ? true : false" :foods="refrigeratorListGroupByDate(date)"/>
+    <div v-if="tab === 'addList'">
+      <food-block-by-time class="food-block" v-for="(date, idx) in dates" :key="idx" :title="date" :collapseVisible="idx === 0 ? true : false" :foods="refrigeratorListGroupByDate(date)"/>
     </div>
-    <div v-else class="food-block">
-      <food-block :title="'快過期'" :titleBackground="'#d95a5a'" :foodColor="'#F47070'" :collapseVisible="true" :foods="foodsDying" :now="now" @delFood="delFood"/>
-      <food-block :title="'已過期'" :titleBackground="'#afafaf'" :foodColor="'#565656'" :collapseVisible="false" :foods="foodsDied" :now="now" @delFood="delFood"/>
-      <food-block :title="'未過期'" :titleBackground="'#82bd51'" :foodColor="'#65BE2B'" :collapseVisible="false" :foods="foodsAlive" :now="now" @delFood="delFood"/>
+    <div v-else>
+      <food-block class="food-block" :title="'快過期'" :titleBackground="'#d95a5a'" :foodColor="'#F47070'" :collapseVisible="true" :foods="foodsDying" :now="now" @delFood="delFood"/>
+      <food-block class="food-block" :title="'已過期'" :titleBackground="'#afafaf'" :foodColor="'#565656'" :collapseVisible="false" :foods="foodsDied" :now="now" @delFood="delFood"/>
+      <food-block class="food-block" :title="'未過期'" :titleBackground="'#82bd51'" :foodColor="'#65BE2B'" :collapseVisible="false" :foods="foodsAlive" :now="now" @delFood="delFood"/>
     </div>
   </div>
 </template>
 
 <style>
+.green-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 83.5px;
+  background-color: #27ab38;
+}
+
 .title-bar-tab {
   height: 40px;
   width: 100%;
+  top: 0;
   display: flex;
   position: fixed;
   z-index: 10;
@@ -36,8 +46,11 @@
 
 .food-block {
   position: relative;
-  top: 40px;
+  top: 61px;
   width: 100%;
+  margin-bottom: 21px;
+  padding-right: 16.8px;
+  padding-left: 54.3px;
 }
 </style>
 
