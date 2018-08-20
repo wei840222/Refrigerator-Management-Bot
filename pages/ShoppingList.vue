@@ -15,7 +15,7 @@
     <div v-else>
       <food-block class="food-block" :edit="false" :type="'all'" :foods="foods('all')" @addFood="addFood"/>
     </div>
-    <recommend-block class="recommend-block" :foods="recommendationList" @addRecommendFood="addRecommendFood"/>
+    <recommend-block class="recommend-block" :foods="recommendationList.slice(0, 5)" @addRecommendFood="addRecommendFood"/>
     <div class="footer"><img src="addToRefrigerator.png" class="footer-bar" @click="addToRefrigerator"/></div>
   </div>
 </template>
