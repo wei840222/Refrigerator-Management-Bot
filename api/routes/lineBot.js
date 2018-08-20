@@ -3,7 +3,7 @@ const lineBot = require('@line/bot-sdk')
 const msgFactory = require('../src/msgFactory.js')
 const axios = require('axios')
 const backendApi = axios.create({
-  baseURL: 'https://refrigerator-mgt-bot-backend.herokuapp.com/'
+  baseURL: process.env.API_URL
 })
 
 // create LINE SDK config from env variables
