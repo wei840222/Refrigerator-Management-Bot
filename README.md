@@ -1,4 +1,4 @@
-# refrigerator-management-bot
+# Refrigerator Management Bot
 
 ## ENV
 ```  
