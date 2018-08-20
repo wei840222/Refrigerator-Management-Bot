@@ -11,6 +11,7 @@
         <img v-else src="img/ShoppingList/arrow-green.png" class="food-title-icon"/>
       </div>
     </div>
+    <div v-else class="food-title-all"/>
     <b-collapse visible :id="type">
       <div class="food-item" v-for="(food, idx) in foods" :key="idx">
         <img v-if="food.selected" src="img/ShoppingList/check-box-act.png" class="food-item-check-box" @click="food.selected = !food.selected"/>
@@ -40,6 +41,15 @@
   box-shadow: 1px 2px 1px #8a8a8a;
 }
 
+.food-title-all {
+  width: 100%;
+  height: 15px;
+  margin-bottom: -1px;
+  border-radius: 15px 15px 0 0;
+  background-color: #ffffff;
+  box-shadow: 1px 2px 1px #8a8a8a;
+}
+
 .food-title-type {
   height: 63px;
   width: 63px;
@@ -47,6 +57,7 @@
   margin-top: 16px;
   border-radius: 31.5px;
   box-shadow: 1px 2px 1px #8a8a8a;
+  background-color: #ffffff;
 }
 
 .food-title-text {
