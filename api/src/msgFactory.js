@@ -29,7 +29,7 @@ module.exports = {
       return food.expirationPeriod <= 7 && food.expirationPeriod >= 0 && food.notify
     });
     expirationReminderList.sort((a, b) => a.expirationPeriod > b.expirationPeriod ? 1 : -1)
-    if (expirationReminderList.length > 10) expirationReminderList.slice(0, 10)
+    if (expirationReminderList.length > 10) expirationReminderList = expirationReminderList.slice(0, 10)
     const msg = {
       type: "template",
       altText: "過期提醒",
