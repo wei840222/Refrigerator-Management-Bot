@@ -151,15 +151,14 @@ export default {
       groupByType: true,
       selectedAll: false,
       types: [
-        "甜品",
-        "零食",
-        "飲料",
+        "肉",
         "青菜",
         "水果",
         "海鮮",
+        "點心",
+        "飲料",
         "冷凍",
-        "其他",
-        "肉"
+        "其他"
       ]
     };
   },
