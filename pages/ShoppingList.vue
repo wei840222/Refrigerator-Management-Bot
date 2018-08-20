@@ -115,9 +115,9 @@
 
 <script>
 import axios from "~/plugins/axios";
-import foodBlock from "~/components/foodBlock.vue";
-import food from "~/components/shoppingList/food.vue";
-import edit from "~/components/shoppingList/edit.vue";
+import FoodBlock from "~/components/foodBlock.vue";
+import Food from "~/components/shoppingList/food.vue";
+import Edit from "~/components/shoppingList/edit.vue";
 
 export default {
   async asyncData() {
@@ -244,9 +244,9 @@ export default {
     }
   },
   components: {
-    foodBlock,
-    food,
-    edit
+    FoodBlock,
+    Food,
+    Edit
   }
 };
 </script>
