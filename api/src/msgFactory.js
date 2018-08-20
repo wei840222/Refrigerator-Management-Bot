@@ -47,7 +47,7 @@ module.exports = {
       "肉": "img/LINEBot/type-meat.png",
       "海鮮": "img/LINEBot/type-seafood.png",
       "甜品": "img/LINEBot/type-sweet.png",
-      "零食": "img/LINEBot/type-sweet.png",
+      "零食": "img/LINEBot/type-snack.png",
       "水果": "img/LINEBot/type-fruit.png",
       "其他": "img/LINEBot/type-others.png"
     }
