@@ -1,10 +1,14 @@
 <template>
   <div>
-    <div v-if="type != 'all'" class="food-title" v-b-toggle="type" :style="{ 'background-color': titleBackground }" @click="collapsed =!collapsed">
-      <div class="food-title-text">{{ type }}</div>
+    <div v-if="type != 'all'" class="food-title" v-b-toggle="type" @click="collapsed =!collapsed">
+      <img src="img/ShoppingList/type-vegetable.png" class="food-title-type"/>
+      <div class="food-title-text">
+        <div class="food-title-text-ch">{{ type }}</div>
+        <div class="food-title-text-eng">vegetables</div>
+      </div>
       <div v-if="foods.length > 0">
-        <img v-if="collapsed" src="arrow-down.png" class="food-title-icon"/>
-        <img v-else src="arrow-up.png" class="food-title-icon"/>
+        <img v-if="collapsed" src="img/ShoppingList/arrow-green.png" class="food-title-icon"/>
+        <img v-else src="img/ShoppingList/arrow-green.png" class="food-title-icon"/>
       </div>
     </div>
     <b-collapse visible :id="type">
@@ -14,36 +18,62 @@
         <div :style="{ 'flex-grow': 1, 'text-decoration': food.selected ? 'line-through black' : '' }" @click="food.selected = !food.selected">{{ food.nameZh }}</div>
         <img v-if="edit" src="del.png" class="food-item-del" @click="delFood(arguments, food)"/>
       </div>
-      <div v-if="edit" class="edit">
-        <img src="add.png" class="edit-add"/>
-        <div class="edit-input-box">
-          <input class="edit-input" v-model="addFoodName" type="text" placeholder="新增" @change="addFood"/>
-        </div>
-        <img src="addFin.png" class="food-item-add-fin" @click="addFood"/>
-      </div>
     </b-collapse>
+    <div v-if="edit" class="edit">
+      <img src="add.png" class="edit-add"/>
+      <div class="edit-input-box">
+        <input class="edit-input" v-model="addFoodName" type="text" placeholder="新增" @change="addFood"/>
+      </div>
+      <img src="addFin.png" class="food-item-add-fin" @click="addFood"/>
+    </div>
+    <div class="food-footer"/>
   </div>
 </template>
 
 <style>
 .food-title {
-  height: 40px;
   width: 100%;
   display: flex;
+  flex-direction: row;
+  border-radius: 15px 15px 0 0;
+  background-color: #ffffff;
+  box-shadow: 1px 2px 1px #8a8a8a;
+}
+
+.food-title-type {
+  height: 63px;
+  width: 63px;
+  margin-left: -28px;
+  margin-top: 16px;
+  border-radius: 31.5px;
+  box-shadow: 1px 2px 1px #8a8a8a;
 }
 
 .food-title-text {
-  padding-left: 40px;
-  padding-top: 10px;
-  color: #ffffff;
+  margin-left: 40px;
+  margin-top: 21.6px;
+  margin-bottom: 21.6px;
   flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.food-title-text-ch {
+  margin-bottom: 6.6px;
+  color: #6d6d6d;
+  font-size: 19.6px;
+}
+
+.food-title-text-eng {
+  color: #999899;
+  font-size: 12.9px;
 }
 
 .food-title-icon {
   height: 12px;
   width: 21px;
-  margin-top: 14px;
-  margin-right: 20px;
+  margin-top: 42.89px;
+  margin-right: 17.6px;
 }
 
 .food-item {
@@ -51,9 +81,10 @@
   height: 38px;
   padding-left: 40px;
   padding-top: 9px;
-  margin-right: 0px;
   color: #8a8a8a;
-  background-color: #f6f6f6;
+  background-color: #ffffff;
+  border-top: 1px #e8e8e8 solid;
+  box-shadow: 1px 2px 1px #8a8a8a;
   display: flex;
 }
 
@@ -76,11 +107,10 @@
   width: 100%;
   height: 40px;
   padding-left: 38px;
-  border-top-color: #e5e5e5;
-  border-top-style: dashed;
-  border-top-width: 1px;
   color: #d2d6da;
-  background-color: #f6f6f6;
+  background-color: #ffffff;
+  box-shadow: 1px 2px 1px #8a8a8a;
+  border-top: 1px #e8e8e8 dashed;
   display: flex;
 }
 
@@ -105,9 +135,9 @@
   border-width: 0px;
   height: 30px;
   margin-right: 10px;
-  caret-color: #b5b5b5;
-  color: #b5b5b5;
-  background-color: #f6f6f6;
+  caret-color: #cdd2d6;
+  color: #cdd2d6;
+  background-color: #ffffff;
   outline: none;
   flex-grow: 1;
 }
@@ -119,6 +149,14 @@
   margin-top: 9px;
   margin-right: 20px;
   z-index: 1;
+}
+
+.food-footer {
+  height: 15px;
+  width: 100%;
+  border-radius: 0 0 15px 15px;
+  background-color: #ffffff;
+  box-shadow: 1px 2px 1px #8a8a8a;
 }
 </style>
 
