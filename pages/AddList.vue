@@ -68,6 +68,7 @@
   height: 40px;
   width: 90%;
   margin-top: 6px;
+  padding-left: 6px;
   outline: none;
   flex-grow: 1;
 }
