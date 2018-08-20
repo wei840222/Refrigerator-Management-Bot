@@ -1,10 +1,10 @@
 <template>
   <div>
     <div v-if="type != 'all'" class="food-title" v-b-toggle="type" @click="collapsed =!collapsed">
-      <img src="img/ShoppingList/type-vegetable.png" class="food-title-type"/>
+      <img :src="titleTypeImg" class="food-title-type"/>
       <div class="food-title-text">
         <div class="food-title-text-ch">{{ type }}</div>
-        <div class="food-title-text-eng">vegetables</div>
+        <div class="food-title-text-eng">{{ titleEnglish }}</div>
       </div>
       <div v-if="foods.length > 0">
         <img v-if="collapsed" src="img/ShoppingList/arrow-green.png" class="food-title-icon"/>
@@ -178,26 +178,48 @@ export default {
     };
   },
   computed: {
-    titleBackground() {
+    titleEnglish() {
       switch (this.type) {
         case "冷凍":
-          return "#7BA2DB";
+          return "Frozen Food";
         case "飲料":
-          return "#EFCE43";
+          return "Drinks";
         case "青菜":
-          return "#81C14E";
+          return "Vegetable";
         case "肉":
-          return "#C18F7B";
+          return "Meat";
         case "海鮮":
-          return "#80C9E0";
+          return "Seafood";
         case "甜品":
-          return "#FC97C5";
+          return "Sweet";
         case "零食":
-          return "#F9914B";
+          return "Snack";
         case "水果":
-          return "#36CEB8";
+          return "Fruit";
         case "其他":
-          return "#C683F2";
+          return "Others";
+      }
+    },
+    titleTypeImg() {
+      switch (this.type) {
+        case "冷凍":
+          return "img/ShoppingList/type-frozen-food.png";
+        case "飲料":
+          return "img/ShoppingList/type-drinks.png";
+        case "青菜":
+          return "img/ShoppingList/type-vegetable.png";
+        case "肉":
+          return "img/ShoppingList/type-meat.png";
+        case "海鮮":
+          return "img/ShoppingList/type-seafood.png";
+        case "甜品":
+          return "img/ShoppingList/type-sweet.png";
+        case "零食":
+          return "img/ShoppingList/type-sweet.png";
+        case "水果":
+          return "img/ShoppingList/type-fruit.png";
+        case "其他":
+          return "img/ShoppingList/type-others.png";
       }
     }
   },
