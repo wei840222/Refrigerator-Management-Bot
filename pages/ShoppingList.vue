@@ -119,7 +119,6 @@
 import axios from "~/plugins/axios";
 import FoodBlock from "~/components/ShoppingList/FoodBlock.vue";
 import RecommendBlock from "~/components/ShoppingList/RecommendBlock.vue";
-import { setTimeout } from "timers";
 
 export default {
   async asyncData() {
