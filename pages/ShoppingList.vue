@@ -214,9 +214,8 @@ export default {
             nameZh: item.nameZh
           });
       });
-      console.log(buyItems);
       const res = await axios.post("/cabinet/userId/buy", buyItems);
-      if (res.status === 200) await this.delFood();
+      if (res.status === 200) this.$router.push('/RefrigeratorList')
     }
   },
   components: {

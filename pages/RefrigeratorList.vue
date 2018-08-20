@@ -114,7 +114,7 @@ export default {
         if (!dates.includes(element.acquisitionDate))
           dates.push(element.acquisitionDate);
       });
-      dates.sort((a, b) => a > b);
+      dates.sort((a, b) => a < b);
       return dates;
     },
     foodsDying() {
