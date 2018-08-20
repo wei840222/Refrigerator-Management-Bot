@@ -1,5 +1,6 @@
 <template>
   <div>
+    <div class="green-bar"/>
     <div class="title-bar">
       <div class="title-item" @click="selectedAll = !selectedAll; selectAll()" :style="{ 'color': selectedAll ? '#000000' : '#aaaaaa' }">全選</div>
       <div class="title-item" @click="edit = !edit" :style="{ 'color': edit ? '#000000' : '#aaaaaa' }">編輯</div>
@@ -14,12 +15,21 @@
     <div v-else>
       <food-block class="food-block" :edit="false" :type="'all'" :foods="foods('all')" @addFood="addFood"/>
     </div>
-    <recommend-block class="recommend-block" :foods="recommendationList"/>
+    <recommend-block class="recommend-block" :foods="recommendationList" @addRecommendFood="addRecommendFood"/>
     <div class="footer"><img src="addToRefrigerator.png" class="footer-bar" @click="addToRefrigerator"/></div>
   </div>
 </template>
 
 <style>
+.green-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 83.5px;
+  background-color: #27ab38;
+}
+
 .title-bar {
   top: 0px;
   padding-left: 40px;
@@ -28,7 +38,7 @@
   width: 100%;
   display: flex;
   position: fixed;
-  z-index: 10;
+  z-index: 4;
   background-color: #ffffff;
   box-shadow: 0px 1px 2px rgba(20%, 20%, 40%, 0.5);
 }
@@ -69,13 +79,19 @@
   position: relative;
   top: 40px;
   width: 100%;
+  margin-top: 21px;
+  padding-right: 16.8px;
+  padding-left: 54.3px;
 }
 
 .recommend-block {
   position: relative;
-  margin-top: 40px;
-  padding-bottom: 64px;
+  top: 40px;
   width: 100%;
+  margin-top: 21px;
+  padding-right: 16.8px;
+  padding-left: 54.3px;
+  padding-bottom: 85px;
 }
 
 .footer {
@@ -157,16 +173,16 @@ export default {
         element.selected = this.selectedAll;
       });
     },
-    async addFood(event) {
+    async addFood(food) {
       const res = await axios.post("/cabinet/userId/add_item_to_shoppingist", {
-        nameZh: event.addFoodName,
-        type: event.type
+        nameZh: food.addFoodName,
+        type: food.type
       });
       if (res.status === 200)
         this.shoppingItems.push({
           id: res.data,
-          nameZh: event.addFoodName,
-          type: event.type,
+          nameZh: food.addFoodName,
+          type: food.type,
           selected: false
         });
     },
@@ -178,6 +194,17 @@ export default {
         ).selected;
       });
       this.shoppingItems = res.data.shoppingItems;
+    },
+    addRecommendFood(idx) {
+      setTimeout(() => {
+        this.addFood({
+          addFoodName: this.recommendationList[idx].nameZh,
+          type: this.recommendationList[idx].type
+        });
+        this.recommendationList = this.recommendationList
+          .slice(0, idx)
+          .concat(this.recommendationList.slice(idx + 1));
+      }, 1000);
     },
     async addToRefrigerator() {
       const buyItems = [];

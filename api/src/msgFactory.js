@@ -8,7 +8,7 @@ module.exports = {
       actions: [
         { label: '發票', type: 'postback', data: '1' },
         { label: '載具', type: 'postback', data: '2' },
-        { label: '拍照', type: 'postback', data: '3' },
+        { label: '拍照', type: 'uri', uri: 'line://nv/camera' },
         { label: '手動', type: 'uri', uri: 'line://app/1597618539-an7pVDxb' }
       ]
     }
@@ -29,7 +29,7 @@ module.exports = {
       return food.expirationPeriod <= 7 && food.expirationPeriod >= 0 && food.notify
     });
     expirationReminderList.sort((a, b) => a.expirationPeriod > b.expirationPeriod ? 1 : -1)
-    if (expirationReminderList.length > 10) expirationReminderList.slice(0, 10)
+    if (expirationReminderList.length > 10) expirationReminderList = expirationReminderList.slice(0, 10)
     const msg = {
       type: "template",
       altText: "過期提醒",
@@ -40,9 +40,20 @@ module.exports = {
         imageSize: "cover"
       }
     }
+    const imgSrc = {
+      "冷凍": "img/LINEBot/type-frozen-food.png",
+      "飲料": "img/LINEBot/type-drinks.png",
+      "青菜": "img/LINEBot/type-vegetable.png",
+      "肉": "img/LINEBot/type-meat.png",
+      "海鮮": "img/LINEBot/type-seafood.png",
+      "甜品": "img/LINEBot/type-sweet.png",
+      "零食": "img/LINEBot/type-snack.png",
+      "水果": "img/LINEBot/type-fruit.png",
+      "其他": "img/LINEBot/type-others.png"
+    }
     expirationReminderList.forEach(element => {
       msg.template.columns.push({
-        thumbnailImageUrl: process.env.BASE_URL + "carousel-vegetable.png",
+        thumbnailImageUrl: process.env.BASE_URL + imgSrc[element.type],
         title: element.expirationPeriod === 0 ? `${element.nameZh}今天就過期囉！` : `${element.nameZh}還有${element.expirationPeriod}天就過期囉！`,
         text: `過期日：${element.expirationDate}`,
         actions: [

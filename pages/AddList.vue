@@ -34,16 +34,16 @@
 .title-bar {
   height: 40px;
   width: 100%;
-  border-top: 1px #d1d1d1 solid;
+  border-top: 1px #27AB38 solid;
   border-bottom: 1px #d1d1d1 solid;
-  background-color: #f4f4f4;
+  background-color: #27AB38;
 }
 
 .title-text {
   font-size: 16px;
   margin-left: 12px;
   margin-top: 6px;
-  color: #7e7e7f;
+  color: #ffffff;
 }
 
 .form-row {
@@ -68,6 +68,7 @@
   height: 40px;
   width: 90%;
   margin-top: 6px;
+  padding-left: 6px;
   outline: none;
   flex-grow: 1;
 }
@@ -85,8 +86,8 @@
 }
 
 .btn {
-  height: 48px;
-  width: 74px;
+  height: 37px;
+  width: 57px;
   padding: 0px;
   margin-left: 6px;
 }
@@ -138,6 +139,7 @@ export default {
   methods: {
     delFood() {
       this.foods.pop();
+      if (this.foods.length === 0) this.addFood();
       if (this.foods.length > 1) jump(".btn");
     },
     addFood() {
