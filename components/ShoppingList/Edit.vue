@@ -15,17 +15,18 @@
   padding-left: 38px;
   color: #d2d6da;
   background-color: #ffffff;
-  box-shadow: 1px 2px 2px#8a8a8a;
+  box-shadow: 2px 2px 1px#8a8a8a;
   border-top: 1px #e8e8e8 dashed;
   border-radius: 0 0 10px 10px;
   display: flex;
+  z-index: 1;
 
   .add {
     height: 17px;
     width: 17px;
     margin-top: 11px;
     margin-right: 8px;
-    z-index: 1;
+    z-index: 2;
   }
 
   .input-box {
@@ -51,7 +52,7 @@
     min-width: 48px;
     margin-top: 9px;
     margin-right: 17.6px;
-    z-index: 1;
+    z-index: 2;
   }
 }
 </style>

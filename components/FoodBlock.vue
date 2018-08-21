@@ -1,11 +1,15 @@
 <template>
-  <div class="food-block">
-    <div class="header">
+  <div class="food-block" :id="'food-block' + idx">
+    <div class="header" @click="collapseChange">
       <div class="icon"><slot name="icon"/></div>
-      <div class="text"><slot name="text"/></div>
-      <div class="arrow"><slot name="arrow"/></div>
+      <div class="text">{{ title }}</div>
+      <div v-if="collapseUseable">
+        <div v-if="collapseVisible" class="arrow"><slot name="arrow-down"/></div>
+        <div v-else class="arrow"><slot name="arrow-up"/></div>
+      </div>
     </div>
-    <div class="content"><slot/></div>
+    <b-collapse class="content" :id="title" :visible="collapseVisible" :style="collapseVisible ? 'box-shadow: 2px 2px 1px #8a8a8a' : ''"><slot/></b-collapse>
+    <div class="footer"><slot name="footer"/></div>
   </div>
 </template>
 
@@ -24,7 +28,7 @@
     flex-direction: row;
     border-radius: 10px 10px 0 0;
     background-color: #ffffff;
-    box-shadow: 2px 2px 2px #8a8a8a;
+    box-shadow: 2px 2px 1px #8a8a8a;
     z-index: 1;
 
     .icon {
@@ -33,8 +37,9 @@
       margin-left: -28px;
       margin-top: 10px;
       border-radius: 31.5px;
-      box-shadow: 2px 2px 2px #8a8a8a;
+      box-shadow: 2px 2px 1px #8a8a8a;
       background-color: #ffffff;
+      z-index: 2;
     }
 
     .text {
@@ -57,8 +62,41 @@
   .content {
     width: 100%;
     background-color: #ffffff;
+    z-index: 0;
+  }
+
+  .footer {
+    width: 100%;
+    min-height: 10px;
+    background-color: #ffffff;
     border-radius: 0 0 10px 10px;
-    box-shadow: 2px 2px 2px#8a8a8a;
+    box-shadow: 2px 2px 1px#8a8a8a;
+    z-index: 3;
   }
 }
 </style>
+
+<script>
+import jump from "jump.js";
+
+export default {
+  props: {
+    idx: Number,
+    title: String,
+    collapseVisibleInit: Boolean,
+    collapseUseable: Boolean
+  },
+  data() {
+    return { collapseVisible: this.collapseVisibleInit };
+  },
+  methods: {
+    collapseChange() {
+      if (this.collapseUseable) {
+        this.collapseVisible = !this.collapseVisible;
+        if (this.collapseVisible)
+          jump("#food-block" + this.idx, { offset: -53.1 });
+      }
+    }
+  }
+};
+</script>
