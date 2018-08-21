@@ -6,7 +6,10 @@
       <div class="item" @click="tab = 'refrigeratorList'" :style="{ 'color': tab === 'refrigeratorList' ? '#2ea239' : '#80c37c', 'border-bottom': tab === 'refrigeratorList' ? '#27ab38 2px solid' : '' }">我的冰箱</div>
     </div>
     <div v-if="tab === 'addList'">
-      <food-block v-for="(date, idx) in dates" :key="idx" :idx="idx" :title="date.slice(0, 7).replace('-', '.')" :collapseVisibleInit="idx === 0 ? true : false" :collapseUseable="refrigeratorListGroupByDate(date).length > 0 ? true : false">
+      <food-block v-for="(date, idx) in dates" :key="idx" :idx="idx" :title="date.slice(0, 7).replace('-', '.')"
+        :collapseVisibleInit="idx === 0 ? true : false"
+        :collapseUseable="refrigeratorListGroupByDate(date).length > 0 ? true : false"
+        :style="idx === dates.length -1 ? 'margin-bottom: 21px;' : ''">
         <div slot="icon" class="icon-date">{{ date.slice(8) }}</div>
         <img slot="arrow-down" src="img/RefrigeratorList/arrow-gray-down.png"/>
         <img slot="arrow-up" src="img/RefrigeratorList/arrow-gray-up.png"/>
@@ -14,19 +17,19 @@
       </food-block>
     </div>
     <div v-else>
-      <food-block :title="'快過期'" :idx="'快過期'" :collapseVisibleInit="true" :collapseUseable="foodsDying.length > 0 ? true : false">
+      <food-block :title="'快過期'" :idx="1" :collapseVisibleInit="true" :collapseUseable="foodsDying.length > 0 ? true : false">
         <div slot="icon" class="icon-date">快過期</div>
         <img slot="arrow-down" src="img/RefrigeratorList/arrow-gray-down.png"/>
         <img slot="arrow-up" src="img/RefrigeratorList/arrow-gray-up.png"/>
         <food v-for="(food, idx) in foodsDying" :key="idx" :lastItem="idx === foodsDying.length - 1" :food="food" :foodColor="'#F47070'" @del-food="delFood"/>
       </food-block>
-      <food-block :title="'已過期'" :idx="'已過期'" :collapseVisibleInit="false" :collapseUseable="foodsDied.length > 0 ? true : false">
+      <food-block :title="'已過期'" :idx="2" :collapseVisibleInit="false" :collapseUseable="foodsDied.length > 0 ? true : false">
         <div slot="icon" class="icon-date">已過期</div>
         <img slot="arrow-down" src="img/RefrigeratorList/arrow-gray-down.png"/>
         <img slot="arrow-up" src="img/RefrigeratorList/arrow-gray-up.png"/>
         <food v-for="(food, idx) in foodsDied" :key="idx" :lastItem="idx === foodsDied.length - 1" :food="food" :foodColor="'#565656'" @del-food="delFood"/>
       </food-block>
-      <food-block :title="'未過期'" :idx="'未過期'" :collapseVisibleInit="false" :collapseUseable="foodsAlive.length > 0 ? true : false">
+      <food-block :title="'未過期'" :idx="3" :collapseVisibleInit="false" :collapseUseable="foodsAlive.length > 0 ? true : false" style="margin-bottom: 21px;">
         <div slot="icon" class="icon-date">未過期</div>
         <img slot="arrow-down" src="img/RefrigeratorList/arrow-gray-down.png"/>
         <img slot="arrow-up" src="img/RefrigeratorList/arrow-gray-up.png"/>
