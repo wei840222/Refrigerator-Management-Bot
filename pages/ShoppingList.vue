@@ -21,12 +21,12 @@
     <div v-else>
       <food-block :title="'全部'" :collapseVisibleInit="true" :collapseUseable="false" :idx="-1">
         <img slot="icon" class="icon-img" src="img/ShoppingList/type-all.png"/>
-        <food v-for="(food, idx) in foods()" :key="idx" :edit="edit" :food="food" @del-food="delFood" :style="idx === foods().length - 1 ? 'height: 28px;' : ''"/>
+        <food v-for="(food, idx) in foods()" :key="idx" :edit="edit" :food="food" @del-food="delFood" :style="idx === foods().length - 1 ? 'height: 28px;' : ''" style="box-shadow: 2px 2px 1px #8a8a8a;"/>
       </food-block>
     </div>
     <food-block :title="'建議'" :collapseVisibleInit="true" :collapseUseable="false" style="margin-bottom: 85px;">
       <img slot="icon" class="icon-img" src="img/ShoppingList/type-all.png"/>
-      <food v-for="(food, idx) in recommendationList.slice(0, 5)" :key="idx" :edit="false" :lastItem="idx === recommendationList.slice(0, 5).length - 1" :food="food" @selecte-food="addRecommendFood"/>
+      <food v-for="(food, idx) in recommendationList.slice(0, 5)" :key="idx" :edit="false" :lastItem="idx === recommendationList.slice(0, 5).length - 1" :food="food" @selecte-food="addRecommendFood" style="box-shadow: 2px 2px 1px #8a8a8a;"/>
     </food-block>
     <div class="footer"><img class="button" src="img/ShoppingList/btn-refrigerator.png" @click="addToRefrigerator"/></div>
   </div>

@@ -33,7 +33,6 @@
   padding-top: 9px;
   color: #8a8a8a;
   background-color: #ffffff;
-  box-shadow: 1px 2px 2px #8a8a8a;
   display: flex;
 
   .type-icon {
