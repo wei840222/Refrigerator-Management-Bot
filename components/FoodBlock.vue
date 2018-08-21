@@ -8,7 +8,7 @@
         <div v-else class="arrow"><slot name="arrow-up"/></div>
       </div>
     </div>
-    <b-collapse class="content" :id="title" :visible="collapseVisible" :style="boxShadow" @shown="changeBoxShadow(true)" @hide="changeBoxShadow(false)"><slot/></b-collapse>
+    <b-collapse class="content" :id="title" :visible="collapseVisible" :style="boxShadow" @shown="changeBoxShadow(true)"><slot/></b-collapse>
     <div class="footer"><slot name="footer"/></div>
   </div>
 </template>
@@ -99,6 +99,7 @@ export default {
   methods: {
     collapseChange() {
       if (this.collapseUseable) {
+        this.changeBoxShadow(false);
         this.collapseVisible = !this.collapseVisible;
         if (this.collapseVisible)
           jump("#food-block" + this.idx, { offset: -53.1 });
