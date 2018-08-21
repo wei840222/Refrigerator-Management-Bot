@@ -8,7 +8,7 @@
         <div v-else class="arrow"><slot name="arrow-up"/></div>
       </div>
     </div>
-    <b-collapse class="content" :id="title" :visible="collapseVisible" :style="collapseVisible ? 'box-shadow: 2px 2px 1px #8a8a8a' : ''"><slot/></b-collapse>
+    <b-collapse class="content" :id="title" :visible="collapseVisible" :style="boxShadow" @shown="changeBoxShadow(true)" @hide="changeBoxShadow(false)"><slot/></b-collapse>
     <div class="footer"><slot name="footer"/></div>
   </div>
 </template>
@@ -78,6 +78,7 @@
 
 <script>
 import jump from "jump.js";
+import { setTimeout } from "timers";
 
 export default {
   props: {
@@ -86,8 +87,14 @@ export default {
     collapseVisibleInit: Boolean,
     collapseUseable: Boolean
   },
+  created() {
+    this.changeBoxShadow(true);
+  },
   data() {
-    return { collapseVisible: this.collapseVisibleInit };
+    return {
+      collapseVisible: this.collapseVisibleInit,
+      boxShadow: ""
+    };
   },
   methods: {
     collapseChange() {
@@ -96,6 +103,10 @@ export default {
         if (this.collapseVisible)
           jump("#food-block" + this.idx, { offset: -53.1 });
       }
+    },
+    changeBoxShadow(status) {
+      if (status) this.boxShadow = "box-shadow: 2px 2px 1px #8a8a8a";
+      else this.boxShadow = "";
     }
   }
 };

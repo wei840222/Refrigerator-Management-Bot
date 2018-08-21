@@ -23,9 +23,9 @@
       <br/>
     </div>
     <div class="btn-row">
-      <img class="btn" src="cancel-btn.png" @click="delFood"/>
-      <img class="btn" src="addBtn.png" @click="addFood"/>
-      <img class="btn" src="addFinBtn.png" @click="addFoodToDB"/>
+      <img class="btn" src="img/AddList/btn-cancel.png" @click="delFood"/>
+      <img class="btn" src="img/AddList/btn-add.png" @click="addFood"/>
+      <img class="btn" src="img/AddList/btn-fin.png" @click="addFoodToDB"/>
     </div>
   </div>
 </template>
@@ -34,6 +34,7 @@
 .title-bar {
   height: 40px;
   width: 100%;
+  margin-bottom: 5px;
   border-top: 1px #27AB38 solid;
   border-bottom: 1px #d1d1d1 solid;
   background-color: #27AB38;

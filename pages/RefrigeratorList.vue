@@ -1,22 +1,45 @@
 <template>
   <div>
     <div class="green-bar"/>
-    <div class="title-bar-tab">
-      <div class="title-item-tab" @click="tab = 'addList'" :style="{ 'color': tab === 'addList' ? '#2ea239' : '#80c37c', 'border-bottom': tab === 'addList' ? '#27ab38 2px solid' : '' }">近期新增</div>
-      <div class="title-item-tab" @click="tab = 'refrigeratorList'" :style="{ 'color': tab === 'refrigeratorList' ? '#2ea239' : '#80c37c', 'border-bottom': tab === 'refrigeratorList' ? '#27ab38 2px solid' : '' }">我的冰箱</div>
+    <div class="tab">
+      <div class="item" @click="tab = 'addList'" :style="{ 'color': tab === 'addList' ? '#2ea239' : '#80c37c', 'border-bottom': tab === 'addList' ? '#27ab38 2px solid' : '' }">近期新增</div>
+      <div class="item" @click="tab = 'refrigeratorList'" :style="{ 'color': tab === 'refrigeratorList' ? '#2ea239' : '#80c37c', 'border-bottom': tab === 'refrigeratorList' ? '#27ab38 2px solid' : '' }">我的冰箱</div>
     </div>
     <div v-if="tab === 'addList'">
-      <food-block-by-time class="food-block" v-for="(date, idx) in dates" :key="idx" :title="date" :collapseVisible="idx === 0 ? true : false" :foods="refrigeratorListGroupByDate(date)"/>
+      <food-block v-for="(date, idx) in dates" :key="idx" :idx="idx" :title="date.slice(0, 7).replace('-', '.')"
+        :collapseVisibleInit="idx === 0 ? true : false"
+        :collapseUseable="refrigeratorListGroupByDate(date).length > 0 ? true : false"
+        :style="idx === dates.length -1 ? 'margin-bottom: 21px;' : ''">
+        <div slot="icon" class="icon-date">{{ date.slice(8) }}</div>
+        <img slot="arrow-down" src="img/RefrigeratorList/arrow-gray-down.png"/>
+        <img slot="arrow-up" src="img/RefrigeratorList/arrow-gray-up.png"/>
+        <food-by-time v-for="(food, idx) in refrigeratorListGroupByDate(date)" :key="idx" :idx="idx" :lastItem="idx === refrigeratorListGroupByDate(date).length - 1" :food="food"/>
+      </food-block>
     </div>
     <div v-else>
-      <food-block class="food-block" :title="'快過期'" :titleBackground="'#d95a5a'" :foodColor="'#F47070'" :collapseVisible="true" :foods="foodsDying" :now="now" @delFood="delFood"/>
-      <food-block class="food-block" :title="'已過期'" :titleBackground="'#afafaf'" :foodColor="'#565656'" :collapseVisible="false" :foods="foodsDied" :now="now" @delFood="delFood"/>
-      <food-block class="food-block" :title="'未過期'" :titleBackground="'#82bd51'" :foodColor="'#65BE2B'" :collapseVisible="false" :foods="foodsAlive" :now="now" @delFood="delFood"/>
+      <food-block :title="'快過期'" :idx="1" :collapseVisibleInit="true" :collapseUseable="foodsDying.length > 0 ? true : false">
+        <div slot="icon" class="icon-date">快過期</div>
+        <img slot="arrow-down" src="img/RefrigeratorList/arrow-gray-down.png"/>
+        <img slot="arrow-up" src="img/RefrigeratorList/arrow-gray-up.png"/>
+        <food v-for="(food, idx) in foodsDying" :key="idx" :lastItem="idx === foodsDying.length - 1" :food="food" :foodColor="'#F47070'" @del-food="delFood"/>
+      </food-block>
+      <food-block :title="'已過期'" :idx="2" :collapseVisibleInit="false" :collapseUseable="foodsDied.length > 0 ? true : false">
+        <div slot="icon" class="icon-date">已過期</div>
+        <img slot="arrow-down" src="img/RefrigeratorList/arrow-gray-down.png"/>
+        <img slot="arrow-up" src="img/RefrigeratorList/arrow-gray-up.png"/>
+        <food v-for="(food, idx) in foodsDied" :key="idx" :lastItem="idx === foodsDied.length - 1" :food="food" :foodColor="'#565656'" @del-food="delFood"/>
+      </food-block>
+      <food-block :title="'未過期'" :idx="3" :collapseVisibleInit="false" :collapseUseable="foodsAlive.length > 0 ? true : false" style="margin-bottom: 21px;">
+        <div slot="icon" class="icon-date">未過期</div>
+        <img slot="arrow-down" src="img/RefrigeratorList/arrow-gray-down.png"/>
+        <img slot="arrow-up" src="img/RefrigeratorList/arrow-gray-up.png"/>
+        <food v-for="(food, idx) in foodsAlive" :key="idx" :lastItem="idx === foodsAlive.length - 1" :food="food" :foodColor="'#65BE2B'" @del-food="delFood"/>
+      </food-block>
     </div>
   </div>
 </template>
 
-<style>
+<style lang="scss" scoped>
 .green-bar {
   position: fixed;
   top: 0;
@@ -26,7 +49,7 @@
   background-color: #27ab38;
 }
 
-.title-bar-tab {
+.tab {
   height: 40px;
   width: 100%;
   top: 0;
@@ -35,29 +58,28 @@
   z-index: 10;
   background-color: #ffffff;
   box-shadow: 0px 1px 2px rgba(20%, 20%, 40%, 0.5);
+
+  .item {
+    margin-top: 10px;
+    height: 28px;
+    text-align: center;
+    flex-grow: 1;
+  }
 }
 
-.title-item-tab {
-  margin-top: 10px;
-  height: 28px;
+.icon-date {
   text-align: center;
-  flex-grow: 1;
-}
-
-.food-block {
-  position: relative;
-  top: 61px;
-  width: 100%;
-  margin-bottom: 21px;
-  padding-right: 16.8px;
-  padding-left: 54.3px;
+  margin-top: 18px;
+  font-size: 18px;
+  color: #27ab38;
 }
 </style>
 
 <script>
 import axios from "~/plugins/axios";
-import FoodBlock from "~/components/RefrigeratorList/FoodBlock.vue";
-import FoodBlockByTime from "~/components/RefrigeratorList/FoodBlockByTime.vue";
+import FoodBlock from "~/components/FoodBlock.vue";
+import FoodByTime from "~/components/RefrigeratorList/FoodByTime.vue";
+import Food from "~/components/RefrigeratorList/Food.vue";
 
 export default {
   async asyncData() {
@@ -177,7 +199,8 @@ export default {
   },
   components: {
     FoodBlock,
-    FoodBlockByTime
+    FoodByTime,
+    Food
   }
 };
 </script>

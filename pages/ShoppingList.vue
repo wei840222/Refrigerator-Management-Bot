@@ -6,12 +6,12 @@
       <div class="item" @click="edit = !edit" :style="{ 'color': edit ? '#000000' : '#aaaaaa' }">編輯</div>
       <div class="option" @click="groupByType = !groupByType">
         <div class="text">{{ groupByType ? '品項' : '全部'}}</div>
-        <img class="icon" src="option.png"/>
+        <img class="icon" src="img/ShoppingList/option.png"/>
       </div>
     </div>
     <div v-if="groupByType">
       <food-block v-for="(type, idx) in types" :key="idx" :title="type" :collapseVisibleInit="idx === 0 ? true : false" :collapseUseable="foods(type).length > 0 ? true : false" :edit="edit" :idx="idx" @add-food="addFood">
-        <img slot="icon" :src="foodBlockIconSrc(type)"/>
+        <img slot="icon" class="icon-img" :src="foodBlockIconSrc(type)"/>
         <img slot="arrow-down" src="img/ShoppingList/arrow-green-down.png"/>
         <img slot="arrow-up" src="img/ShoppingList/arrow-green-up.png"/>
         <food v-for="(food, idx) in foods(type)" :key="idx" :edit="edit" :lastItem="idx === foods(type).length - 1" :food="food" @del-food="delFood"/>
@@ -20,15 +20,15 @@
     </div>
     <div v-else>
       <food-block :title="'全部'" :collapseVisibleInit="true" :collapseUseable="false" :idx="-1">
-        <img slot="icon" src="img/ShoppingList/type-all.png"/>
+        <img slot="icon" class="icon-img" src="img/ShoppingList/type-all.png"/>
         <food v-for="(food, idx) in foods()" :key="idx" :edit="edit" :food="food" @del-food="delFood" :style="idx === foods().length - 1 ? 'height: 28px;' : ''"/>
       </food-block>
     </div>
     <food-block :title="'建議'" :collapseVisibleInit="true" :collapseUseable="false" style="margin-bottom: 85px;">
-      <img slot="icon" src="img/ShoppingList/type-all.png"/>
+      <img slot="icon" class="icon-img" src="img/ShoppingList/type-all.png"/>
       <food v-for="(food, idx) in recommendationList.slice(0, 5)" :key="idx" :edit="false" :lastItem="idx === recommendationList.slice(0, 5).length - 1" :food="food" @selecte-food="addRecommendFood"/>
     </food-block>
-    <div class="footer"><img class="button" src="addToRefrigerator.png" @click="addToRefrigerator"/></div>
+    <div class="footer"><img class="button" src="img/ShoppingList/btn-refrigerator.png" @click="addToRefrigerator"/></div>
   </div>
 </template>
 
@@ -85,6 +85,13 @@
       margin-left: 4px;
     }
   }
+}
+
+.icon-img {
+  width: 39px;
+  height: 39px;
+  margin-top: 12px;
+  margin-left: 13px;
 }
 
 .footer {
