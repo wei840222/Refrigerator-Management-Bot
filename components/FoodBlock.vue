@@ -87,7 +87,7 @@ export default {
     collapseVisibleInit: Boolean,
     collapseUseable: Boolean
   },
-  mounted() {
+  created() {
     this.changeBoxShadow(true);
   },
   data() {
