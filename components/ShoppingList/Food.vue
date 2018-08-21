@@ -1,5 +1,5 @@
 <template>
-  <div class="food" :style="!edit && lastItem ? 'border-radius: 0 0 10px 10px' : ''">
+  <div class="food" :style="!edit && lastItem ? 'height: 28px;' : ''">
     <img v-if="food.selected" src="img/ShoppingList/check-box-act.png" class="check-box" @click="selecteFood"/>
     <img v-else src="img/ShoppingList/check-box.png" class="check-box" @click="selecteFood"/>
     <div class="text" :style="food.selected ? 'text-decoration: line-through black' : ''" @click="selecteFood">{{ food.nameZh }}</div>

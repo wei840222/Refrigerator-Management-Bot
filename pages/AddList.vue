@@ -140,7 +140,6 @@ export default {
     delFood() {
       this.foods.pop();
       if (this.foods.length === 0) this.addFood();
-      if (this.foods.length > 1) jump(".btn");
     },
     addFood() {
       this.foods.push({

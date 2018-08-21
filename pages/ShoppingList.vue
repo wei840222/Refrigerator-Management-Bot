@@ -3,35 +3,30 @@
     <div class="green-bar"/>
     <div class="nav">
       <div class="item" @click="selectedAll = !selectedAll; selectAll()" :style="{ 'color': selectedAll ? '#000000' : '#aaaaaa' }">全選</div>
-      <div class="item" @click="groupByType ? edit = !edit : ''" :style="{ 'color': edit ? '#000000' : '#aaaaaa' }">編輯</div>
+      <div class="item" @click="edit = !edit" :style="{ 'color': edit ? '#000000' : '#aaaaaa' }">編輯</div>
       <div class="option" @click="groupByType = !groupByType">
         <div class="text">{{ groupByType ? '品項' : '全部'}}</div>
         <img class="icon" src="option.png"/>
       </div>
     </div>
     <div v-if="groupByType">
-      <food-block v-for="(type, idx) in types" :key="idx">
+      <food-block v-for="(type, idx) in types" :key="idx" :title="type" :collapseVisibleInit="idx === 0 ? true : false" :collapseUseable="foods(type).length > 0 ? true : false" :edit="edit" :idx="idx" @add-food="addFood">
         <img slot="icon" :src="foodBlockIconSrc(type)"/>
-        <span slot="text">{{ type }}</span>
-        <img slot="arrow" src="img/ShoppingList/arrow-green.png"/>
+        <img slot="arrow-down" src="img/ShoppingList/arrow-green-down.png"/>
+        <img slot="arrow-up" src="img/ShoppingList/arrow-green-up.png"/>
         <food v-for="(food, idx) in foods(type)" :key="idx" :edit="edit" :lastItem="idx === foods(type).length - 1" :food="food" @del-food="delFood"/>
-        <edit v-if="edit" :type="type" @add-food="addFood"/>
-        <div v-if="!edit && foods(type).length === 0" style="height: 10px; width: 100%;"/>
+        <edit slot="footer" v-if="edit" :type="type" @add-food="addFood"/>
       </food-block>
     </div>
     <div v-else>
-      <food-block>
+      <food-block :title="'全部'" :collapseVisibleInit="true" :collapseUseable="false" :idx="-1">
         <img slot="icon" src="img/ShoppingList/type-all.png"/>
-        <span slot="text">全部</span>
-        <food v-for="(food, idx) in foods()" :key="idx" :edit="edit" :lastItem="idx === foods().length - 1" :food="food" @del-food="delFood"/>
-        <div v-if="foods().length === 0" style="height: 10px; width: 100%;"/>
+        <food v-for="(food, idx) in foods()" :key="idx" :edit="edit" :food="food" @del-food="delFood" :style="idx === foods().length - 1 ? 'height: 28px;' : ''"/>
       </food-block>
     </div>
-    <food-block style="margin-bottom: 85px;">
+    <food-block :title="'建議'" :collapseVisibleInit="true" :collapseUseable="false" style="margin-bottom: 85px;">
       <img slot="icon" src="img/ShoppingList/type-all.png"/>
-      <span slot="text">建議</span>
       <food v-for="(food, idx) in recommendationList.slice(0, 5)" :key="idx" :edit="false" :lastItem="idx === recommendationList.slice(0, 5).length - 1" :food="food" @selecte-food="addRecommendFood"/>
-      <div v-if="recommendationList.slice(0, 5).length === 0" style="height: 10px; width: 100%;"/>
     </food-block>
     <div class="footer"><img class="button" src="addToRefrigerator.png" @click="addToRefrigerator"/></div>
   </div>
@@ -183,6 +178,7 @@ export default {
       });
     },
     async addFood(food) {
+      console.log(food)
       if (food.nameZh === "") return;
       const res = await axios.post(
         "/cabinet/userId/add_item_to_shoppingist",
