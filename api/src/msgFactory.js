@@ -83,6 +83,16 @@ module.exports = {
           type: "postback",
           label: "看更多",
           data: `more=${0}`
+        },
+        {
+          type: "postback",
+          label: "去冰箱看看",
+          data: 'act=goRefrigerator'
+        },
+        {
+          type: "postback",
+          label: "不想再收到提醒",
+          data: 'unnotify=all'
         }
       ]
     })
