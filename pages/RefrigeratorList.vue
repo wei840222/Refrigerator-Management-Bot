@@ -10,8 +10,8 @@
         :collapseVisibleInit="idx === 0 ? true : false"
         :collapseUseable="refrigeratorListGroupByDate(date).length > 0 ? true : false"
         :style="idx === dates.length -1 ? 'margin-bottom: 21px;' : ''">
-        <div slot="icon" class="icon-date">{{ date.slice(8) }}</div>
-        <div slot="text" class="title-date">{{ date.slice(0, 7).replace('-', '.') }}</div>
+        <div slot="icon" class="icon-date">{{ date ? date.slice(8) : '' }}</div>
+        <div slot="text" class="title-date">{{ date ? date.slice(0, 7).replace('-', '.') : '' }}</div>
         <img slot="arrow-down" src="img/RefrigeratorList/arrow-gray-down.png"/>
         <img slot="arrow-up" src="img/RefrigeratorList/arrow-gray-up.png"/>
         <food-by-time v-for="(food, idx) in refrigeratorListGroupByDate(date)" :key="idx" :idx="idx" :lastItem="idx === refrigeratorListGroupByDate(date).length - 1" :food="food"/>
