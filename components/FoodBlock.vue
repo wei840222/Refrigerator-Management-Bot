@@ -1,6 +1,6 @@
 <template>
   <div class="food-block" :id="'food-block' + idx">
-    <div class="header" @click="collapseChange">
+    <div class="header" :style="{ 'background-color': getHeaderBackgroundColor }" @click="collapseChange">
       <div class="icon"><slot name="icon"/></div>
       <div class="text">{{ title }}</div>
       <div v-if="collapseUseable">
@@ -27,7 +27,6 @@
     display: flex;
     flex-direction: row;
     border-radius: 10px 10px 0 0;
-    background-color: #ffffff;
     box-shadow: 2px 2px 1px #8a8a8a;
     z-index: 1;
 
@@ -85,7 +84,8 @@ export default {
     idx: Number,
     title: String,
     collapseVisibleInit: Boolean,
-    collapseUseable: Boolean
+    collapseUseable: Boolean,
+    headerBackgroundColor: String
   },
   created() {
     this.changeBoxShadow(true);
@@ -95,6 +95,13 @@ export default {
       collapseVisible: this.collapseVisibleInit,
       boxShadow: ""
     };
+  },
+  computed: {
+    getHeaderBackgroundColor() {
+      return this.headerBackgroundColor
+        ? this.headerBackgroundColor
+        : "#ffffff";
+    }
   },
   methods: {
     collapseChange() {

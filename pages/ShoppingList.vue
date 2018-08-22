@@ -14,19 +14,19 @@
         <img slot="icon" :src="foodBlockIconSrc(type)"/>
         <img slot="arrow-down" src="img/ShoppingList/arrow-green-down.png"/>
         <img slot="arrow-up" src="img/ShoppingList/arrow-green-up.png"/>
-        <food v-for="(food, idx) in foods(type)" :key="idx" :edit="edit" :lastItem="idx === foods(type).length - 1" :food="food" @del-food="delFood"/>
+        <food v-for="(food, idx) in foods(type)" :key="idx" :food="food" @del-food="delFood"/>
         <edit slot="footer" v-if="edit" :type="type" @add-food="addFood"/>
       </food-block>
     </div>
     <div v-else>
       <food-block :title="'全部'" :idx="-1" :collapseVisibleInit="true" :collapseUseable="false">
         <img slot="icon" class="icon-img" src="img/ShoppingList/type-all.png"/>
-        <food v-for="(food, idx) in foods()" :key="idx" :edit="edit" :food="food" @del-food="delFood" :style="idx === foods().length - 1 ? 'height: 28px;' : ''"/>
+        <food v-for="(food, idx) in foods()" :key="idx" :food="food" @del-food="delFood"/>
       </food-block>
     </div>
     <food-block :title="'建議'" :collapseVisibleInit="true" :collapseUseable="false" style="margin-bottom: 81px;">
       <img slot="icon" class="icon-img" src="img/ShoppingList/type-recommend.png"/>
-      <food v-for="(food, idx) in recommendationList.slice(0, 5)" :key="idx" :edit="false" :lastItem="idx === recommendationList.slice(0, 5).length - 1" :food="food" @selecte-food="addRecommendFood"/>
+      <food v-for="(food, idx) in recommendationList.slice(0, 5)" :key="idx" :food="food" @selecte-food="addRecommendFood"/>
     </food-block>
     <div class="footer"><img class="button" src="img/ShoppingList/btn-refrigerator.png" @click="addToRefrigerator"/></div>
   </div>

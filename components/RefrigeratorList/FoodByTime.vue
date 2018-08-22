@@ -1,5 +1,5 @@
 <template>
-  <div class="food" :style="lastItem ? 'height: 28px;' : ''">
+  <div class="food">
     <div class="type-icon">
       <img class="img" :src="foodTypeIconSrc"/>
     </div>
@@ -105,15 +105,13 @@ import axios from "~/plugins/axios";
 
 export default {
   props: {
-    lastItem: Boolean,
     food: Object,
     idx: Number
   },
   data() {
     return {
       options: [
-        { value: "甜品", text: "甜品" },
-        { value: "零食", text: "零食" },
+        { value: "點心", text: "點心" },
         { value: "飲料", text: "飲料" },
         { value: "青菜", text: "青菜" },
         { value: "水果", text: "水果" },
