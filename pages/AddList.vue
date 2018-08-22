@@ -35,9 +35,9 @@
   height: 40px;
   width: 100%;
   margin-bottom: 5px;
-  border-top: 1px #27AB38 solid;
+  border-top: 1px #27ab38 solid;
   border-bottom: 1px #d1d1d1 solid;
-  background-color: #27AB38;
+  background-color: #27ab38;
 }
 
 .title-text {
@@ -153,6 +153,15 @@ export default {
       if (this.foods.length > 1) jump(".btn");
     },
     async addFoodToDB() {
+      for (let i = 0; i < this.foods.length; i++)
+        if (
+          this.foods[i].nameZh === "" ||
+          this.foods[i].type === "" ||
+          this.foods[i].expirationDate === ""
+        ) {
+          alert("請檢查每個欄位都有填！");
+          return;
+        }
       this.foods.forEach(food => {
         axios.post("/cabinet/userId/add_item", {
           nameZh: food.nameZh,
