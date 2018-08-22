@@ -80,6 +80,7 @@ import axios from "~/plugins/axios";
 import FoodBlock from "~/components/FoodBlock.vue";
 import FoodByTime from "~/components/RefrigeratorList/FoodByTime.vue";
 import Food from "~/components/RefrigeratorList/Food.vue";
+import { setInterval } from "timers";
 
 export default {
   async asyncData() {
@@ -109,6 +110,29 @@ export default {
     return {
       title: "冰箱"
     };
+  },
+  mounted() {
+    setInterval(async () => {
+      const refrigeratorList = await axios.get(
+        "/cabinet/userId/item_in_refrigerator"
+      );
+      refrigeratorList.data.refrigeratorList.forEach(element => {
+        const date = new Date(
+          new Date(element.acquisitionDate).getTime() +
+            element.expirationDate * 24 * 60 * 60 * 1000
+        )
+          .toLocaleDateString("zh-TW")
+          .replace(/\//g, "-")
+          .split("-");
+        element.expirationDate =
+          date[0] +
+          "-" +
+          (date[1].length === 1 ? "0" + date[1] : date[1]) +
+          "-" +
+          (date[2].length === 1 ? "0" + date[2] : date[2]);
+      });
+      this.refrigeratorList = refrigeratorList.data.refrigeratorList;
+    }, 5000);
   },
   data() {
     const nowDate = new Date(Date.now())
