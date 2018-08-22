@@ -10,7 +10,7 @@
 .food {
   width: 100%;
   height: 38px;
-  padding-left: 40px;
+  padding-left: 20px;
   padding-top: 9px;
   color: #8a8a8a;
   background-color: #ffffff;
@@ -34,7 +34,7 @@
     height: 15px;
     width: 15px;
     margin-top: 3px;
-    margin-right: 23px;
+    margin-right: 20px;
     z-index: 1;
   }
 }

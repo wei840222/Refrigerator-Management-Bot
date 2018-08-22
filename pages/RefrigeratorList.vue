@@ -69,7 +69,7 @@
 
 .icon-date {
   text-align: center;
-  margin-top: 12px;
+  margin-top: 14px;
   font-size: 26px;
   color: #27ab38;
 }

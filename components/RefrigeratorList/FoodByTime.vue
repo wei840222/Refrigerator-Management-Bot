@@ -1,6 +1,8 @@
 <template>
   <div class="food" :style="lastItem ? 'height: 28px;' : ''">
-    <img class="type-icon" :src="foodTypeIconSrc"/>
+    <div class="type-icon">
+      <img class="img" :src="foodTypeIconSrc"/>
+    </div>
     <div class="text text-reduction">{{ food.nameZh }}</div>
     <div class="date">{{ food.expirationDate }}</div>
     <img src="img/RefrigeratorList/food-edit.png" class="edit" v-b-modal="(food.acquisitionDate + idx).toString()"/>
@@ -29,16 +31,22 @@
 .food {
   width: 100%;
   height: 38px;
-  padding-left: 40px;
+  padding-left: 10px;
   padding-top: 9px;
   color: #8a8a8a;
   background-color: #ffffff;
   display: flex;
 
   .type-icon {
-    height: 16px;
-    margin-top: 4px;
-    margin-right: 10px;
+    min-width: 36px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+
+    .img {
+      height: 16px;
+      margin-top: 4px;
+    }
   }
 
   .text {
@@ -57,7 +65,7 @@
     height: 15px;
     width: 15px;
     margin-top: 3px;
-    margin-right: 23px;
+    margin-right: 20px;
     z-index: 1;
   }
 }
