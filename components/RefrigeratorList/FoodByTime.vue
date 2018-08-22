@@ -36,8 +36,7 @@
   display: flex;
 
   .type-icon {
-    height: 14px;
-    width: 14px;
+    height: 16px;
     margin-top: 4px;
     margin-right: 10px;
   }

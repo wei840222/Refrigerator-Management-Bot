@@ -11,7 +11,7 @@
     </div>
     <div v-if="groupByType">
       <food-block v-for="(type, idx) in types" :key="idx" :title="type" :collapseVisibleInit="idx === 0 ? true : false" :collapseUseable="foods(type).length > 0 ? true : false" :edit="edit" :idx="idx" @add-food="addFood">
-        <img slot="icon" class="icon-img" :src="foodBlockIconSrc(type)"/>
+        <img slot="icon" :src="foodBlockIconSrc(type)"/>
         <img slot="arrow-down" src="img/ShoppingList/arrow-green-down.png"/>
         <img slot="arrow-up" src="img/ShoppingList/arrow-green-up.png"/>
         <food v-for="(food, idx) in foods(type)" :key="idx" :edit="edit" :lastItem="idx === foods(type).length - 1" :food="food" @del-food="delFood"/>
@@ -85,13 +85,6 @@
       margin-left: 4px;
     }
   }
-}
-
-.icon-img {
-  width: 39px;
-  height: 39px;
-  margin-top: 12px;
-  margin-left: 13px;
 }
 
 .footer {
