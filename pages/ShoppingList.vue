@@ -10,8 +10,9 @@
       </div>
     </div>
     <div v-if="groupByType">
-      <food-block v-for="(type, idx) in types" :key="idx" :idx="idx" :title="type" :collapseVisibleInit="idx === 0 ? true : false" :collapseUseable="foods(type).length > 0 ? true : false" :ref="type">
+      <food-block v-for="(type, idx) in types" :key="idx" :idx="idx" :collapseVisibleInit="idx === 0 ? true : false" :collapseUseable="foods(type).length > 0 ? true : false" :ref="type">
         <img slot="icon" :src="foodBlockIconSrc(type)"/>
+        <div slot="text" class="title">{{ type }}</div>
         <img slot="arrow-down" src="img/ShoppingList/arrow-green-down.png"/>
         <img slot="arrow-up" src="img/ShoppingList/arrow-green-up.png"/>
         <food v-for="(food, idx) in foods(type)" :key="idx" :food="food" @del-food="delFood"/>
@@ -19,13 +20,15 @@
       </food-block>
     </div>
     <div v-else>
-      <food-block :title="'全部'" :idx="-1" :collapseVisibleInit="true" :collapseUseable="false">
-        <img slot="icon" class="icon-img" src="img/ShoppingList/type-all.png"/>
+      <food-block :idx="-1" :collapseVisibleInit="true" :collapseUseable="false">
+        <img slot="icon" src="img/ShoppingList/type-all.png"/>
+        <div slot="text" class="title">全部</div>
         <food v-for="(food, idx) in foods()" :key="idx" :food="food" @del-food="delFood"/>
       </food-block>
     </div>
-    <food-block :title="'建議'" :collapseVisibleInit="true" :collapseUseable="false" style="margin-bottom: 81px;">
-      <img slot="icon" class="icon-img" src="img/ShoppingList/type-recommend.png"/>
+    <food-block :collapseVisibleInit="true" :collapseUseable="false" style="margin-bottom: 81px;">
+      <img slot="icon" src="img/ShoppingList/type-recommend.png"/>
+      <div slot="text" class="title">建議</div>
       <food v-for="(food, idx) in recommendationList.slice(0, 5)" :key="idx" :food="food" @selecte-food="addRecommendFood"/>
     </food-block>
     <div class="footer"><img class="button" src="img/ShoppingList/btn-refrigerator.png" @click="addToRefrigerator"/></div>
@@ -85,6 +88,11 @@
       margin-left: 4px;
     }
   }
+}
+
+.title {
+  color: #6d6d6d;
+  font-size: 19.6px;
 }
 
 .footer {

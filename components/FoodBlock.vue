@@ -1,15 +1,15 @@
 <template>
   <div class="food-block" :id="'food-block' + idx">
     <div class="header" :style="{ 'background-color': getHeaderBackgroundColor }" @click="collapseChange">
-      <div class="icon"><slot name="icon"/></div>
-      <div class="text">{{ title }}</div>
+      <div class="icon" :style="{ 'background-color': getHeaderBackgroundColor }"><slot name="icon"/></div>
+      <div class="text"><slot name="text"/></div>
       <div v-if="collapseUseable">
         <div v-if="collapseVisible" class="arrow"><slot name="arrow-down"/></div>
         <div v-else class="arrow"><slot name="arrow-up"/></div>
       </div>
     </div>
-    <b-collapse class="content" :id="title" :visible="collapseVisible" :style="boxShadow" @shown="changeBoxShadow(true)"><slot/></b-collapse>
-    <div class="footer"><slot name="footer"/></div>
+    <b-collapse class="content" :id="'food-block-collapse' + idx" :visible="collapseVisible" :style="boxShadow" @shown="changeBoxShadow(true)"><slot/></b-collapse>
+    <div class="footer" :style="{ 'background-color': getHeaderBackgroundColor }"><slot name="footer"/></div>
   </div>
 </template>
 
@@ -46,8 +46,6 @@
       margin-top: 21.6px;
       margin-bottom: 21.6px;
       flex-grow: 1;
-      color: #6d6d6d;
-      font-size: 19.6px;
     }
 
     .arrow {
@@ -77,12 +75,10 @@
 
 <script>
 import jump from "jump.js";
-import { setTimeout } from "timers";
 
 export default {
   props: {
     idx: Number,
-    title: String,
     collapseVisibleInit: Boolean,
     collapseUseable: Boolean,
     headerBackgroundColor: String

@@ -47,6 +47,7 @@ export default {
     selecteFood() {
       this.$emit("selecte-food", this.food);
       this.food.selected = !this.food.selected;
+      this.$forceUpdate();
     },
     delFood() {
       this.$emit("del-food", this.food);
