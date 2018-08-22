@@ -21,7 +21,7 @@
     </div>
     <div v-else>
       <food-block :idx="-1" :collapseVisibleInit="true" :collapseUseable="false">
-        <img slot="icon" src="img/ShoppingList/type-all.png"/>
+        <img slot="icon" src="img/ShoppingList/type-all.png" style="width: 43px; margin-left: 10px; margin-top:17.26px;"/>
         <div slot="text" class="title">全部</div>
         <food v-for="(food, idx) in foods()" :key="idx" :food="food" :edit="edit" @del-food="delFood"/>
       </food-block>
