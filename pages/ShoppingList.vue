@@ -10,23 +10,26 @@
       </div>
     </div>
     <div v-if="groupByType">
-      <food-block v-for="(type, idx) in types" :key="idx" :title="type" :collapseVisibleInit="idx === 0 ? true : false" :collapseUseable="foods(type).length > 0 ? true : false" :edit="edit" :idx="idx" @add-food="addFood">
-        <img slot="icon" class="icon-img" :src="foodBlockIconSrc(type)"/>
+      <food-block v-for="(type, idx) in types" :key="idx" :idx="idx" :collapseVisibleInit="idx === 0 ? true : false" :collapseUseable="foods(type).length > 0 ? true : false" :ref="type">
+        <img slot="icon" :src="foodBlockIconSrc(type)"/>
+        <div slot="text" class="title">{{ type }}</div>
         <img slot="arrow-down" src="img/ShoppingList/arrow-green-down.png"/>
         <img slot="arrow-up" src="img/ShoppingList/arrow-green-up.png"/>
-        <food v-for="(food, idx) in foods(type)" :key="idx" :edit="edit" :lastItem="idx === foods(type).length - 1" :food="food" @del-food="delFood"/>
+        <food v-for="(food, idx) in foods(type)" :key="idx" :food="food" :edit="edit" @del-food="delFood"/>
         <edit slot="footer" v-if="edit" :type="type" @add-food="addFood"/>
       </food-block>
     </div>
     <div v-else>
-      <food-block :title="'全部'" :collapseVisibleInit="true" :collapseUseable="false" :idx="-1">
-        <img slot="icon" class="icon-img" src="img/ShoppingList/type-all.png"/>
-        <food v-for="(food, idx) in foods()" :key="idx" :edit="edit" :food="food" @del-food="delFood" :style="idx === foods().length - 1 ? 'height: 28px;' : ''"/>
+      <food-block :idx="-1" :collapseVisibleInit="true" :collapseUseable="false">
+        <img slot="icon" src="img/ShoppingList/type-all.png"/>
+        <div slot="text" class="title">全部</div>
+        <food v-for="(food, idx) in foods()" :key="idx" :food="food" @del-food="delFood"/>
       </food-block>
     </div>
-    <food-block :title="'建議'" :collapseVisibleInit="true" :collapseUseable="false" style="margin-bottom: 85px;">
-      <img slot="icon" class="icon-img" src="img/ShoppingList/type-all.png"/>
-      <food v-for="(food, idx) in recommendationList.slice(0, 5)" :key="idx" :edit="false" :lastItem="idx === recommendationList.slice(0, 5).length - 1" :food="food" @selecte-food="addRecommendFood"/>
+    <food-block :collapseVisibleInit="true" :collapseUseable="false" style="margin-bottom: 81px;">
+      <img slot="icon" src="img/ShoppingList/type-recommend.png"/>
+      <div slot="text" class="title">建議</div>
+      <food v-for="(food, idx) in recommendationList.slice(0, 5)" :key="idx" :food="food" @selecte-food="addRecommendFood"/>
     </food-block>
     <div class="footer"><img class="button" src="img/ShoppingList/btn-refrigerator.png" @click="addToRefrigerator"/></div>
   </div>
@@ -87,16 +90,14 @@
   }
 }
 
-.icon-img {
-  width: 39px;
-  height: 39px;
-  margin-top: 12px;
-  margin-left: 13px;
+.title {
+  color: #6d6d6d;
+  font-size: 19.6px;
 }
 
 .footer {
   bottom: 0px;
-  height: 64px;
+  height: 61px;
   width: 100%;
   display: flex;
   position: fixed;
@@ -109,7 +110,7 @@
     bottom: 0px;
     margin-top: 12px;
     margin-bottom: 12px;
-    height: 40px;
+    height: 37px;
     z-index: 10;
   }
 }
@@ -120,6 +121,7 @@ import axios from "~/plugins/axios";
 import FoodBlock from "~/components/FoodBlock.vue";
 import Food from "~/components/ShoppingList/Food.vue";
 import Edit from "~/components/ShoppingList/Edit.vue";
+import { setInterval } from "timers";
 
 export default {
   async asyncData() {
@@ -132,7 +134,7 @@ export default {
       recommendationList: recommendationList.data.recommendationList
     };
   },
-  created() {
+  mounted() {
     this.shoppingItems.forEach(element => {
       element.selected = false;
     });
@@ -140,6 +142,17 @@ export default {
       element.selected = false;
     });
     this.recommendationList.sort((a, b) => b.quantity - a.quantity);
+    setInterval(async () => {
+      const res = await axios.get("/cabinet/userId/shopping_list");
+      res.data.shoppingItems.forEach(element => {
+        try {
+          element.selected = this.shoppingItems.filter(
+            item => item.id === element.id
+          )[0].selected;
+        } catch (err) {}
+      });
+      this.shoppingItems = res.data.shoppingItems;
+    }, 5000);
   },
   head() {
     return {
@@ -185,7 +198,6 @@ export default {
       });
     },
     async addFood(food) {
-      console.log(food)
       if (food.nameZh === "") return;
       const res = await axios.post(
         "/cabinet/userId/add_item_to_shoppingist",
@@ -213,7 +225,7 @@ export default {
         res.data.shoppingItems.forEach(element => {
           element.selected = this.shoppingItems.filter(
             item => item.id === element.id
-          ).selected;
+          )[0].selected;
         });
         this.shoppingItems = res.data.shoppingItems;
       }

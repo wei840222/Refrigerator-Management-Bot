@@ -1,5 +1,5 @@
 <template>
-  <div class="food" :style="!edit && lastItem ? 'height: 28px;' : ''">
+  <div class="food">
     <img v-if="food.selected" src="img/ShoppingList/check-box-act.png" class="check-box" @click="selecteFood"/>
     <img v-else src="img/ShoppingList/check-box.png" class="check-box" @click="selecteFood"/>
     <div class="text" :style="food.selected ? 'text-decoration: line-through black' : ''" @click="selecteFood">{{ food.nameZh }}</div>
@@ -41,14 +41,14 @@
 <script>
 export default {
   props: {
-    lastItem: Boolean,
-    edit: Boolean,
-    food: Object
+    food: Object,
+    edit: Boolean
   },
   methods: {
     selecteFood() {
       this.$emit("selecte-food", this.food);
       this.food.selected = !this.food.selected;
+      this.$forceUpdate();
     },
     delFood() {
       this.$emit("del-food", this.food);

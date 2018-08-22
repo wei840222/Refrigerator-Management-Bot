@@ -10,15 +10,19 @@
       </div>
       <div class="form-row">
         <div class="form-option">品項：</div>
-        <b-form-select class="edit-input" v-model="food.type" :options="options"/>
+        <select class="edit-input" v-model="food.type">
+          <option v-for="(option, idx) in options" :key="idx" :value="option.value">
+            {{ option.text }}
+          </option>
+        </select>
       </div>
       <div class="form-row">
         <div class="form-option">購買日期：</div>
-        <b-form-input class="edit-input" v-model="food.acquisitionDate" type="date"/>
+        <input class="edit-input" v-model="food.acquisitionDate" type="date"/>
       </div>
       <div class="form-row">
         <div class="form-option">保存期限：</div>
-        <b-form-input class="edit-input" v-model="food.expirationDate" type="date"/>
+        <input class="edit-input" v-model="food.expirationDate" type="date"/>
       </div>
       <br/>
     </div>
@@ -35,9 +39,9 @@
   height: 40px;
   width: 100%;
   margin-bottom: 5px;
-  border-top: 1px #27AB38 solid;
+  border-top: 1px #27ab38 solid;
   border-bottom: 1px #d1d1d1 solid;
-  background-color: #27AB38;
+  background-color: #27ab38;
 }
 
 .title-text {
@@ -153,6 +157,16 @@ export default {
       if (this.foods.length > 1) jump(".btn");
     },
     async addFoodToDB() {
+      for (let i = 0; i < this.foods.length; i++)
+        if (
+          this.foods[i].nameZh == "" ||
+          this.foods[i].type == "" ||
+          this.foods[i].expirationDate == "" ||
+          this.foods[i].acquisitionDate == ""
+        ) {
+          alert("請檢查每個欄位都有填！");
+          return;
+        }
       this.foods.forEach(food => {
         axios.post("/cabinet/userId/add_item", {
           nameZh: food.nameZh,

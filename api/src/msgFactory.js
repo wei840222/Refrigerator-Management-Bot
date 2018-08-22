@@ -13,7 +13,7 @@ module.exports = {
       ]
     }
   },
-  expirationReminder(refrigeratorList) {
+  expirationReminder(refrigeratorList, startIdx = 0) {
     const nowDate = new Date(new Date(Date.now())
       .toLocaleString("zh-TW", {
         timeZone: "Asia/Taipei",
@@ -29,7 +29,16 @@ module.exports = {
       return food.expirationPeriod <= 7 && food.expirationPeriod >= 0 && food.notify
     });
     expirationReminderList.sort((a, b) => a.expirationPeriod > b.expirationPeriod ? 1 : -1)
-    if (expirationReminderList.length > 10) expirationReminderList = expirationReminderList.slice(0, 10)
+    let seeMore = null;
+    if (expirationReminderList.length - startIdx === 10) seeMore = false
+    else if (expirationReminderList.length - startIdx > 9) {
+      seeMore = true
+      expirationReminderList = expirationReminderList.slice(startIdx, startIdx + 9)
+    }
+    else {
+      seeMore = false
+      expirationReminderList = expirationReminderList.slice(startIdx, expirationReminderList.length)
+    }
     const msg = {
       type: "template",
       altText: "過期提醒",
@@ -73,6 +82,28 @@ module.exports = {
           }
         ]
       })
+    })
+    if (seeMore) msg.template.columns.push({
+      thumbnailImageUrl: process.env.BASE_URL + 'img/LINEBot/type-others.png',
+      title: '更多',
+      text: '點下方按鈕看更多快過期食物。',
+      actions: [
+        {
+          type: "postback",
+          label: "看更多",
+          data: `seeMore=${startIdx + 9}`
+        },
+        {
+          "type": "uri",
+          "label": "去冰箱看看",
+          "uri": "line://app/1597618539-YAl1dAOq"
+        },
+        {
+          type: "postback",
+          label: "不想再收到提醒",
+          data: 'unnotify=all'
+        }
+      ]
     })
     return msg
   },

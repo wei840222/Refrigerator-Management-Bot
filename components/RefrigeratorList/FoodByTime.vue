@@ -1,26 +1,33 @@
 <template>
-  <div class="food" :style="lastItem ? 'height: 28px;' : ''">
-    <img class="type-icon" :src="foodTypeIconSrc"/>
-    <div class="text">{{ food.nameZh }}</div>
+  <div class="food">
+    <div class="type-icon">
+      <img class="img" :src="foodTypeIconSrc"/>
+    </div>
+    <div class="text text-reduction">{{ food.nameZh }}</div>
     <div class="date">{{ food.expirationDate }}</div>
     <img src="img/RefrigeratorList/food-edit.png" class="edit" v-b-modal="(food.acquisitionDate + idx).toString()"/>
-    <b-modal :id="(food.acquisitionDate + idx).toString()" title="編輯品項" ok-only :ok-title="'完成'" @hidden="updateItem">
+    <b-modal v-model="modalShow" :id="(food.acquisitionDate + idx).toString()" title="編輯品項" @hidden="updateItem">
       <div class="row">
         <div class="option">名稱：</div>
         <input class="input" v-model="food.nameZh" type="text"/>
       </div>
       <div class="row">
         <div class="option">品項：</div>
-        <b-form-select class="input" v-model="food.type" :options="options"/>
+        <select class="input" v-model="food.type">
+          <option v-for="(option, idx) in options" :key="idx" :value="option.value">
+            {{ option.text }}
+          </option>
+        </select>
       </div>
       <div class="row">
         <div class="option">購買日期：</div>
-        <b-form-input class="input" v-model="food.acquisitionDate" type="date"/>
+        <input class="input" v-model="food.acquisitionDate" type="date"/>
       </div>
       <div class="row">
         <div class="option">保存期限：</div>
-        <b-form-input class="input" v-model="food.expirationDate" type="date"/>
+        <input class="input" v-model="food.expirationDate" type="date"/>
       </div>
+      <img slot="modal-footer" class="btn" src="img/AddList/btn-fin.png" @click="modalShow = !modalShow"/>
     </b-modal>
   </div>
 </template>
@@ -29,17 +36,22 @@
 .food {
   width: 100%;
   height: 38px;
-  padding-left: 40px;
+  padding-left: 10px;
   padding-top: 9px;
   color: #8a8a8a;
   background-color: #ffffff;
   display: flex;
 
   .type-icon {
-    height: 14px;
-    width: 14px;
-    margin-top: 4px;
-    margin-right: 10px;
+    min-width: 36px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+
+    .img {
+      height: 16px;
+      margin-top: 4px;
+    }
   }
 
   .text {
@@ -58,7 +70,7 @@
     height: 15px;
     width: 15px;
     margin-top: 3px;
-    margin-right: 23px;
+    margin-right: 20px;
     z-index: 1;
   }
 }
@@ -90,6 +102,13 @@
     outline: none;
     flex-grow: 1;
   }
+
+  .btn {
+    height: 37px;
+    width: 57px;
+    padding: 0px;
+    margin-left: 6px;
+  }
 }
 </style>
 
@@ -98,15 +117,14 @@ import axios from "~/plugins/axios";
 
 export default {
   props: {
-    lastItem: Boolean,
     food: Object,
     idx: Number
   },
   data() {
     return {
+      modalShow: false,
       options: [
-        { value: "甜品", text: "甜品" },
-        { value: "零食", text: "零食" },
+        { value: "點心", text: "點心" },
         { value: "飲料", text: "飲料" },
         { value: "青菜", text: "青菜" },
         { value: "水果", text: "水果" },

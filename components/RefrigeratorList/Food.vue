@@ -1,6 +1,6 @@
 <template>
-  <div class="food" :style="lastItem ? 'height: 28px;' : ''">
-    <div class="text">{{ food.nameZh }}</div>
+  <div class="food">
+    <div class="text text-reduction">{{ food.nameZh }}</div>
     <div class="date" :style="{ 'color': foodColor }">{{ food.expirationDateString }}</div>
     <img class="del" src="img/RefrigeratorList/food-del.png" @click="delFood"/>
   </div>
@@ -10,7 +10,7 @@
 .food {
   width: 100%;
   height: 38px;
-  padding-left: 40px;
+  padding-left: 20px;
   padding-top: 9px;
   color: #8a8a8a;
   background-color: #ffffff;
@@ -34,7 +34,7 @@
     height: 15px;
     width: 15px;
     margin-top: 3px;
-    margin-right: 23px;
+    margin-right: 20px;
     z-index: 1;
   }
 }
@@ -45,7 +45,6 @@ import axios from "~/plugins/axios";
 
 export default {
   props: {
-    lastItem: Boolean,
     food: Object,
     foodColor: String
   },

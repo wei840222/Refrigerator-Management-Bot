@@ -2,9 +2,9 @@
   <div class="edit">
     <img src="img/ShoppingList/food-add.png" class="add"/>
     <div class="input-box">
-      <input class="input" type="text" placeholder="新增" v-model="nameZh" @change="addFood"/>
+      <input class="input" type="text" placeholder="新增" v-model="nameZh" @change="addFood" @focus="showAddFin = true" @blur="showAddFin = false"/>
     </div>
-    <img src="img/ShoppingList/food-add-fin.png" class="fin" @click="addFood"/>
+    <img v-if="showAddFin" src="img/ShoppingList/food-add-fin.png" class="fin" @click="addFood"/>
   </div>
 </template>
 
@@ -64,11 +64,13 @@ export default {
   },
   data() {
     return {
-      nameZh: ""
+      nameZh: "",
+      showAddFin: false
     };
   },
   methods: {
     addFood() {
+      this.$parent.$parent.$refs[this.type][0].collapseVisible = true;
       this.$emit("add-food", { nameZh: this.nameZh, type: this.type });
       this.nameZh = "";
     }
