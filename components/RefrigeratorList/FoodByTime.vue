@@ -6,7 +6,7 @@
     <div class="text text-reduction">{{ food.nameZh }}</div>
     <div class="date">{{ food.expirationDate }}</div>
     <img src="img/RefrigeratorList/food-edit.png" class="edit" v-b-modal="(food.acquisitionDate + idx).toString()"/>
-    <b-modal :id="(food.acquisitionDate + idx).toString()" title="編輯品項" ok-only :ok-title="'完成'" @hidden="updateItem">
+    <b-modal v-model="modalShow" :id="(food.acquisitionDate + idx).toString()" title="編輯品項" @hidden="updateItem">
       <div class="row">
         <div class="option">名稱：</div>
         <input class="input" v-model="food.nameZh" type="text"/>
@@ -27,6 +27,7 @@
         <div class="option">保存期限：</div>
         <input class="input" v-model="food.expirationDate" type="date"/>
       </div>
+      <img slot="modal-footer" class="btn" src="img/AddList/btn-fin.png" @click="modalShow = !modalShow"/>
     </b-modal>
   </div>
 </template>
@@ -101,6 +102,13 @@
     outline: none;
     flex-grow: 1;
   }
+
+  .btn {
+    height: 37px;
+    width: 57px;
+    padding: 0px;
+    margin-left: 6px;
+  }
 }
 </style>
 
@@ -114,6 +122,7 @@ export default {
   },
   data() {
     return {
+      modalShow: false,
       options: [
         { value: "點心", text: "點心" },
         { value: "飲料", text: "飲料" },
