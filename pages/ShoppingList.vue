@@ -15,7 +15,7 @@
         <div slot="text" class="title">{{ type }}</div>
         <img slot="arrow-down" src="img/ShoppingList/arrow-green-down.png"/>
         <img slot="arrow-up" src="img/ShoppingList/arrow-green-up.png"/>
-        <food v-for="(food, idx) in foods(type)" :key="idx" :food="food" @del-food="delFood"/>
+        <food v-for="(food, idx) in foods(type)" :key="idx" :food="food" :edit="edit" @del-food="delFood"/>
         <edit slot="footer" v-if="edit" :type="type" @add-food="addFood"/>
       </food-block>
     </div>

@@ -41,7 +41,8 @@
 <script>
 export default {
   props: {
-    food: Object
+    food: Object,
+    edit: Boolean
   },
   methods: {
     selecteFood() {
