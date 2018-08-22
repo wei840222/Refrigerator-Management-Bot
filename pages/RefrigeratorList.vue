@@ -10,29 +10,29 @@
         :collapseVisibleInit="idx === 0 ? true : false"
         :collapseUseable="refrigeratorListGroupByDate(date).length > 0 ? true : false"
         :style="idx === dates.length -1 ? 'margin-bottom: 21px;' : ''">
-        <div slot="icon" class="icon-date">{{ date.slice(8) }}</div>
-        <div slot="text" class="title-date">{{ date.slice(0, 7).replace('-', '.') }}</div>
+        <div slot="icon" class="icon-date">{{ date ? date.slice(8) : '' }}</div>
+        <div slot="text" class="title-date">{{ date ? date.slice(0, 7).replace('-', '.') : '' }}</div>
         <img slot="arrow-down" src="img/RefrigeratorList/arrow-gray-down.png"/>
         <img slot="arrow-up" src="img/RefrigeratorList/arrow-gray-up.png"/>
         <food-by-time v-for="(food, idx) in refrigeratorListGroupByDate(date)" :key="idx" :idx="idx" :lastItem="idx === refrigeratorListGroupByDate(date).length - 1" :food="food"/>
       </food-block>
     </div>
     <div v-else>
-      <food-block :idx="1" :headerBackgroundColor="'#F47070'" :collapseVisibleInit="true" :collapseUseable="foodsDying.length > 0 ? true : false">
+      <food-block :idx="1" :headerBackgroundColor="'#ED7879'" :collapseVisibleInit="true" :collapseUseable="foodsDying.length > 0 ? true : false">
         <img slot="icon" class="icon-img" src="img/RefrigeratorList/foods-dying.png"/>
         <div slot="text" class="title">快過期</div>
         <img slot="arrow-down" src="img/RefrigeratorList/arrow-white-down.png"/>
         <img slot="arrow-up" src="img/RefrigeratorList/arrow-white-up.png"/>
         <food v-for="(food, idx) in foodsDying" :key="idx" :lastItem="idx === foodsDying.length - 1" :food="food" :foodColor="'#F47070'" @del-food="delFood"/>
       </food-block>
-      <food-block :idx="2" :headerBackgroundColor="'#565656'" :collapseVisibleInit="false" :collapseUseable="foodsDied.length > 0 ? true : false">
+      <food-block :idx="2" :headerBackgroundColor="'#ADADAD'" :collapseVisibleInit="false" :collapseUseable="foodsDied.length > 0 ? true : false">
         <img slot="icon" class="icon-img" src="img/RefrigeratorList/foods-died.png"/>
         <div slot="text" class="title">已過期</div>
         <img slot="arrow-down" src="img/RefrigeratorList/arrow-white-down.png"/>
         <img slot="arrow-up" src="img/RefrigeratorList/arrow-white-up.png"/>
         <food v-for="(food, idx) in foodsDied" :key="idx" :lastItem="idx === foodsDied.length - 1" :food="food" :foodColor="'#565656'" @del-food="delFood"/>
       </food-block>
-      <food-block :idx="3" :headerBackgroundColor="'#65BE2B'" :collapseVisibleInit="false" :collapseUseable="foodsAlive.length > 0 ? true : false" style="margin-bottom: 21px;">
+      <food-block :idx="3" :headerBackgroundColor="'#9ACA55'" :collapseVisibleInit="false" :collapseUseable="foodsAlive.length > 0 ? true : false" style="margin-bottom: 21px;">
         <img slot="icon" class="icon-img" src="img/RefrigeratorList/foods-alive.png"/>
         <div slot="text" class="title">未過期</div>
         <img slot="arrow-down" src="img/RefrigeratorList/arrow-white-down.png"/>
@@ -101,7 +101,6 @@ import axios from "~/plugins/axios";
 import FoodBlock from "~/components/FoodBlock.vue";
 import FoodByTime from "~/components/RefrigeratorList/FoodByTime.vue";
 import Food from "~/components/RefrigeratorList/Food.vue";
-import { setInterval } from "timers";
 
 export default {
   async asyncData() {
@@ -128,11 +127,30 @@ export default {
     };
   },
   mounted() {
+    this.refrigeratorList.forEach(element => {
+      if (element.firstUse) {
+        axios.post("/cabinet/userId/edit_item", {
+          id: element.id,
+          nameZh: element.nameZh,
+          type: element.type,
+          acquisitionDate: element.acquisitionDate,
+          expirationDate: element.expirationDate,
+          notify: element.notify,
+          firstUse: false,
+          easyExpired: element.easyExpired
+        });
+      }
+    });
     setInterval(async () => {
       const refrigeratorList = await axios.get(
         "/cabinet/userId/item_in_refrigerator"
       );
       refrigeratorList.data.refrigeratorList.forEach(element => {
+        try {
+          element.firstUse = this.refrigeratorList.filter(
+            item => item.id === element.id
+          )[0].firstUse;
+        } catch (err) {}
         const date = new Date(
           new Date(element.acquisitionDate).getTime() +
             element.expirationDate * 24 * 60 * 60 * 1000
@@ -185,44 +203,70 @@ export default {
       return dates;
     },
     foodsDying() {
-      return this.refrigeratorList.filter(food => {
-        const date =
-          new Date(food.expirationDate).getTime() -
-          new Date(this.now).getTime();
-        if (date <= 604800000 && date >= 0)
-          food.expirationDateString =
-            Math.floor(date / 1000 / 60 / 60 / 24) === 0
-              ? "今天過期"
-              : "還剩" + Math.floor(date / 1000 / 60 / 60 / 24) + "天";
-        return date <= 604800000 && date >= 0;
-      });
+      const refrigeratorList = this.refrigeratorList;
+      return refrigeratorList
+        .filter(food => {
+          const date =
+            new Date(food.expirationDate).getTime() -
+            new Date(this.now).getTime();
+          if (date <= 604800000 && date >= 0)
+            food.expirationDateString =
+              Math.floor(date / 1000 / 60 / 60 / 24) === 0
+                ? "今天過期"
+                : "還剩" + Math.floor(date / 1000 / 60 / 60 / 24) + "天";
+          return date <= 604800000 && date >= 0;
+        })
+        .sort((a, b) => {
+          if (a.expirationDate > b.expirationDate) return 1;
+          else if (a.expirationDate < b.expirationDate) return -1;
+        });
     },
     foodsDied() {
-      return this.refrigeratorList.filter(food => {
-        const date =
-          new Date(food.expirationDate).getTime() -
-          new Date(this.now).getTime();
-        if (date < 0)
-          food.expirationDateString =
-            "過期" + Math.floor(-date / 1000 / 60 / 60 / 24) + "天";
-        return date < 0;
-      });
+      const refrigeratorList = this.refrigeratorList;
+      return refrigeratorList
+        .filter(food => {
+          const date =
+            new Date(food.expirationDate).getTime() -
+            new Date(this.now).getTime();
+          if (date < 0)
+            food.expirationDateString =
+              "過期" + Math.floor(-date / 1000 / 60 / 60 / 24) + "天";
+          return date < 0;
+        })
+        .sort((a, b) => {
+          if (a.expirationDate > b.expirationDate) return 1;
+          else if (a.expirationDate < b.expirationDate) return -1;
+        });
     },
     foodsAlive() {
-      return this.refrigeratorList.filter(food => {
-        const date =
-          new Date(food.expirationDate).getTime() -
-          new Date(this.now).getTime();
-        if (date > 604800000) food.expirationDateString = food.expirationDate;
-        return date > 604800000;
-      });
+      const refrigeratorList = this.refrigeratorList;
+      return refrigeratorList
+        .filter(food => {
+          const date =
+            new Date(food.expirationDate).getTime() -
+            new Date(this.now).getTime();
+          if (date > 604800000) food.expirationDateString = food.expirationDate;
+          return date > 604800000;
+        })
+        .sort((a, b) => {
+          if (a.expirationDate > b.expirationDate) return 1;
+          else if (a.expirationDate < b.expirationDate) return -1;
+        });
     }
   },
   methods: {
     refrigeratorListGroupByDate(date) {
-      return this.refrigeratorList.filter(
-        item => item.acquisitionDate === date
-      );
+      return this.refrigeratorList
+        .filter(item => item.acquisitionDate === date)
+        .sort((a, b) => {
+          if (a.firstUse) return -1;
+          else if (b.firstUse) return 1;
+          else return 0;
+        })
+        .sort((a, b) => {
+          if (a.easyExpired) return -1;
+          else if (b.easyExpired) return 1;
+        });
     },
     async delFood() {
       const res = await axios.get("/cabinet/userId/item_in_refrigerator");

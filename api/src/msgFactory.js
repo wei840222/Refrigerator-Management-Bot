@@ -30,14 +30,14 @@ module.exports = {
     });
     expirationReminderList.sort((a, b) => a.expirationPeriod > b.expirationPeriod ? 1 : -1)
     let seeMore = null;
-    if (expirationReminderList.length - startIdx === 10) seeMore = false
-    else if (expirationReminderList.length - startIdx > 9) {
-      seeMore = true
-      expirationReminderList = expirationReminderList.slice(startIdx, startIdx + 9)
-    }
-    else {
+    startIdx = parseInt(startIdx)
+    if ((expirationReminderList.length - startIdx) <= 10) {
       seeMore = false
       expirationReminderList = expirationReminderList.slice(startIdx, expirationReminderList.length)
+    }
+    else {
+      seeMore = true
+      expirationReminderList = expirationReminderList.slice(startIdx, startIdx + 9)
     }
     const msg = {
       type: "template",
@@ -84,7 +84,7 @@ module.exports = {
       })
     })
     if (seeMore) msg.template.columns.push({
-      thumbnailImageUrl: process.env.BASE_URL + 'img/LINEBot/type-others.png',
+      thumbnailImageUrl: process.env.BASE_URL + 'img/LINEBot/see-more.png',
       title: '更多',
       text: '點下方按鈕看更多快過期食物。',
       actions: [

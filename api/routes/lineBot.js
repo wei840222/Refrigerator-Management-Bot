@@ -5,6 +5,7 @@ const axios = require('axios')
 const backendApi = axios.create({
   baseURL: process.env.API_URL
 })
+const fs = require('fs');
 
 // create LINE SDK config from env variables
 const config = {
@@ -70,6 +71,16 @@ function handleEvent(event) {
       switch (message.type) {
         case 'text':
           return handleText(message, event.replyToken, event.source);
+        case 'image':
+          handleImage(message, event.replyToken)
+            .then(downloadPath => {
+              console.log(downloadPath)
+              backendApi.get(`/user/downloadFile/${downloadPath}`)
+                .then(res => console.log(res.data))
+                .catch(err => console.log(err))
+            })
+            .catch(err => console.log(err))
+          return
         default:
           throw new Error(`Unknown message: ${JSON.stringify(message)}`);
       }
@@ -142,6 +153,18 @@ function handleText(message, replyToken, source) {
     default:
       console.log(`Message from ${replyToken}: ${message.text}`);
   }
+}
+
+function handleImage(message, replyToken) {
+  const downloadPath = `/app/static/${message.id}.jpg`;
+  return client.getMessageContent(message.id)
+    .then(stream => new Promise((resolve, reject) => {
+      const writable = fs.createWriteStream(downloadPath);
+      stream.pipe(writable);
+      stream.on('end', () => resolve(`${message.id}.jpg`));
+      stream.on('error', reject);
+    }))
+    .catch(err => console.log(err))
 }
 
 module.exports = router
