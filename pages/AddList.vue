@@ -159,10 +159,10 @@ export default {
     async addFoodToDB() {
       for (let i = 0; i < this.foods.length; i++)
         if (
-          this.foods[i].nameZh == "" ||
-          this.foods[i].type == "" ||
-          this.foods[i].expirationDate == "" ||
-          this.foods[i].acquisitionDate == ""
+          !this.foods[i].nameZh ||
+          !this.foods[i].type ||
+          !this.foods[i].acquisitionDate ||
+          !this.foods[i].expirationDate
         ) {
           alert("請檢查每個欄位都有填！");
           return;
@@ -171,11 +171,11 @@ export default {
         axios.post("/cabinet/userId/add_item", {
           nameZh: food.nameZh,
           type: food.type,
+          acquisitionDate: food.acquisitionDate,
           expirationDate: food.expirationDate
         });
       });
-      this.foods = [];
-      this.addFood();
+      this.$router.push("/RefrigeratorList");
     }
   }
 };
