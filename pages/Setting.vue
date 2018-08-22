@@ -1,5 +1,5 @@
 <template>
-  <img src="img/setting.png" style="height: 100%; width: 100%;"/>
+  <img src="img/setting.png" style="width: 100%;"/>
 </template>
 
 <script>
