@@ -13,15 +13,19 @@
       </div>
       <div class="row">
         <div class="option">品項：</div>
-        <b-form-select class="input" v-model="food.type" :options="options"/>
+        <select class="input" v-model="food.type">
+          <option v-for="(option, idx) in options" :key="idx" :value="option.value">
+            {{ option.text }}
+          </option>
+        </select>
       </div>
       <div class="row">
         <div class="option">購買日期：</div>
-        <b-form-input class="input" v-model="food.acquisitionDate" type="date"/>
+        <input class="input" v-model="food.acquisitionDate" type="date"/>
       </div>
       <div class="row">
         <div class="option">保存期限：</div>
-        <b-form-input class="input" v-model="food.expirationDate" type="date"/>
+        <input class="input" v-model="food.expirationDate" type="date"/>
       </div>
     </b-modal>
   </div>
