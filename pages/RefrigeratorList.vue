@@ -204,37 +204,55 @@ export default {
       return dates;
     },
     foodsDying() {
-      return this.refrigeratorList.filter(food => {
-        const date =
-          new Date(food.expirationDate).getTime() -
-          new Date(this.now).getTime();
-        if (date <= 604800000 && date >= 0)
-          food.expirationDateString =
-            Math.floor(date / 1000 / 60 / 60 / 24) === 0
-              ? "今天過期"
-              : "還剩" + Math.floor(date / 1000 / 60 / 60 / 24) + "天";
-        return date <= 604800000 && date >= 0;
-      });
+      const refrigeratorList = this.refrigeratorList;
+      return refrigeratorList
+        .filter(food => {
+          const date =
+            new Date(food.expirationDate).getTime() -
+            new Date(this.now).getTime();
+          if (date <= 604800000 && date >= 0)
+            food.expirationDateString =
+              Math.floor(date / 1000 / 60 / 60 / 24) === 0
+                ? "今天過期"
+                : "還剩" + Math.floor(date / 1000 / 60 / 60 / 24) + "天";
+          return date <= 604800000 && date >= 0;
+        })
+        .sort((a, b) => {
+          if (a.expirationDate > b.expirationDate) return 1;
+          else if (a.expirationDate < b.expirationDate) return -1;
+        });
     },
     foodsDied() {
-      return this.refrigeratorList.filter(food => {
-        const date =
-          new Date(food.expirationDate).getTime() -
-          new Date(this.now).getTime();
-        if (date < 0)
-          food.expirationDateString =
-            "過期" + Math.floor(-date / 1000 / 60 / 60 / 24) + "天";
-        return date < 0;
-      });
+      const refrigeratorList = this.refrigeratorList;
+      return refrigeratorList
+        .filter(food => {
+          const date =
+            new Date(food.expirationDate).getTime() -
+            new Date(this.now).getTime();
+          if (date < 0)
+            food.expirationDateString =
+              "過期" + Math.floor(-date / 1000 / 60 / 60 / 24) + "天";
+          return date < 0;
+        })
+        .sort((a, b) => {
+          if (a.expirationDate > b.expirationDate) return 1;
+          else if (a.expirationDate < b.expirationDate) return -1;
+        });
     },
     foodsAlive() {
-      return this.refrigeratorList.filter(food => {
-        const date =
-          new Date(food.expirationDate).getTime() -
-          new Date(this.now).getTime();
-        if (date > 604800000) food.expirationDateString = food.expirationDate;
-        return date > 604800000;
-      });
+      const refrigeratorList = this.refrigeratorList;
+      return refrigeratorList
+        .filter(food => {
+          const date =
+            new Date(food.expirationDate).getTime() -
+            new Date(this.now).getTime();
+          if (date > 604800000) food.expirationDateString = food.expirationDate;
+          return date > 604800000;
+        })
+        .sort((a, b) => {
+          if (a.expirationDate > b.expirationDate) return 1;
+          else if (a.expirationDate < b.expirationDate) return -1;
+        });
     }
   },
   methods: {
@@ -244,7 +262,7 @@ export default {
         .sort((a, b) => {
           if (a.firstUse) return -1;
           else if (b.firstUse) return 1;
-          else return 0
+          else return 0;
         })
         .sort((a, b) => {
           if (a.easyExpired) return -1;
