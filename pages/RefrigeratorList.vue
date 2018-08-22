@@ -244,6 +244,7 @@ export default {
         .sort((a, b) => {
           if (a.firstUse) return -1;
           else if (b.firstUse) return 1;
+          else return 0
         })
         .sort((a, b) => {
           if (a.easyExpired) return -1;
