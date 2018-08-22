@@ -222,7 +222,16 @@ export default {
     refrigeratorListGroupByDate(date) {
       return this.refrigeratorList
         .filter(item => item.acquisitionDate === date)
-        .sort(item => !item.easyExpired);
+        .sort((a, b) => {
+          if (a.firstUse) return -1;
+          else if (b.firstUse) return 1;
+          else return 0;
+        })
+        .sort((a, b) => {
+          if (a.easyExpired) return -1;
+          else if (b.easyExpired) return 1;
+          else return 0;
+        });
     },
     async delFood() {
       const res = await axios.get("/cabinet/userId/item_in_refrigerator");

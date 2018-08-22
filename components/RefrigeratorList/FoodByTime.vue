@@ -1,5 +1,5 @@
 <template>
-  <div class="food" :style="food.easyExpired ? 'background-color: #ececec;' : ''">
+  <div class="food" :style="food.easyExpired || food.firstUse ? 'background-color: #ececec;' : ''">
     <div class="type-icon">
       <img class="img" :src="foodTypeIconSrc"/>
     </div>
@@ -50,7 +50,7 @@
 
     .img {
       height: 16px;
-      margin-top: 4px;
+      margin-top: 3px;
     }
   }
 
