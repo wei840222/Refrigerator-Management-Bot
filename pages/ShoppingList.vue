@@ -134,7 +134,7 @@ export default {
       recommendationList: recommendationList.data.recommendationList
     };
   },
-  created() {
+  mounted() {
     this.shoppingItems.forEach(element => {
       element.selected = false;
     });

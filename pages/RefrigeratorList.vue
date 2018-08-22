@@ -127,12 +127,31 @@ export default {
       refrigeratorList: refrigeratorList.data.refrigeratorList
     };
   },
-  created() {
+  mounted() {
+    this.refrigeratorList.forEach(element => {
+      if (element.firstUse) {
+        axios.post("/cabinet/userId/edit_item", {
+          id: element.id,
+          nameZh: element.nameZh,
+          type: element.type,
+          acquisitionDate: element.acquisitionDate,
+          expirationDate: element.expirationDate,
+          notify: element.notify,
+          firstUse: false,
+          easyExpired: element.easyExpired
+        });
+      }
+    });
     setInterval(async () => {
       const refrigeratorList = await axios.get(
         "/cabinet/userId/item_in_refrigerator"
       );
       refrigeratorList.data.refrigeratorList.forEach(element => {
+        try {
+          element.firstUse = this.refrigeratorList.filter(
+            item => item.id === element.id
+          )[0].firstUse;
+        } catch (err) {}
         const date = new Date(
           new Date(element.acquisitionDate).getTime() +
             element.expirationDate * 24 * 60 * 60 * 1000
@@ -149,9 +168,6 @@ export default {
       });
       this.refrigeratorList = refrigeratorList.data.refrigeratorList;
     }, 5000);
-  },
-  beforeDestroy() {
-    console.log(this.refrigeratorList);
   },
   head() {
     return {
@@ -233,7 +249,6 @@ export default {
         .sort((a, b) => {
           if (a.easyExpired) return -1;
           else if (b.easyExpired) return 1;
-          else return 0;
         });
     },
     async delFood() {
