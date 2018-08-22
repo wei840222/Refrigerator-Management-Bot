@@ -10,7 +10,7 @@
       </div>
     </div>
     <div v-if="groupByType">
-      <food-block v-for="(type, idx) in types" :key="idx" :title="type" :collapseVisibleInit="idx === 0 ? true : false" :collapseUseable="foods(type).length > 0 ? true : false" :edit="edit" :idx="idx" @add-food="addFood">
+      <food-block v-for="(type, idx) in types" :key="idx" :idx="idx" :title="type" :collapseVisibleInit="idx === 0 ? true : false" :collapseUseable="foods(type).length > 0 ? true : false">
         <img slot="icon" :src="foodBlockIconSrc(type)"/>
         <img slot="arrow-down" src="img/ShoppingList/arrow-green-down.png"/>
         <img slot="arrow-up" src="img/ShoppingList/arrow-green-up.png"/>
@@ -19,7 +19,7 @@
       </food-block>
     </div>
     <div v-else>
-      <food-block :title="'全部'" :collapseVisibleInit="true" :collapseUseable="false" :idx="-1">
+      <food-block :title="'全部'" :idx="-1" :collapseVisibleInit="true" :collapseUseable="false">
         <img slot="icon" class="icon-img" src="img/ShoppingList/type-all.png"/>
         <food v-for="(food, idx) in foods()" :key="idx" :edit="edit" :food="food" @del-food="delFood" :style="idx === foods().length - 1 ? 'height: 28px;' : ''"/>
       </food-block>
