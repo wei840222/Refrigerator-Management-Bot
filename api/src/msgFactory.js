@@ -84,7 +84,7 @@ module.exports = {
       })
     })
     if (seeMore) msg.template.columns.push({
-      thumbnailImageUrl: process.env.BASE_URL + 'img/LINEBot/type-others.png',
+      thumbnailImageUrl: process.env.BASE_URL + 'img/LINEBot/see-more.png',
       title: '更多',
       text: '點下方按鈕看更多快過期食物。',
       actions: [
