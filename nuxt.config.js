@@ -11,7 +11,8 @@ module.exports = {
     ]
   },
   css: [
-    '~/assets/reset.css'
+    '~/assets/reset.css',
+    '~/assets/transition.css'
   ],
   modules: [
     'bootstrap-vue/nuxt'
