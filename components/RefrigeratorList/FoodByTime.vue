@@ -162,6 +162,7 @@ export default {
   },
   methods: {
     async updateItem() {
+      this.food.easyExpired = false;
       const res = await axios.post("/cabinet/userId/edit_item", this.food);
     }
   }
