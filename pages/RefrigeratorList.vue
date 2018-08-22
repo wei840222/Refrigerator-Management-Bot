@@ -220,9 +220,9 @@ export default {
   },
   methods: {
     refrigeratorListGroupByDate(date) {
-      return this.refrigeratorList.filter(
-        item => item.acquisitionDate === date
-      );
+      return this.refrigeratorList
+        .filter(item => item.acquisitionDate === date)
+        .sort(item => !item.easyExpired);
     },
     async delFood() {
       const res = await axios.get("/cabinet/userId/item_in_refrigerator");
