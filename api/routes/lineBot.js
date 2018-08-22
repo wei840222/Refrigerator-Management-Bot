@@ -75,7 +75,7 @@ function handleEvent(event) {
           handleImage(message, event.replyToken)
             .then(downloadPath => {
               console.log(downloadPath)
-              backendApi.post('/user/upload', { url: downloadPath })
+              backendApi.get(`/user/downloadFile/${downloadPath}`)
             })
           return
         default:
@@ -158,7 +158,7 @@ function handleImage(message, replyToken) {
     .then(stream => new Promise((resolve, reject) => {
       const writable = fs.createWriteStream(downloadPath);
       stream.pipe(writable);
-      stream.on('end', () => resolve(`${process.env.BASE_URL}${message.id}.jpg`));
+      stream.on('end', () => resolve(`${message.id}.jpg`));
       stream.on('error', reject);
     }))
     .catch(err => console.log(err))
