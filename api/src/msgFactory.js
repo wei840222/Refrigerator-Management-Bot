@@ -13,7 +13,7 @@ module.exports = {
       ]
     }
   },
-  expirationReminder(refrigeratorList) {
+  expirationReminder(refrigeratorList, startIdx = 0) {
     const nowDate = new Date(new Date(Date.now())
       .toLocaleString("zh-TW", {
         timeZone: "Asia/Taipei",
@@ -29,7 +29,7 @@ module.exports = {
       return food.expirationPeriod <= 7 && food.expirationPeriod >= 0 && food.notify
     });
     expirationReminderList.sort((a, b) => a.expirationPeriod > b.expirationPeriod ? 1 : -1)
-    if (expirationReminderList.length > 9) expirationReminderList = expirationReminderList.slice(0, 9)
+    if (expirationReminderList.length > 9) expirationReminderList = expirationReminderList.slice(startIdx, startIdx + 9)
     const msg = {
       type: "template",
       altText: "過期提醒",
@@ -82,12 +82,12 @@ module.exports = {
         {
           type: "postback",
           label: "看更多",
-          data: `more=${0}`
+          data: `seeMore=${startIdx + 9}`
         },
         {
-          type: "postback",
-          label: "去冰箱看看",
-          data: 'act=goRefrigerator'
+          "type": "uri",
+          "label": "去冰箱看看",
+          "uri": "line://app/1597618539-YAl1dAOq"
         },
         {
           type: "postback",

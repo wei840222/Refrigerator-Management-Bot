@@ -105,6 +105,12 @@ function handleEvent(event) {
             break
         }
       }
+      else if (event.postback.data.includes('seeMore')) {
+        const startIdx = event.postback.data.split('=')[1]
+        backendApi.get('/cabinet/userId/item_in_refrigerator')
+          .then(res => client.replyMessage(event.replyToken, msgFactory.expirationReminder(res.data.refrigeratorList, startIdx)))
+          .catch(err => console.log(err))
+      }
       console.log(`Got postback: ${event.postback.data}`)
       return
     default:
