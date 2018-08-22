@@ -23,7 +23,7 @@
       <food-block :idx="-1" :collapseVisibleInit="true" :collapseUseable="false">
         <img slot="icon" src="img/ShoppingList/type-all.png"/>
         <div slot="text" class="title">全部</div>
-        <food v-for="(food, idx) in foods()" :key="idx" :food="food" @del-food="delFood"/>
+        <food v-for="(food, idx) in foods()" :key="idx" :food="food" :edit="edit" @del-food="delFood"/>
       </food-block>
     </div>
     <food-block :collapseVisibleInit="true" :collapseUseable="false" style="margin-bottom: 81px;">
