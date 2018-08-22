@@ -1,6 +1,6 @@
 <template>
   <div class="food" :style="lastItem ? 'height: 28px;' : ''">
-    <div class="text">{{ food.nameZh }}</div>
+    <div class="text text-reduction">{{ food.nameZh }}</div>
     <div class="date" :style="{ 'color': foodColor }">{{ food.expirationDateString }}</div>
     <img class="del" src="img/RefrigeratorList/food-del.png" @click="delFood"/>
   </div>
