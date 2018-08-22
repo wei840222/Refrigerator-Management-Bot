@@ -146,7 +146,9 @@ export default {
           new Date(this.now).getTime();
         if (date <= 604800000 && date >= 0)
           food.expirationDateString =
-            "剩" + Math.floor(date / 1000 / 60 / 60 / 24) + "天";
+            Math.floor(date / 1000 / 60 / 60 / 24) === 0
+              ? "今天過期"
+              : "剩" + Math.floor(date / 1000 / 60 / 60 / 24) + "天";
         return date <= 604800000 && date >= 0;
       });
     },
