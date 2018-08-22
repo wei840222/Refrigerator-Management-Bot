@@ -30,7 +30,7 @@ module.exports = {
     });
     expirationReminderList.sort((a, b) => a.expirationPeriod > b.expirationPeriod ? 1 : -1)
     let seeMore = null;
-    if (expirationReminderList.length - startIdx === 10) seeMore = true
+    if (expirationReminderList.length - startIdx === 10) seeMore = false
     else if (expirationReminderList.length - startIdx > 9) {
       seeMore = true
       expirationReminderList = expirationReminderList.slice(startIdx, startIdx + 9)
