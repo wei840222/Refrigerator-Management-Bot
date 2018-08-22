@@ -137,9 +137,11 @@ export default {
     setInterval(async () => {
       const res = await axios.get("/cabinet/userId/shopping_list");
       res.data.shoppingItems.forEach(element => {
-        element.selected = this.shoppingItems.filter(
-          item => item.id === element.id
-        )[0].selected;
+        try {
+          element.selected = this.shoppingItems.filter(
+            item => item.id === element.id
+          )[0].selected;
+        } catch (err) {}
       });
       this.shoppingItems = res.data.shoppingItems;
     }, 5000);
