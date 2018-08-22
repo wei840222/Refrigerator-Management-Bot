@@ -10,7 +10,7 @@
       </div>
     </div>
     <div v-if="groupByType">
-      <food-block v-for="(type, idx) in types" :key="idx" :idx="idx" :title="type" :collapseVisibleInit="idx === 0 ? true : false" :collapseUseable="foods(type).length > 0 ? true : false">
+      <food-block v-for="(type, idx) in types" :key="idx" :idx="idx" :title="type" :collapseVisibleInit="idx === 0 ? true : false" :collapseUseable="foods(type).length > 0 ? true : false" :ref="type">
         <img slot="icon" :src="foodBlockIconSrc(type)"/>
         <img slot="arrow-down" src="img/ShoppingList/arrow-green-down.png"/>
         <img slot="arrow-up" src="img/ShoppingList/arrow-green-up.png"/>
@@ -190,7 +190,6 @@ export default {
       });
     },
     async addFood(food) {
-      console.log(food);
       if (food.nameZh === "") return;
       const res = await axios.post(
         "/cabinet/userId/add_item_to_shoppingist",

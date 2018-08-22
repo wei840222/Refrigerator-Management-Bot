@@ -69,6 +69,7 @@ export default {
   },
   methods: {
     addFood() {
+      this.$parent.$parent.$refs[this.type][0].collapseVisible = true;
       this.$emit("add-food", { nameZh: this.nameZh, type: this.type });
       this.nameZh = "";
     }
