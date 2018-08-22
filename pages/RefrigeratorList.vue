@@ -127,7 +127,7 @@ export default {
       refrigeratorList: refrigeratorList.data.refrigeratorList
     };
   },
-  mounted() {
+  created() {
     setInterval(async () => {
       const refrigeratorList = await axios.get(
         "/cabinet/userId/item_in_refrigerator"
