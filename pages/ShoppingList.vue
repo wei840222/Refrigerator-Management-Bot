@@ -113,6 +113,7 @@ import axios from "~/plugins/axios";
 import FoodBlock from "~/components/FoodBlock.vue";
 import Food from "~/components/ShoppingList/Food.vue";
 import Edit from "~/components/ShoppingList/Edit.vue";
+import { setInterval } from "timers";
 
 export default {
   async asyncData() {
@@ -125,7 +126,7 @@ export default {
       recommendationList: recommendationList.data.recommendationList
     };
   },
-  created() {
+  mounted() {
     this.shoppingItems.forEach(element => {
       element.selected = false;
     });
@@ -133,6 +134,10 @@ export default {
       element.selected = false;
     });
     this.recommendationList.sort((a, b) => b.quantity - a.quantity);
+    setInterval(async () => {
+      const shoppingItems = await axios.get("/cabinet/userId/shopping_list");
+      this.shoppingItems = shoppingItems.data.shoppingItems;
+    }, 5000);
   },
   head() {
     return {
@@ -178,7 +183,7 @@ export default {
       });
     },
     async addFood(food) {
-      console.log(food)
+      console.log(food);
       if (food.nameZh === "") return;
       const res = await axios.post(
         "/cabinet/userId/add_item_to_shoppingist",

@@ -106,11 +106,6 @@ export default {
       refrigeratorList: refrigeratorList.data.refrigeratorList
     };
   },
-  head() {
-    return {
-      title: "冰箱"
-    };
-  },
   mounted() {
     setInterval(async () => {
       const refrigeratorList = await axios.get(
@@ -133,6 +128,11 @@ export default {
       });
       this.refrigeratorList = refrigeratorList.data.refrigeratorList;
     }, 5000);
+  },
+  head() {
+    return {
+      title: "冰箱"
+    };
   },
   data() {
     const nowDate = new Date(Date.now())
