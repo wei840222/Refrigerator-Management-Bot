@@ -18,21 +18,21 @@
       </food-block>
     </div>
     <div v-else>
-      <food-block :idx="1" :headerBackgroundColor="'#F47070'" :collapseVisibleInit="true" :collapseUseable="foodsDying.length > 0 ? true : false">
+      <food-block :idx="1" :headerBackgroundColor="'#ED7879'" :collapseVisibleInit="true" :collapseUseable="foodsDying.length > 0 ? true : false">
         <img slot="icon" class="icon-img" src="img/RefrigeratorList/foods-dying.png"/>
         <div slot="text" class="title">快過期</div>
         <img slot="arrow-down" src="img/RefrigeratorList/arrow-white-down.png"/>
         <img slot="arrow-up" src="img/RefrigeratorList/arrow-white-up.png"/>
         <food v-for="(food, idx) in foodsDying" :key="idx" :lastItem="idx === foodsDying.length - 1" :food="food" :foodColor="'#F47070'" @del-food="delFood"/>
       </food-block>
-      <food-block :idx="2" :headerBackgroundColor="'#565656'" :collapseVisibleInit="false" :collapseUseable="foodsDied.length > 0 ? true : false">
+      <food-block :idx="2" :headerBackgroundColor="'#ADADAD'" :collapseVisibleInit="false" :collapseUseable="foodsDied.length > 0 ? true : false">
         <img slot="icon" class="icon-img" src="img/RefrigeratorList/foods-died.png"/>
         <div slot="text" class="title">已過期</div>
         <img slot="arrow-down" src="img/RefrigeratorList/arrow-white-down.png"/>
         <img slot="arrow-up" src="img/RefrigeratorList/arrow-white-up.png"/>
         <food v-for="(food, idx) in foodsDied" :key="idx" :lastItem="idx === foodsDied.length - 1" :food="food" :foodColor="'#565656'" @del-food="delFood"/>
       </food-block>
-      <food-block :idx="3" :headerBackgroundColor="'#65BE2B'" :collapseVisibleInit="false" :collapseUseable="foodsAlive.length > 0 ? true : false" style="margin-bottom: 21px;">
+      <food-block :idx="3" :headerBackgroundColor="'#9ACA55'" :collapseVisibleInit="false" :collapseUseable="foodsAlive.length > 0 ? true : false" style="margin-bottom: 21px;">
         <img slot="icon" class="icon-img" src="img/RefrigeratorList/foods-alive.png"/>
         <div slot="text" class="title">未過期</div>
         <img slot="arrow-down" src="img/RefrigeratorList/arrow-white-down.png"/>
@@ -149,6 +149,9 @@ export default {
       });
       this.refrigeratorList = refrigeratorList.data.refrigeratorList;
     }, 5000);
+  },
+  beforeDestroy() {
+    console.log(this.refrigeratorList);
   },
   head() {
     return {

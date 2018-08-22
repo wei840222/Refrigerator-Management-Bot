@@ -1,5 +1,5 @@
 <template>
-  <div class="food" :style="food.easyExpired || food.firstUse ? 'background-color: #ececec;' : ''">
+  <div class="food" :style="food.easyExpired || food.firstUse ? 'background-color: #f2f2f2;' : ''">
     <div class="type-icon">
       <img class="img" :src="foodTypeIconSrc"/>
     </div>
@@ -38,7 +38,6 @@
   height: 38px;
   padding-left: 10px;
   padding-top: 9px;
-  color: #8a8a8a;
   background-color: #ffffff;
   display: flex;
 
@@ -55,6 +54,7 @@
   }
 
   .text {
+    color: #848485;
     flex-grow: 1;
   }
 
@@ -63,7 +63,7 @@
     font-size: 14px;
     min-width: 80px;
     margin-right: 10px;
-    color: #d6cecd;
+    color: #d0c8c8;
   }
 
   .edit {
