@@ -30,14 +30,19 @@ module.exports = {
     });
     expirationReminderList.sort((a, b) => a.expirationPeriod > b.expirationPeriod ? 1 : -1)
     let seeMore = null;
-    if (expirationReminderList.length - startIdx === 10) seeMore = false
-    else if (expirationReminderList.length - startIdx >= 9) {
-      seeMore = true
-      expirationReminderList = expirationReminderList.slice(startIdx, startIdx + 9)
+    let newExpirationReminderList = null
+    startIdx = parseInt(startIdx)
+    if ((expirationReminderList.length - startIdx) === 10) {
+      seeMore = false
+      expirationReminderList = expirationReminderList.slice(startIdx, startIdx + 10)
     }
-    else {
+    else if ((expirationReminderList.length - startIdx) < 9) {
       seeMore = false
       expirationReminderList = expirationReminderList.slice(startIdx, expirationReminderList.length)
+    }
+    else {
+      seeMore = true
+      expirationReminderList = expirationReminderList.slice(startIdx, startIdx + 9)
     }
     const msg = {
       type: "template",

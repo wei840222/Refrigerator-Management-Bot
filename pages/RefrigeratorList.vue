@@ -101,7 +101,6 @@ import axios from "~/plugins/axios";
 import FoodBlock from "~/components/FoodBlock.vue";
 import FoodByTime from "~/components/RefrigeratorList/FoodByTime.vue";
 import Food from "~/components/RefrigeratorList/Food.vue";
-import { setInterval } from "timers";
 
 export default {
   async asyncData() {
