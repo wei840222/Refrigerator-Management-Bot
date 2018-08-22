@@ -29,7 +29,7 @@ module.exports = {
       return food.expirationPeriod <= 7 && food.expirationPeriod >= 0 && food.notify
     });
     expirationReminderList.sort((a, b) => a.expirationPeriod > b.expirationPeriod ? 1 : -1)
-    if (expirationReminderList.length > 10) expirationReminderList = expirationReminderList.slice(0, 10)
+    if (expirationReminderList.length > 9) expirationReminderList = expirationReminderList.slice(0, 9)
     const msg = {
       type: "template",
       altText: "過期提醒",
@@ -73,6 +73,18 @@ module.exports = {
           }
         ]
       })
+    })
+    msg.template.columns.push({
+      thumbnailImageUrl: process.env.BASE_URL + 'img/LINEBot/type-others.png',
+      title: '更多',
+      text: '點下方按鈕看更多快過期食物。',
+      actions: [
+        {
+          type: "postback",
+          label: "看更多",
+          data: `more=${0}`
+        }
+      ]
     })
     return msg
   },
