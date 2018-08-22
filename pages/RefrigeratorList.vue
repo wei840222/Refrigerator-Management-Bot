@@ -18,19 +18,19 @@
     </div>
     <div v-else>
       <food-block :title="'快過期'" :idx="1" :collapseVisibleInit="true" :collapseUseable="foodsDying.length > 0 ? true : false">
-        <div slot="icon" class="icon-date">快過期</div>
+        <div slot="icon" class="icon-date">快過</div>
         <img slot="arrow-down" src="img/RefrigeratorList/arrow-gray-down.png"/>
         <img slot="arrow-up" src="img/RefrigeratorList/arrow-gray-up.png"/>
         <food v-for="(food, idx) in foodsDying" :key="idx" :lastItem="idx === foodsDying.length - 1" :food="food" :foodColor="'#F47070'" @del-food="delFood"/>
       </food-block>
       <food-block :title="'已過期'" :idx="2" :collapseVisibleInit="false" :collapseUseable="foodsDied.length > 0 ? true : false">
-        <div slot="icon" class="icon-date">已過期</div>
+        <div slot="icon" class="icon-date">已過</div>
         <img slot="arrow-down" src="img/RefrigeratorList/arrow-gray-down.png"/>
         <img slot="arrow-up" src="img/RefrigeratorList/arrow-gray-up.png"/>
         <food v-for="(food, idx) in foodsDied" :key="idx" :lastItem="idx === foodsDied.length - 1" :food="food" :foodColor="'#565656'" @del-food="delFood"/>
       </food-block>
       <food-block :title="'未過期'" :idx="3" :collapseVisibleInit="false" :collapseUseable="foodsAlive.length > 0 ? true : false" style="margin-bottom: 21px;">
-        <div slot="icon" class="icon-date">未過期</div>
+        <div slot="icon" class="icon-date">未過</div>
         <img slot="arrow-down" src="img/RefrigeratorList/arrow-gray-down.png"/>
         <img slot="arrow-up" src="img/RefrigeratorList/arrow-gray-up.png"/>
         <food v-for="(food, idx) in foodsAlive" :key="idx" :lastItem="idx === foodsAlive.length - 1" :food="food" :foodColor="'#65BE2B'" @del-food="delFood"/>
@@ -69,8 +69,8 @@
 
 .icon-date {
   text-align: center;
-  margin-top: 18px;
-  font-size: 18px;
+  margin-top: 12px;
+  font-size: 26px;
   color: #27ab38;
 }
 </style>

@@ -343,3 +343,9 @@ template {
 [hidden] {
   display: none;
 }
+
+.text-reduction {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

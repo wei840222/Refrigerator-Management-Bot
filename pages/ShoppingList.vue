@@ -24,8 +24,8 @@
         <food v-for="(food, idx) in foods()" :key="idx" :edit="edit" :food="food" @del-food="delFood" :style="idx === foods().length - 1 ? 'height: 28px;' : ''"/>
       </food-block>
     </div>
-    <food-block :title="'建議'" :collapseVisibleInit="true" :collapseUseable="false" style="margin-bottom: 85px;">
-      <img slot="icon" class="icon-img" src="img/ShoppingList/type-all.png"/>
+    <food-block :title="'建議'" :collapseVisibleInit="true" :collapseUseable="false" style="margin-bottom: 81px;">
+      <img slot="icon" class="icon-img" src="img/ShoppingList/type-recommend.png"/>
       <food v-for="(food, idx) in recommendationList.slice(0, 5)" :key="idx" :edit="false" :lastItem="idx === recommendationList.slice(0, 5).length - 1" :food="food" @selecte-food="addRecommendFood"/>
     </food-block>
     <div class="footer"><img class="button" src="img/ShoppingList/btn-refrigerator.png" @click="addToRefrigerator"/></div>
@@ -89,7 +89,7 @@
 
 .footer {
   bottom: 0px;
-  height: 64px;
+  height: 61px;
   width: 100%;
   display: flex;
   position: fixed;
@@ -102,7 +102,7 @@
     bottom: 0px;
     margin-top: 12px;
     margin-bottom: 12px;
-    height: 40px;
+    height: 37px;
     z-index: 10;
   }
 }

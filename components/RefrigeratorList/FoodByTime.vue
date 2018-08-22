@@ -1,7 +1,7 @@
 <template>
   <div class="food" :style="lastItem ? 'height: 28px;' : ''">
     <img class="type-icon" :src="foodTypeIconSrc"/>
-    <div class="text">{{ food.nameZh }}</div>
+    <div class="text text-reduction">{{ food.nameZh }}</div>
     <div class="date">{{ food.expirationDate }}</div>
     <img src="img/RefrigeratorList/food-edit.png" class="edit" v-b-modal="(food.acquisitionDate + idx).toString()"/>
     <b-modal :id="(food.acquisitionDate + idx).toString()" title="編輯品項" ok-only :ok-title="'完成'" @hidden="updateItem">
