@@ -135,8 +135,13 @@ export default {
     });
     this.recommendationList.sort((a, b) => b.quantity - a.quantity);
     setInterval(async () => {
-      const shoppingItems = await axios.get("/cabinet/userId/shopping_list");
-      this.shoppingItems = shoppingItems.data.shoppingItems;
+      const res = await axios.get("/cabinet/userId/shopping_list");
+      res.data.shoppingItems.forEach(element => {
+        element.selected = this.shoppingItems.filter(
+          item => item.id === element.id
+        )[0].selected;
+      });
+      this.shoppingItems = res.data.shoppingItems;
     }, 5000);
   },
   head() {
@@ -211,7 +216,7 @@ export default {
         res.data.shoppingItems.forEach(element => {
           element.selected = this.shoppingItems.filter(
             item => item.id === element.id
-          ).selected;
+          )[0].selected;
         });
         this.shoppingItems = res.data.shoppingItems;
       }
