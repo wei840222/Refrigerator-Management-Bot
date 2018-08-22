@@ -159,9 +159,10 @@ export default {
     async addFoodToDB() {
       for (let i = 0; i < this.foods.length; i++)
         if (
-          this.foods[i].nameZh === "" ||
-          this.foods[i].type === "" ||
-          this.foods[i].expirationDate === ""
+          this.foods[i].nameZh == "" ||
+          this.foods[i].type == "" ||
+          this.foods[i].expirationDate == "" ||
+          this.foods[i].acquisitionDate == ""
         ) {
           alert("請檢查每個欄位都有填！");
           return;
