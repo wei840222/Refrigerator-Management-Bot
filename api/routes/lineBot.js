@@ -76,7 +76,10 @@ function handleEvent(event) {
             .then(downloadPath => {
               console.log(downloadPath)
               backendApi.get(`/user/downloadFile/${downloadPath}`)
+                .then(res => console.log(res.data))
+                .catch(err => console.log(err))
             })
+            .catch(err => console.log(err))
           return
         default:
           throw new Error(`Unknown message: ${JSON.stringify(message)}`);
