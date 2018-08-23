@@ -14,7 +14,9 @@
         <div slot="text" class="title-date">{{ date ? date.slice(0, 7).replace('-', '.') : '' }}</div>
         <img slot="arrow-down" src="img/RefrigeratorList/arrow-gray-down.png"/>
         <img slot="arrow-up" src="img/RefrigeratorList/arrow-gray-up.png"/>
-        <food-by-time v-for="(food, idx) in refrigeratorListGroupByDate(date)" :key="idx" :idx="idx" :lastItem="idx === refrigeratorListGroupByDate(date).length - 1" :food="food"/>
+        <food-by-time v-for="(food, idx) in refrigeratorListGroupByDate(date)" :key="idx" :idx="idx"
+          :lastItem="idx === refrigeratorListGroupByDate(date).length - 1"
+          :food="food" @stop-update="update = false" @start-update="update = true"/>
       </food-block>
     </div>
     <div v-else>
@@ -142,30 +144,32 @@ export default {
       }
     });
     setInterval(async () => {
-      const refrigeratorList = await axios.get(
-        "/cabinet/userId/item_in_refrigerator"
-      );
-      refrigeratorList.data.refrigeratorList.forEach(element => {
-        try {
-          element.firstUse = this.refrigeratorList.filter(
-            item => item.id === element.id
-          )[0].firstUse;
-        } catch (err) {}
-        const date = new Date(
-          new Date(element.acquisitionDate).getTime() +
-            element.expirationDate * 24 * 60 * 60 * 1000
-        )
-          .toLocaleDateString("zh-TW")
-          .replace(/\//g, "-")
-          .split("-");
-        element.expirationDate =
-          date[0] +
-          "-" +
-          (date[1].length === 1 ? "0" + date[1] : date[1]) +
-          "-" +
-          (date[2].length === 1 ? "0" + date[2] : date[2]);
-      });
-      this.refrigeratorList = refrigeratorList.data.refrigeratorList;
+      if (this.update) {
+        const refrigeratorList = await axios.get(
+          "/cabinet/userId/item_in_refrigerator"
+        );
+        refrigeratorList.data.refrigeratorList.forEach(element => {
+          try {
+            element.firstUse = this.refrigeratorList.filter(
+              item => item.id === element.id
+            )[0].firstUse;
+          } catch (err) {}
+          const date = new Date(
+            new Date(element.acquisitionDate).getTime() +
+              element.expirationDate * 24 * 60 * 60 * 1000
+          )
+            .toLocaleDateString("zh-TW")
+            .replace(/\//g, "-")
+            .split("-");
+          element.expirationDate =
+            date[0] +
+            "-" +
+            (date[1].length === 1 ? "0" + date[1] : date[1]) +
+            "-" +
+            (date[2].length === 1 ? "0" + date[2] : date[2]);
+        });
+        this.refrigeratorList = refrigeratorList.data.refrigeratorList;
+      }
     }, 5000);
   },
   head() {
@@ -183,6 +187,7 @@ export default {
       .replace(/\//g, "-")
       .split("-");
     return {
+      update: true,
       tab: "addList",
       now:
         nowDate[0] +

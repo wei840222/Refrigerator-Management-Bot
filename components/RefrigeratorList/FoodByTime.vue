@@ -5,7 +5,7 @@
     </div>
     <div class="text text-reduction">{{ food.nameZh }}</div>
     <div class="date" :style="food.easyExpired ? 'color: #27ab38;' : ''">{{ food.expirationDate }}</div>
-    <img src="img/RefrigeratorList/food-edit.png" class="edit" v-b-modal="(food.acquisitionDate + idx).toString()"/>
+    <img src="img/RefrigeratorList/food-edit.png" class="edit" v-b-modal="(food.acquisitionDate + idx).toString()" @click="$emit('stop-update')"/>
     <b-modal v-model="modalShow" :id="(food.acquisitionDate + idx).toString()" title="編輯品項" @hidden="updateItem">
       <div class="row">
         <div class="option">名稱：</div>
@@ -27,7 +27,7 @@
         <div class="option">保存期限：</div>
         <input class="input" v-model="food.expirationDate" type="date"/>
       </div>
-      <img slot="modal-footer" class="btn" src="img/AddList/btn-fin.png" @click="modalShow = !modalShow"/>
+      <img slot="modal-footer" class="btn" src="img/AddList/btn-fin.png" @click="modalShow = !modalShow; $emit('start-update')"/>
     </b-modal>
   </div>
 </template>
