@@ -12,8 +12,8 @@
         :style="idx === dates.length -1 ? 'margin-bottom: 21px;' : ''">
         <div slot="icon" class="icon-date">{{ date ? date.slice(8) : '' }}</div>
         <div slot="text" class="title-date">{{ date ? date.slice(0, 7).replace('-', '.') : '' }}</div>
-        <img slot="arrow-down" src="img/RefrigeratorList/arrow-gray-down.png"/>
-        <img slot="arrow-up" src="img/RefrigeratorList/arrow-gray-up.png"/>
+        <img slot="arrow-down" src="img/liff/arrow-gray-down.png"/>
+        <img slot="arrow-up" src="img/liff/arrow-gray-up.png"/>
         <food-by-time v-for="(food, idx) in refrigeratorListGroupByDate(date)" :key="idx" :idx="idx"
           :lastItem="idx === refrigeratorListGroupByDate(date).length - 1"
           :food="food" @stop-update="update = false" @start-update="update = true"/>
@@ -21,24 +21,24 @@
     </div>
     <div v-else>
       <food-block :idx="1" :headerBackgroundColor="'#ED7879'" :collapseVisibleInit="true" :collapseUseable="foodsDying.length > 0 ? true : false">
-        <img slot="icon" class="icon-img" src="img/RefrigeratorList/foods-dying.png"/>
+        <img slot="icon" class="icon-img" src="img/liff/foods-dying.png"/>
         <div slot="text" class="title">快過期</div>
-        <img slot="arrow-down" src="img/RefrigeratorList/arrow-white-down.png"/>
-        <img slot="arrow-up" src="img/RefrigeratorList/arrow-white-up.png"/>
+        <img slot="arrow-down" src="img/liff/arrow-white-down.png"/>
+        <img slot="arrow-up" src="img/liff/arrow-white-up.png"/>
         <food v-for="(food, idx) in foodsDying" :key="idx" :lastItem="idx === foodsDying.length - 1" :food="food" :foodColor="'#F47070'" @del-food="delFood"/>
       </food-block>
       <food-block :idx="2" :headerBackgroundColor="'#ADADAD'" :collapseVisibleInit="false" :collapseUseable="foodsDied.length > 0 ? true : false">
-        <img slot="icon" class="icon-img" src="img/RefrigeratorList/foods-died.png"/>
+        <img slot="icon" class="icon-img" src="img/liff/foods-died.png"/>
         <div slot="text" class="title">已過期</div>
-        <img slot="arrow-down" src="img/RefrigeratorList/arrow-white-down.png"/>
-        <img slot="arrow-up" src="img/RefrigeratorList/arrow-white-up.png"/>
+        <img slot="arrow-down" src="img/liff/arrow-white-down.png"/>
+        <img slot="arrow-up" src="img/liff/arrow-white-up.png"/>
         <food v-for="(food, idx) in foodsDied" :key="idx" :lastItem="idx === foodsDied.length - 1" :food="food" :foodColor="'#565656'" @del-food="delFood"/>
       </food-block>
       <food-block :idx="3" :headerBackgroundColor="'#9ACA55'" :collapseVisibleInit="false" :collapseUseable="foodsAlive.length > 0 ? true : false" style="margin-bottom: 21px;">
-        <img slot="icon" class="icon-img" src="img/RefrigeratorList/foods-alive.png"/>
+        <img slot="icon" class="icon-img" src="img/liff/foods-alive.png"/>
         <div slot="text" class="title">未過期</div>
-        <img slot="arrow-down" src="img/RefrigeratorList/arrow-white-down.png"/>
-        <img slot="arrow-up" src="img/RefrigeratorList/arrow-white-up.png"/>
+        <img slot="arrow-down" src="img/liff/arrow-white-down.png"/>
+        <img slot="arrow-up" src="img/liff/arrow-white-up.png"/>
         <food v-for="(food, idx) in foodsAlive" :key="idx" :lastItem="idx === foodsAlive.length - 1" :food="food" :foodColor="'#65BE2B'" @del-food="delFood"/>
       </food-block>
     </div>

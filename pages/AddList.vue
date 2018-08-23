@@ -27,9 +27,9 @@
       <br/>
     </div>
     <div class="btn-row">
-      <img class="btn" src="img/AddList/btn-cancel.png" @click="delFood"/>
-      <img class="btn" src="img/AddList/btn-add.png" @click="addFood"/>
-      <img class="btn" src="img/AddList/btn-fin.png" @click="addFoodToDB"/>
+      <img class="btn" src="img/liff/btn-cancel.png" @click="delFood"/>
+      <img class="btn" src="img/liff/btn-add.png" @click="addFood"/>
+      <img class="btn" src="img/liff/btn-fin.png" @click="addFoodToDB"/>
     </div>
   </div>
 </template>

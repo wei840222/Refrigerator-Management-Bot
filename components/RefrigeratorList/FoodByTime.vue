@@ -5,7 +5,7 @@
     </div>
     <div class="text text-reduction">{{ food.nameZh }}</div>
     <div class="date" :style="food.easyExpired ? 'color: #27ab38;' : ''">{{ food.expirationDate }}</div>
-    <img src="img/RefrigeratorList/food-edit.png" class="edit" v-b-modal="(food.acquisitionDate + idx).toString()" @click="$emit('stop-update')"/>
+    <img src="img/liff/food-edit.png" class="edit" v-b-modal="(food.acquisitionDate + idx).toString()" @click="$emit('stop-update')"/>
     <b-modal v-model="modalShow" :id="(food.acquisitionDate + idx).toString()" title="編輯品項" @hidden="updateItem">
       <div class="row">
         <div class="option">名稱：</div>
@@ -27,7 +27,7 @@
         <div class="option">保存期限：</div>
         <input class="input" v-model="food.expirationDate" type="date"/>
       </div>
-      <img slot="modal-footer" class="btn" src="img/AddList/btn-fin.png" @click="modalShow = !modalShow; $emit('start-update')"/>
+      <img slot="modal-footer" class="btn" src="img/liff/btn-fin.png" @click="modalShow = !modalShow; $emit('start-update')"/>
     </b-modal>
   </div>
 </template>
@@ -48,8 +48,8 @@
     justify-content: center;
 
     .img {
-      height: 16px;
-      margin-top: 3px;
+      height: 28px;
+      margin-top: -2px;
     }
   }
 
@@ -138,25 +138,25 @@ export default {
   computed: {
     foodTypeIconSrc() {
       if (this.food.easyExpired)
-        return "img/RefrigeratorList/type-easy-expired.png";
+        return "img/liff/type-easy-expired.png";
       else
         switch (this.food.type) {
           case "冷凍":
-            return "img/RefrigeratorList/type-frozen-food.png";
+            return "img/liff/type-frozen-food.png";
           case "飲料":
-            return "img/RefrigeratorList/type-drinks.png";
+            return "img/liff/type-drinks.png";
           case "青菜":
-            return "img/RefrigeratorList/type-vegetable.png";
+            return "img/liff/type-vegetable.png";
           case "肉":
-            return "img/RefrigeratorList/type-meat.png";
+            return "img/liff/type-meat.png";
           case "海鮮":
-            return "img/RefrigeratorList/type-seafood.png";
+            return "img/liff/type-seafood.png";
           case "點心":
-            return "img/RefrigeratorList/type-snack.png";
+            return "img/liff/type-snack.png";
           case "水果":
-            return "img/RefrigeratorList/type-fruit.png";
+            return "img/liff/type-fruit.png";
           case "其他":
-            return "img/RefrigeratorList/type-others.png";
+            return "img/liff/type-others.png";
         }
     }
   },

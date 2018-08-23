@@ -50,14 +50,14 @@ module.exports = {
       }
     }
     const imgSrc = {
-      "冷凍": "img/LINEBot/type-frozen-food.png",
-      "飲料": "img/LINEBot/type-drinks.png",
-      "青菜": "img/LINEBot/type-vegetable.png",
-      "肉": "img/LINEBot/type-meat.png",
-      "海鮮": "img/LINEBot/type-seafood.png",
-      "點心": "img/LINEBot/type-snack.png",
-      "水果": "img/LINEBot/type-fruit.png",
-      "其他": "img/LINEBot/type-others.png"
+      "冷凍": "img/bot/type-frozen-food.png",
+      "飲料": "img/bot/type-drinks.png",
+      "青菜": "img/bot/type-vegetable.png",
+      "肉": "img/bot/type-meat.png",
+      "海鮮": "img/bot/type-seafood.png",
+      "點心": "img/bot/type-snack.png",
+      "水果": "img/bot/type-fruit.png",
+      "其他": "img/bot/type-others.png"
     }
     expirationReminderList.forEach(element => {
       msg.template.columns.push({
@@ -84,7 +84,7 @@ module.exports = {
       })
     })
     if (seeMore) msg.template.columns.push({
-      thumbnailImageUrl: process.env.BASE_URL + 'img/LINEBot/see-more.png',
+      thumbnailImageUrl: process.env.BASE_URL + 'img/bot/see-more.png',
       title: '更多',
       text: '點下方按鈕看更多快過期食物。',
       actions: [
