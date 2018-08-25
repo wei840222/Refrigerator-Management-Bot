@@ -122,9 +122,19 @@ module.exports = {
   },
   flexSingle(flex, altText) {
     return {
-      "type": "flex",
-      "altText": altText,
-      "contents": flex
+      type: "flex",
+      altText: altText,
+      contents: flex
+    }
+  },
+  flexCarousel(flexArray, altText) {
+    return {
+      type: "flex",
+      altText: altText,
+      contents: {
+        type: "carousel",
+        contents: flexArray
+      }
     }
   }
 }
