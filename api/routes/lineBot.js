@@ -57,6 +57,7 @@ function handleEvent(event) {
   switch (event.type) {
     case 'follow':
       console.log(`Followed this bot: ${JSON.stringify(event)}`);
+      client.replyMessage(event.replyToken, msgFactory.flexSingle(require('../src/greeting.json'), 'Hi~我是冰箱君'))
       backendApi.get('user/userId/get_uid')
         .then(res => {
           if (res.data.uidlist.find(element => element.uid === event.source.userId) === undefined)
