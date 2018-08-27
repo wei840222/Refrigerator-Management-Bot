@@ -105,7 +105,7 @@ import FoodByTime from "~/components/RefrigeratorList/FoodByTime.vue";
 import Food from "~/components/RefrigeratorList/Food.vue";
 
 export default {
-  async asyncData() {
+  async asyncData(context) {
     const refrigeratorList = await axios.get(
       "/cabinet/userId/item_in_refrigerator"
     );
@@ -187,8 +187,11 @@ export default {
       .replace(/\//g, "-")
       .split("-");
     return {
+      tab:
+        this.$route.hash === "#refrigeratorList"
+          ? "refrigeratorList"
+          : "addList",
       update: true,
-      tab: "addList",
       now:
         nowDate[0] +
         "-" +

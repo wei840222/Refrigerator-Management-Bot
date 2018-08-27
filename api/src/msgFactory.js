@@ -96,7 +96,7 @@ module.exports = {
         {
           "type": "uri",
           "label": "去冰箱看看",
-          "uri": "line://app/1597618539-YAl1dAOq"
+          "uri": "line://app/1597618539-YAl1dAOq#refrigeratorList"
         },
         {
           type: "postback",
