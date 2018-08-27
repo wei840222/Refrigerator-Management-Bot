@@ -1,7 +1,8 @@
 <template>
-  <div class="food" :style="food.easyExpired || food.firstUse ? 'background-color: #f2f2f2;' : ''">
+  <div class="food" :style="food.firstUse ? 'background-color: #f2f2f2;' : ''">
     <div class="type-icon">
-      <img class="img" :src="foodTypeIconSrc"/>
+      <img v-if="food.easyExpired" class="img2" src="img/liff/type-easy-expired.png"/>
+      <img v-else class="img" :src="foodTypeIconSrc"/>
     </div>
     <div class="text text-reduction">{{ food.nameZh }}</div>
     <div class="date" :style="food.easyExpired ? 'color: #27ab38;' : ''">{{ food.expirationDate }}</div>
@@ -48,8 +49,13 @@
     justify-content: center;
 
     .img {
-      height: 28px;
+      max-height: 28px;
       margin-top: -2px;
+    }
+
+    .img2 {
+      max-height: 16px;
+      margin-top: 4px;
     }
   }
 
@@ -137,27 +143,24 @@ export default {
   },
   computed: {
     foodTypeIconSrc() {
-      if (this.food.easyExpired)
-        return "img/liff/type-easy-expired.png";
-      else
-        switch (this.food.type) {
-          case "冷凍":
-            return "img/liff/type-frozen-food.png";
-          case "飲料":
-            return "img/liff/type-drinks.png";
-          case "青菜":
-            return "img/liff/type-vegetable.png";
-          case "肉":
-            return "img/liff/type-meat.png";
-          case "海鮮":
-            return "img/liff/type-seafood.png";
-          case "點心":
-            return "img/liff/type-snack.png";
-          case "水果":
-            return "img/liff/type-fruit.png";
-          case "其他":
-            return "img/liff/type-others.png";
-        }
+      switch (this.food.type) {
+        case "冷凍":
+          return "img/liff/type-frozen-food.png";
+        case "飲料":
+          return "img/liff/type-drinks.png";
+        case "青菜":
+          return "img/liff/type-vegetable.png";
+        case "肉":
+          return "img/liff/type-meat.png";
+        case "海鮮":
+          return "img/liff/type-seafood.png";
+        case "點心":
+          return "img/liff/type-snack.png";
+        case "水果":
+          return "img/liff/type-fruit.png";
+        case "其他":
+          return "img/liff/type-others.png";
+      }
     }
   },
   methods: {
