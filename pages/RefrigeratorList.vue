@@ -188,7 +188,7 @@ export default {
       .split("-");
     return {
       tab:
-        this.$route.hash === "#refrigeratorList"
+        this.$route.query.tab === "refrigeratorList"
           ? "refrigeratorList"
           : "addList",
       update: true,
