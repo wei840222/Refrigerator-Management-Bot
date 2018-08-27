@@ -157,6 +157,7 @@ function handleText(message, replyToken, source) {
 }
 
 function handleImage(message, replyToken) {
+  client.replyMessage(replyToken, [{ type: 'text', text: '正在幫您將食物輸入冰箱...' }, { type: 'sticker', packageId: 2, stickerId: 176 }])
   const downloadPath = `/app/static/${message.id}.jpg`;
   return client.getMessageContent(message.id)
     .then(stream => new Promise((resolve, reject) => {
