@@ -48,9 +48,9 @@ module.exports = {
       type: 'buttons',
       text: '選擇何種新增方式呢？',
       actions: [
-        { label: '發票', type: 'postback', data: '1' },
-        { label: '載具', type: 'postback', data: '2' },
-        { label: '拍照', type: 'uri', uri: 'line://nv/camera' },
+        { label: '發票 (Beta)', type: 'postback', data: '1' },
+        { label: '載具 (Beta)', type: 'postback', data: '2' },
+        { label: '拍照 (Beta)', type: 'uri', uri: 'line://nv/camera' },
         { label: '手動', type: 'uri', uri: 'line://app/1597618539-an7pVDxb' }
       ]
     }
