@@ -1,7 +1,7 @@
 module.exports = {
   starterShoppingList: {
     type: "imagemap",
-    baseUrl: process.env.BASE_URL + "img/bot/start1.png",
+    baseUrl: process.env.BASE_URL + "img/bot/starterShoppingList",
     altText: "新增就這麼簡單！",
     baseSize: {
       height: 658,
@@ -22,7 +22,7 @@ module.exports = {
   },
   starterRefrigeratorList: {
     type: "imagemap",
-    baseUrl: process.env.BASE_URL + "img/bot/start2.png",
+    baseUrl: process.env.BASE_URL + "img/bot/starterRefrigeratorList",
     altText: "過期隨時查看！",
     baseSize: {
       height: 658,
