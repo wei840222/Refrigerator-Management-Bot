@@ -86,7 +86,10 @@ function handleEvent(event) {
           throw new Error(`Unknown message: ${JSON.stringify(message)}`);
       }
     case 'postback':
-      if (event.postback.data.includes('eaten')) {
+      if (event.postback.data === 'start') {
+        client.replyMessage(event.replyToken, [msgFactory.starterShoppingList, msgFactory.starterRefrigeratorList])
+      }
+      else if (event.postback.data.includes('eaten')) {
         const id = event.postback.data.split('=')[1]
         backendApi.post('/cabinet/userId/eaten', { 'id': id })
           .then(res => {

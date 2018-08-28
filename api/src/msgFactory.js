@@ -1,4 +1,46 @@
 module.exports = {
+  starterShoppingList: {
+    type: "imagemap",
+    baseUrl: process.env.BASE_URL + "img/bot/start1.png",
+    altText: "新增就這麼簡單！",
+    baseSize: {
+      height: 658,
+      width: 881
+    },
+    actions: [
+      {
+        type: "uri",
+        linkUri: "line://app/1597618539-qmlLXYP2",
+        area: {
+          x: 0,
+          y: 0,
+          width: 881,
+          height: 658
+        }
+      }
+    ]
+  },
+  starterRefrigeratorList: {
+    type: "imagemap",
+    baseUrl: process.env.BASE_URL + "img/bot/start2.png",
+    altText: "過期隨時查看！",
+    baseSize: {
+      height: 658,
+      width: 881
+    },
+    actions: [
+      {
+        type: "uri",
+        linkUri: "line://app/1597618539-YAl1dAOq?tab=refrigeratorList",
+        area: {
+          x: 0,
+          y: 0,
+          width: 881,
+          height: 658
+        }
+      }
+    ]
+  },
   addList: {
     type: 'template',
     altText: '新增清單',
