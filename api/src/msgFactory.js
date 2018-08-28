@@ -4,8 +4,8 @@ module.exports = {
     baseUrl: process.env.BASE_URL + "img/bot/starterShoppingList",
     altText: "新增就這麼簡單！",
     baseSize: {
-      height: 658,
-      width: 881
+      height: 776,
+      width: 1040
     },
     actions: [
       {
@@ -14,8 +14,8 @@ module.exports = {
         area: {
           x: 0,
           y: 0,
-          width: 881,
-          height: 658
+          width: 1040,
+          height: 776
         }
       }
     ]
@@ -25,8 +25,8 @@ module.exports = {
     baseUrl: process.env.BASE_URL + "img/bot/starterRefrigeratorList",
     altText: "過期隨時查看！",
     baseSize: {
-      height: 658,
-      width: 881
+      height: 776,
+      width: 1040
     },
     actions: [
       {
@@ -35,8 +35,8 @@ module.exports = {
         area: {
           x: 0,
           y: 0,
-          width: 881,
-          height: 658
+          width: 1040,
+          height: 776
         }
       }
     ]
