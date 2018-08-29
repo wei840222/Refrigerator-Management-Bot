@@ -10,7 +10,7 @@ module.exports = {
     actions: [
       {
         type: "uri",
-        linkUri: "line://app/1597618539-qmlLXYP2",
+        linkUri: "line://app/1604016385-PNOA4Edd",
         area: {
           x: 0,
           y: 0,
@@ -31,7 +31,7 @@ module.exports = {
     actions: [
       {
         type: "uri",
-        linkUri: "line://app/1597618539-YAl1dAOq?tab=refrigeratorList",
+        linkUri: "line://app/1604016385-8Lwakbvv?tab=refrigeratorList",
         area: {
           x: 0,
           y: 0,
@@ -138,7 +138,7 @@ module.exports = {
         {
           "type": "uri",
           "label": "去冰箱看看",
-          "uri": "line://app/1597618539-YAl1dAOq?tab=refrigeratorList"
+          "uri": "line://app/1604016385-8Lwakbvv?tab=refrigeratorList"
         },
         {
           type: "postback",
