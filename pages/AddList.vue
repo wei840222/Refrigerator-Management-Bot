@@ -125,15 +125,15 @@ export default {
         "-" +
         (nowDate[2].length === 1 ? "0" + nowDate[2] : nowDate[2]),
       options: [
-        { value: "甜品", text: "甜品" },
-        { value: "零食", text: "零食" },
+        { value: "點心", text: "點心" },
         { value: "飲料", text: "飲料" },
+        { value: "肉", text: "肉" },
         { value: "青菜", text: "青菜" },
         { value: "水果", text: "水果" },
         { value: "海鮮", text: "海鮮" },
         { value: "冷凍", text: "冷凍" },
-        { value: "其他", text: "其他" },
-        { value: "肉", text: "肉" }
+        { value: "其他", text: "其他" }
+        
       ],
       foods: []
     };
@@ -150,7 +150,7 @@ export default {
       this.foods.push({
         title: "品項 " + (this.foods.length + 1),
         nameZh: "",
-        type: "",
+        type: "其他",
         acquisitionDate: this.nowDate,
         expirationDate: ""
       });
