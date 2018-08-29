@@ -51,7 +51,7 @@ module.exports = {
         { label: '發票 (Beta)', type: 'postback', data: '1' },
         { label: '載具 (Beta)', type: 'postback', data: '2' },
         { label: '拍照 (Beta)', type: 'uri', uri: 'line://nv/camera' },
-        { label: '手動', type: 'uri', uri: 'line://app/1597618539-an7pVDxb' }
+        { label: '手動', type: 'uri', uri: 'line://app/1604016385-NDYyq922' }
       ]
     }
   },
