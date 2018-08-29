@@ -2,7 +2,7 @@
   <div class="food">
     <div class="text text-reduction">{{ food.nameZh }}</div>
     <div class="date" :style="{ 'color': foodColor }">{{ food.expirationDateString }}</div>
-    <img class="del" src="img/RefrigeratorList/food-del.png" @click="delFood"/>
+    <img class="del" src="img/liff/food-del.png" @click="delFood"/>
   </div>
 </template>
 

@@ -1,4 +1,46 @@
 module.exports = {
+  starterShoppingList: {
+    type: "imagemap",
+    baseUrl: process.env.BASE_URL + "img/bot/starterShoppingList",
+    altText: "新增就這麼簡單！",
+    baseSize: {
+      height: 776,
+      width: 1040
+    },
+    actions: [
+      {
+        type: "uri",
+        linkUri: "line://app/1597618539-qmlLXYP2",
+        area: {
+          x: 0,
+          y: 0,
+          width: 1040,
+          height: 776
+        }
+      }
+    ]
+  },
+  starterRefrigeratorList: {
+    type: "imagemap",
+    baseUrl: process.env.BASE_URL + "img/bot/starterRefrigeratorList",
+    altText: "過期隨時查看！",
+    baseSize: {
+      height: 776,
+      width: 1040
+    },
+    actions: [
+      {
+        type: "uri",
+        linkUri: "line://app/1597618539-YAl1dAOq?tab=refrigeratorList",
+        area: {
+          x: 0,
+          y: 0,
+          width: 1040,
+          height: 776
+        }
+      }
+    ]
+  },
   addList: {
     type: 'template',
     altText: '新增清單',
@@ -6,9 +48,9 @@ module.exports = {
       type: 'buttons',
       text: '選擇何種新增方式呢？',
       actions: [
-        { label: '發票', type: 'postback', data: '1' },
-        { label: '載具', type: 'postback', data: '2' },
-        { label: '拍照', type: 'uri', uri: 'line://nv/camera' },
+        { label: '發票 (Beta)', type: 'postback', data: '1' },
+        { label: '載具 (Beta)', type: 'postback', data: '2' },
+        { label: '拍照 (Beta)', type: 'uri', uri: 'line://nv/camera' },
         { label: '手動', type: 'uri', uri: 'line://app/1597618539-an7pVDxb' }
       ]
     }
@@ -50,14 +92,14 @@ module.exports = {
       }
     }
     const imgSrc = {
-      "冷凍": "img/LINEBot/type-frozen-food.png",
-      "飲料": "img/LINEBot/type-drinks.png",
-      "青菜": "img/LINEBot/type-vegetable.png",
-      "肉": "img/LINEBot/type-meat.png",
-      "海鮮": "img/LINEBot/type-seafood.png",
-      "點心": "img/LINEBot/type-snack.png",
-      "水果": "img/LINEBot/type-fruit.png",
-      "其他": "img/LINEBot/type-others.png"
+      "冷凍": "img/bot/type-frozen-food.png",
+      "飲料": "img/bot/type-drinks.png",
+      "青菜": "img/bot/type-vegetable.png",
+      "肉": "img/bot/type-meat.png",
+      "海鮮": "img/bot/type-seafood.png",
+      "點心": "img/bot/type-snack.png",
+      "水果": "img/bot/type-fruit.png",
+      "其他": "img/bot/type-others.png"
     }
     expirationReminderList.forEach(element => {
       msg.template.columns.push({
@@ -84,7 +126,7 @@ module.exports = {
       })
     })
     if (seeMore) msg.template.columns.push({
-      thumbnailImageUrl: process.env.BASE_URL + 'img/LINEBot/see-more.png',
+      thumbnailImageUrl: process.env.BASE_URL + 'img/bot/see-more.png',
       title: '更多',
       text: '點下方按鈕看更多快過期食物。',
       actions: [
@@ -96,7 +138,7 @@ module.exports = {
         {
           "type": "uri",
           "label": "去冰箱看看",
-          "uri": "line://app/1597618539-YAl1dAOq"
+          "uri": "line://app/1597618539-YAl1dAOq?tab=refrigeratorList"
         },
         {
           type: "postback",
@@ -122,9 +164,19 @@ module.exports = {
   },
   flexSingle(flex, altText) {
     return {
-      "type": "flex",
-      "altText": altText,
-      "contents": flex
+      type: "flex",
+      altText: altText,
+      contents: flex
+    }
+  },
+  flexCarousel(flexArray, altText) {
+    return {
+      type: "flex",
+      altText: altText,
+      contents: {
+        type: "carousel",
+        contents: flexArray
+      }
     }
   }
 }

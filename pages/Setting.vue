@@ -1,5 +1,5 @@
 <template>
-  <img src="img/setting.png" style="width: 100%; top: 0;"/>
+  <img src="img/liff/setting.png" style="width: 100%; top: 0;"/>
 </template>
 
 <script>

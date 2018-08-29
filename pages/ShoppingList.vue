@@ -6,32 +6,32 @@
       <div class="item" @click="edit = !edit" :style="{ 'color': edit ? '#000000' : '#aaaaaa' }">編輯</div>
       <div class="option" @click="groupByType = !groupByType">
         <div class="text">{{ groupByType ? '品項' : '全部'}}</div>
-        <img class="icon" src="img/ShoppingList/option.png"/>
+        <img class="icon" src="img/liff/option.png"/>
       </div>
     </div>
     <div v-if="groupByType">
       <food-block v-for="(type, idx) in types" :key="idx" :idx="idx" :collapseVisibleInit="idx === 0 ? true : false" :collapseUseable="foods(type).length > 0 ? true : false" :ref="type">
         <img slot="icon" :src="foodBlockIconSrc(type)"/>
         <div slot="text" class="title">{{ type }}</div>
-        <img slot="arrow-down" src="img/ShoppingList/arrow-green-down.png"/>
-        <img slot="arrow-up" src="img/ShoppingList/arrow-green-up.png"/>
+        <img slot="arrow-down" src="img/liff/arrow-green-down.png"/>
+        <img slot="arrow-up" src="img/liff/arrow-green-up.png"/>
         <food v-for="(food, idx) in foods(type)" :key="idx" :food="food" :edit="edit" @del-food="delFood"/>
         <edit slot="footer" v-if="edit" :type="type" @add-food="addFood"/>
       </food-block>
     </div>
     <div v-else>
       <food-block :idx="-1" :collapseVisibleInit="true" :collapseUseable="false">
-        <img slot="icon" src="img/ShoppingList/type-all.png" style="width: 43px; margin-left: 10px; margin-top:17.26px;"/>
+        <img slot="icon" src="img/liff/type-all.png" style="width: 43px; margin-left: 10px; margin-top:17.26px;"/>
         <div slot="text" class="title">全部</div>
         <food v-for="(food, idx) in foods()" :key="idx" :food="food" :edit="edit" @del-food="delFood"/>
       </food-block>
     </div>
     <food-block :collapseVisibleInit="true" :collapseUseable="false" style="margin-bottom: 81px;">
-      <img slot="icon" src="img/ShoppingList/type-recommend.png"/>
+      <img slot="icon" src="img/liff/type-recommend.png"/>
       <div slot="text" class="title">建議</div>
       <food v-for="(food, idx) in recommendationList.slice(0, 5)" :key="idx" :food="food" @selecte-food="addRecommendFood"/>
     </food-block>
-    <div class="footer"><img class="button" src="img/ShoppingList/btn-refrigerator.png" @click="addToRefrigerator"/></div>
+    <div class="footer"><img class="button" src="img/liff/btn-refrigerator.png" @click="addToRefrigerator"/></div>
   </div>
 </template>
 
@@ -171,21 +171,21 @@ export default {
     foodBlockIconSrc(type) {
       switch (type) {
         case "冷凍":
-          return "img/ShoppingList/type-frozen-food.png";
+          return "img/liff/type-frozen-food.png";
         case "飲料":
-          return "img/ShoppingList/type-drinks.png";
+          return "img/liff/type-drinks.png";
         case "青菜":
-          return "img/ShoppingList/type-vegetable.png";
+          return "img/liff/type-vegetable.png";
         case "肉":
-          return "img/ShoppingList/type-meat.png";
+          return "img/liff/type-meat.png";
         case "海鮮":
-          return "img/ShoppingList/type-seafood.png";
+          return "img/liff/type-seafood.png";
         case "點心":
-          return "img/ShoppingList/type-snack.png";
+          return "img/liff/type-snack.png";
         case "水果":
-          return "img/ShoppingList/type-fruit.png";
+          return "img/liff/type-fruit.png";
         case "其他":
-          return "img/ShoppingList/type-others.png";
+          return "img/liff/type-others.png";
       }
     },
     foods(type) {

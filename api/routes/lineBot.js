@@ -57,6 +57,7 @@ function handleEvent(event) {
   switch (event.type) {
     case 'follow':
       console.log(`Followed this bot: ${JSON.stringify(event)}`);
+      client.replyMessage(event.replyToken, msgFactory.flexSingle(require('../src/greeting.json'), 'Hi~我是冰箱君'))
       backendApi.get('user/userId/get_uid')
         .then(res => {
           if (res.data.uidlist.find(element => element.uid === event.source.userId) === undefined)
@@ -85,7 +86,10 @@ function handleEvent(event) {
           throw new Error(`Unknown message: ${JSON.stringify(message)}`);
       }
     case 'postback':
-      if (event.postback.data.includes('eaten')) {
+      if (event.postback.data === 'start') {
+        client.replyMessage(event.replyToken, [msgFactory.starterShoppingList, msgFactory.starterRefrigeratorList])
+      }
+      else if (event.postback.data.includes('eaten')) {
         const id = event.postback.data.split('=')[1]
         backendApi.post('/cabinet/userId/eaten', { 'id': id })
           .then(res => {
@@ -109,10 +113,10 @@ function handleEvent(event) {
         const food = event.postback.data.split('=')[1]
         switch (food) {
           case '大白菜':
-            client.replyMessage(event.replyToken, msgFactory.flexSingle(require('../src/recipe/1.json'), '大白菜推薦食譜'))
+            client.replyMessage(event.replyToken, msgFactory.flexCarousel([require('../src/recipe/1.json'), require('../src/recipe/2.json')], '大白菜推薦食譜'))
             break
           case '牛肉片':
-            client.replyMessage(event.replyToken, msgFactory.flexSingle(require('../src/recipe/2.json'), '牛肉片推薦食譜'))
+            client.replyMessage(event.replyToken, msgFactory.flexCarousel([require('../src/recipe/2.json'), require('../src/recipe/1.json')], '牛肉片推薦食譜'))
             break
         }
       }
@@ -156,6 +160,7 @@ function handleText(message, replyToken, source) {
 }
 
 function handleImage(message, replyToken) {
+  client.replyMessage(replyToken, [{ type: 'text', text: '正在幫您將食物輸入冰箱...' }, { type: 'sticker', packageId: 2, stickerId: 176 }])
   const downloadPath = `/app/static/${message.id}.jpg`;
   return client.getMessageContent(message.id)
     .then(stream => new Promise((resolve, reject) => {

@@ -1,9 +1,9 @@
 <template>
   <div class="food">
-    <img v-if="food.selected" src="img/ShoppingList/check-box-act.png" class="check-box" @click="selecteFood"/>
-    <img v-else src="img/ShoppingList/check-box.png" class="check-box" @click="selecteFood"/>
+    <img v-if="food.selected" src="img/liff/check-box-act.png" class="check-box" @click="selecteFood"/>
+    <img v-else src="img/liff/check-box.png" class="check-box" @click="selecteFood"/>
     <div class="text" :style="food.selected ? 'text-decoration: line-through black' : ''" @click="selecteFood">{{ food.nameZh }}</div>
-    <img v-if="edit" src="img/ShoppingList/food-del.png" class="del" @click="delFood"/>
+    <img v-if="edit" src="img/liff/food-del.png" class="del" @click="delFood"/>
   </div>
 </template>
 

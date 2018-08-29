@@ -1,10 +1,10 @@
 <template>
   <div class="edit">
-    <img src="img/ShoppingList/food-add.png" class="add"/>
+    <img src="img/liff/food-add.png" class="add"/>
     <div class="input-box">
       <input class="input" type="text" placeholder="新增" v-model="nameZh" @change="addFood" @focus="showAddFin = true" @blur="showAddFin = false"/>
     </div>
-    <img v-if="showAddFin" src="img/ShoppingList/food-add-fin.png" class="fin" @click="addFood"/>
+    <img v-if="showAddFin" src="img/liff/food-add-fin.png" class="fin" @click="addFood"/>
   </div>
 </template>
 

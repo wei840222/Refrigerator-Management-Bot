@@ -118,27 +118,9 @@
         "flex": 1,
         "margin": "none",
         "height": "sm",
-        "style": "link",
-        "color": "#42659a",
+        "style": "primary",
+        "color": "#6da14a",
         "gravity": "top"
-      },
-      {
-        "type": "button",
-        "action": {
-          "type": "postback",
-          "label": "找下一份",
-          "data": "recipe=牛肉片"
-        },
-        "flex": 1,
-        "margin": "none",
-        "height": "sm",
-        "style": "link",
-        "color": "#42659a",
-        "gravity": "top"
-      },
-      {
-        "type": "spacer",
-        "size": "sm"
       }
     ],
     "flex": 0,
