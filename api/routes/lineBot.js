@@ -90,11 +90,7 @@ function handleEvent(event) {
         client.replyMessage(event.replyToken, [msgFactory.starterShoppingList, msgFactory.starterRefrigeratorList])
       }
       else if (event.postback.data === 'invoice') {
-        client.replyMessage(event.replyToken, [{ type: 'text', text: '功能尚在開發中...' }, {
-          "type": "image",
-          "originalContentUrl": process.env.BASE_URL + "img/bot/invoice.jpg",
-          "previewImageUrl": process.env.BASE_URL + "img/bot/invoice.jpg"
-        }])
+        client.replyMessage(event.replyToken, [{ type: 'text', text: '正在解析您輸入的發票' }, { type: 'text', text: '正在幫您將食物輸入冰箱...' }, { type: 'sticker', packageId: 2, stickerId: 176 }])
       }
       else if (event.postback.data === 'vehicle') {
         client.replyMessage(event.replyToken, { type: 'text', text: '功能尚在開發中...' })
