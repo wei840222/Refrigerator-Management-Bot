@@ -89,6 +89,16 @@ function handleEvent(event) {
       if (event.postback.data === 'start') {
         client.replyMessage(event.replyToken, [msgFactory.starterShoppingList, msgFactory.starterRefrigeratorList])
       }
+      else if (event.postback.data === 'invoice') {
+        client.replyMessage(event.replyToken, [{ type: 'text', text: '功能尚在開發中...' }, {
+          "type": "image",
+          "originalContentUrl": process.env.BASE_URL + "img/bot/invoice.jpg",
+          "previewImageUrl": process.env.BASE_URL + "img/bot/invoice.jpg"
+        }])
+      }
+      else if (event.postback.data === 'vehicle') {
+        client.replyMessage(event.replyToken, { type: 'text', text: '功能尚在開發中...' })
+      }
       else if (event.postback.data.includes('eaten')) {
         const id = event.postback.data.split('=')[1]
         backendApi.post('/cabinet/userId/eaten', { 'id': id })
