@@ -1,14 +1,34 @@
-# Refrigerator Management Bot
+# refrigerator-management-bot
 
-## ENV
-```  
-BASE_URL
-API_URL
-CHANNEL_ACCESS_TOKEN  
-CHANNEL_SECRET  
-NPM_CONFIG_PRODUCTION=false  
+## Project setup
 ```
-  
+npm install
+```
 
-## 主動推播過期提醒訊息    
-### GET /api/lineBot/multicast/expirationReminder
+### Compiles and hot-reloads for development
+```
+npm run serve
+```
+
+### Compiles and minifies for production
+```
+npm run build
+```
+
+### Run your tests
+```
+npm run test
+```
+
+### Lints and fixes files
+```
+npm run lint
+```
+
+### Run your unit tests
+```
+npm run test:unit
+```
+
+### Customize configuration
+See [Configuration Reference](https://cli.vuejs.org/config/).
