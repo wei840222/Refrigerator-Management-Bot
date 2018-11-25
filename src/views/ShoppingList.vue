@@ -11,23 +11,23 @@
     </div>
     <div v-if="groupByType">
       <food-block v-for="(type, idx) in types" :key="idx" :idx="idx" :collapseVisibleInit="idx === 0 ? true : false" :collapseUseable="foods(type).length > 0 ? true : false" :ref="type">
-        <img slot="icon" :src="foodBlockIconSrc(type)" style="height: 63px; width: 63px;"/>
+        <img slot="icon" :src="foodBlockIconSrc(type)"/>
         <div slot="text" class="title">{{ type }}</div>
-        <img slot="arrow-down" src="img/arrow-green-down.png" style="height: 12px; width: 21px;"/>
-        <img slot="arrow-up" src="img/arrow-green-up.png" style="height: 12px; width: 21px;"/>
+        <img slot="arrow-down" src="img/arrow-green-down.png"/>
+        <img slot="arrow-up" src="img/arrow-green-up.png"/>
         <food v-for="(food, idx) in foods(type)" :key="idx" :food="food" :edit="edit" @del-food="delFood"/>
         <edit slot="footer" v-if="edit" :type="type" @add-food="addFood"/>
       </food-block>
     </div>
     <div v-else>
       <food-block :idx="-1" :collapseVisibleInit="true" :collapseUseable="false">
-        <img slot="icon" src="img/type-all.png" style="width: 43px; margin-top:17.26px;"/>
+        <img slot="icon" src="img/type-all.png" style="width: 43px; margin-top: 17.26px;"/>
         <div slot="text" class="title">全部</div>
         <food v-for="(food, idx) in foods()" :key="idx" :food="food" :edit="edit" @del-food="delFood"/>
       </food-block>
     </div>
     <food-block :collapseVisibleInit="true" :collapseUseable="false" style="margin-bottom: 81px;">
-      <img slot="icon" src="img/type-recommend.png" style="height: 63px; width: 63px;"/>
+      <img slot="icon" src="img/type-recommend.png"/>
       <div slot="text" class="title">建議</div>
       <food v-for="(food, idx) in recommendationList.slice(0, 5)" :key="idx" :food="food" @selecte-food="addRecommendFood"/>
     </food-block>

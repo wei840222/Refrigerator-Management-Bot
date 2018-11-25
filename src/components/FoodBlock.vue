@@ -34,7 +34,7 @@
       margin-left: -28px;
       margin-top: 10px;
       border-radius: 31.5px;
-      box-shadow: 2px 2px 1px rgba(138, 138, 138, 0.75);
+      box-shadow: 2px 2px 1px rgba(138, 138, 138, .75);
       background-color: #ffffff;
       z-index: 2;
     }
