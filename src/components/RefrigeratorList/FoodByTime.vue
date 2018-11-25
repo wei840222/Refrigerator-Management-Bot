@@ -146,8 +146,6 @@ export default {
           return "img/type-snack.png";
         case "水果":
           return "img/type-fruit.png";
-        case "其他":
-          return "img/type-others.png";
         default:
           return "img/type-others.png";
       }

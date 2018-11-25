@@ -8,9 +8,24 @@ export default new Router({
   base: process.env.BASE_URL,
   routes: [
     {
+      path: '/shopping-list',
+      name: 'ShoppingList',
+      component: () => import('./views/ShoppingList.vue')
+    },
+    {
       path: '/refrigerator-list',
-      name: 'RefrigeratorList.vue',
+      name: 'RefrigeratorList',
       component: () => import('./views/RefrigeratorList.vue')
+    },
+    {
+      path: '/add-list',
+      name: 'AddList',
+      component: () => import('./views/AddList.vue')
+    },
+    {
+      path: '/setting',
+      name: 'Setting',
+      component: () => import('./views/Setting.vue')
     }
   ]
 })

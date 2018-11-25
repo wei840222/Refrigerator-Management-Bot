@@ -94,10 +94,34 @@
 
 <script>
 import FoodBlock from "@/components/FoodBlock.vue";
-import FoodByTime from "@/components/FoodByTime.vue";
-import Food from "@/components/Food.vue";
+import FoodByTime from "@/components/RefrigeratorList/FoodByTime.vue";
+import Food from "@/components/RefrigeratorList/Food.vue";
 
 export default {
+  data() {
+    const nowDate = new Date(Date.now())
+      .toLocaleString("zh-TW", {
+        timeZone: "Asia/Taipei",
+        hour12: false
+      })
+      .split(" ")[0]
+      .replace(/\//g, "-")
+      .split("-");
+    return {
+      refrigeratorList: [],
+      tab:
+        this.$route.query.tab === "refrigeratorList"
+          ? "refrigeratorList"
+          : "addList",
+      update: true,
+      now:
+        nowDate[0] +
+        "-" +
+        (nowDate[1].length === 1 ? "0" + nowDate[1] : nowDate[1]) +
+        "-" +
+        (nowDate[2].length === 1 ? "0" + nowDate[2] : nowDate[2])
+    };
+  },
   async mounted() {
     const response = await this.$axios.get(
       "/cabinet/userId/item_in_refrigerator"
@@ -160,35 +184,6 @@ export default {
         this.refrigeratorList = refrigeratorList.data.refrigeratorList;
       }
     }, 5000);
-  },
-  head() {
-    return {
-      title: "冰箱"
-    };
-  },
-  data() {
-    const nowDate = new Date(Date.now())
-      .toLocaleString("zh-TW", {
-        timeZone: "Asia/Taipei",
-        hour12: false
-      })
-      .split(" ")[0]
-      .replace(/\//g, "-")
-      .split("-");
-    return {
-      refrigeratorList: [],
-      tab:
-        this.$route.query.tab === "refrigeratorList"
-          ? "refrigeratorList"
-          : "addList",
-      update: true,
-      now:
-        nowDate[0] +
-        "-" +
-        (nowDate[1].length === 1 ? "0" + nowDate[1] : nowDate[1]) +
-        "-" +
-        (nowDate[2].length === 1 ? "0" + nowDate[2] : nowDate[2])
-    };
   },
   computed: {
     dates() {
